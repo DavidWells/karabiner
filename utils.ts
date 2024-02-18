@@ -107,38 +107,44 @@ export function createHyperSubLayers(subLayers: {
     Object.keys(subLayers) as (keyof typeof subLayers)[]
   ).map((sublayer_key) => generateSubLayerVariableName(sublayer_key));
 
-  return Object.entries(subLayers).map(([key, value]) =>
-    "to" in value
-      ? {
-          description: `Hyper Key + ${key}`,
-          manipulators: [
-            {
-              ...value,
-              type: "basic" as const,
-              from: {
-                key_code: key as KeyCode,
-                modifiers: {
-                  // Mandatory modifiers are *not* added to the "to" event
-                  mandatory: [
-                    "left_command",
-                    "left_control",
-                    "left_shift",
-                    "left_option",
-                  ],
-                },
+  // console.log('subLayers', subLayers)
+  return Object.entries(subLayers).map(([key, value]) => {
+    console.log('key', key)
+    console.log('value', value)
+    if ("to" in value) {
+      return {
+        description: `Hyper Key + ${key}`,
+        manipulators: [
+          {
+            ...value,
+            type: "basic" as const,
+            from: {
+              key_code: key as KeyCode,
+              modifiers: {
+                // Mandatory modifiers are *not* added to the "to" event
+                mandatory: [
+                  "left_command",
+                  "left_control",
+                  "left_shift",
+                  "left_option",
+                ],
               },
             },
-          ],
-        }
-      : {
-          description: `Hyper Key sublayer "${key}"`,
-          manipulators: createHyperSubLayer(
-            key as KeyCode,
-            value,
-            allSubLayerVariables
-          ),
-        }
-  );
+          },
+        ],
+      }
+    }
+
+    return {
+      description: `Hyper Key sublayer "${key}"`,
+      manipulators: createHyperSubLayer(
+        key as KeyCode,
+        value,
+        allSubLayerVariables
+      ),
+    }
+
+  });
 }
 
 function generateSubLayerVariableName(key: KeyCode) {

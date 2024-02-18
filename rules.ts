@@ -2,6 +2,718 @@ import fs from "fs";
 import { KarabinerRules } from "./types";
 import { createHyperSubLayers, app, open } from "./utils";
 
+const autoQuotes = [
+{
+  "description": "(1/2) Do not auto close brackets & quotes when holding fn",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "9",
+        "modifiers": {
+          "mandatory": [
+            "fn",
+            "shift"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "9",
+          "modifiers": [
+            "shift"
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "quote",
+        "modifiers": {
+          "mandatory": [
+            "fn"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "quote"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "quote",
+        "modifiers": {
+          "mandatory": [
+            "fn",
+            "shift"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "quote",
+          "modifiers": [
+            "shift"
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "grave_accent_and_tilde",
+        "modifiers": {
+          "mandatory": [
+            "fn"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "grave_accent_and_tilde"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "open_bracket",
+        "modifiers": {
+          "mandatory": [
+            "fn"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "open_bracket"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "open_bracket",
+        "modifiers": {
+          "mandatory": [
+            "fn",
+            "shift"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "open_bracket",
+          "modifiers": [
+            "shift"
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "open_bracket",
+        "modifiers": {
+          "mandatory": [
+            "fn",
+            "option"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "open_bracket",
+          "modifiers": [
+            "option"
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "close_bracket",
+        "modifiers": {
+          "mandatory": [
+            "fn",
+            "option"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "close_bracket",
+          "modifiers": [
+            "option"
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "comma",
+        "modifiers": {
+          "mandatory": [
+            "fn",
+            "shift"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "comma",
+          "modifiers": [
+            "shift"
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    }
+  ]
+},
+{
+  "description": "(2/2) Auto close brackets & quotes ( (), '', \"\", ``, [], {}, ââ, ââ, <> )",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "9",
+        "modifiers": {
+          "mandatory": [
+            "shift"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "9",
+          "modifiers": [
+            "shift"
+          ]
+        },
+        {
+          "key_code": "0",
+          "modifiers": [
+            "shift"
+          ]
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "quote"
+      },
+      "to": [
+        {
+          "key_code": "quote"
+        },
+        {
+          "key_code": "quote"
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "quote",
+        "modifiers": {
+          "mandatory": [
+            "shift"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "quote",
+          "modifiers": [
+            "shift"
+          ]
+        },
+        {
+          "key_code": "quote",
+          "modifiers": [
+            "shift"
+          ]
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "grave_accent_and_tilde"
+      },
+      "to": [
+        {
+          "key_code": "grave_accent_and_tilde"
+        },
+        {
+          "key_code": "grave_accent_and_tilde"
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "open_bracket"
+      },
+      "to": [
+        {
+          "key_code": "open_bracket"
+        },
+        {
+          "key_code": "close_bracket"
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "open_bracket",
+        "modifiers": {
+          "mandatory": [
+            "shift"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "open_bracket",
+          "modifiers": [
+            "shift"
+          ]
+        },
+        {
+          "key_code": "close_bracket",
+          "modifiers": [
+            "shift"
+          ]
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "open_bracket",
+        "modifiers": {
+          "mandatory": [
+            "option"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "open_bracket",
+          "modifiers": [
+            "option"
+          ]
+        },
+        {
+          "key_code": "open_bracket",
+          "modifiers": [
+            "option",
+            "shift"
+          ]
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "close_bracket",
+        "modifiers": {
+          "mandatory": [
+            "option"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "close_bracket",
+          "modifiers": [
+            "option"
+          ]
+        },
+        {
+          "key_code": "close_bracket",
+          "modifiers": [
+            "option",
+            "shift"
+          ]
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "comma",
+        "modifiers": {
+          "mandatory": [
+            "shift"
+          ]
+        }
+      },
+      "to": [
+        {
+          "key_code": "comma",
+          "modifiers": [
+            "shift"
+          ]
+        },
+        {
+          "key_code": "period",
+          "modifiers": [
+            "shift"
+          ]
+        },
+        {
+          "key_code": "left_arrow"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "frontmost_application_unless",
+          "bundle_identifiers": [
+            "com.github.atom",
+            "com.googlecode.iterm2",
+            "com.jetbrains.pycharm",
+            "com.microsoft.VSCode",
+            "com.visualstudio.code.oss"
+          ]
+        }
+      ]
+    }
+  ]
+}
+]
+
+const ejectToScreenShot = [
+  {
+    "description": "Eject to Screenshot",
+    "manipulators": [
+      {
+        "from": {
+          "consumer_key_code": "eject"
+        },
+        "to": [
+          {
+            "key_code": "5",
+            "modifiers": [
+              "left_command",
+              "left_shift"
+            ]
+          }
+        ],
+        "type": "basic"
+      }
+    ]
+  }
+]
+
+const isMouseNumber = [{
+  "type": "device_if",
+  "identifiers": [
+    {
+      "product_id": 103,
+      "vendor_id": 5426
+    }
+  ]
+}]
+
+const MouseButtonSafari = [
+        {
+            "description": "Mouse 4 => Back",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "4"
+                    },
+                    "to": [
+                        {
+                            "repeat": false,
+                            "key_code": "open_bracket",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        ...isMouseNumber,
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Safari$"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        { 
+            "description": "Mouse 5 => Forward",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                      "key_code": "5"
+                    },
+                    "to": [
+                        {
+                            "repeat": false,
+                            "key_code": "close_bracket",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        ...isMouseNumber,
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Safari$"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+]
+
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself
   {
@@ -42,12 +754,24 @@ const rules: KarabinerRules[] = [
       //      },
     ],
   },
+  // @ts-ignore
+  ...autoQuotes,
+  ...ejectToScreenShot,
+  ...MouseButtonSafari,
   ...createHyperSubLayers({
-    // o = "Open" applications
+    /* Remap single key */
+    7: {
+      "to": [
+        {
+          "key_code": "up_arrow"
+        }
+      ],
+    },
+    /* Remap o = "Open" applications */
     o: {
       1: app("1Password"),
       g: app("Google Chrome"),
-      c: app("Notion Calendar"),
+      c: app("Google Chrome"),
       v: app("Visual Studio Code"),
       d: app("Discord"),
       s: app("Slack"),
