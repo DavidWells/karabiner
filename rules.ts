@@ -1,623 +1,30 @@
+// @ts-nocheck
 import fs from "fs";
 import { KarabinerRules } from "./types";
 import { createHyperSubLayers, app, open } from "./utils";
+import { autoQuotes } from "./rules/auto-quotes";
 
-const autoQuotes = [
-{
-  "description": "(1/2) Do not auto close brackets & quotes when holding fn",
-  "manipulators": [
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "9",
-        "modifiers": {
-          "mandatory": [
-            "fn",
-            "shift"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "9",
-          "modifiers": [
-            "shift"
-          ]
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
+const textEditorIds = [
+  "^com\\.microsoft\\.VSCode$",
+  "^com\\.sublimetext\\.4$",
+  "^com\\.github\\.atom$",
+  "^com\\.googlecode\\.iterm2$",
+  "^com\\.jetbrains\\.pycharm$",
+  "^com\\.visualstudio\\.code\\.oss$"
+]
+
+// Set in keyboard maestro
+const toggleBackToPreviousApp = [
+  {
+      "repeat": false,
+      "key_code": "l",
+      "modifiers": [
+          "left_command",
+          "left_option",
+          "left_shift",
+          "left_control",
       ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "quote",
-        "modifiers": {
-          "mandatory": [
-            "fn"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "quote"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "quote",
-        "modifiers": {
-          "mandatory": [
-            "fn",
-            "shift"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "quote",
-          "modifiers": [
-            "shift"
-          ]
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "grave_accent_and_tilde",
-        "modifiers": {
-          "mandatory": [
-            "fn"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "grave_accent_and_tilde"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "open_bracket",
-        "modifiers": {
-          "mandatory": [
-            "fn"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "open_bracket"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "open_bracket",
-        "modifiers": {
-          "mandatory": [
-            "fn",
-            "shift"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "open_bracket",
-          "modifiers": [
-            "shift"
-          ]
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "open_bracket",
-        "modifiers": {
-          "mandatory": [
-            "fn",
-            "option"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "open_bracket",
-          "modifiers": [
-            "option"
-          ]
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "close_bracket",
-        "modifiers": {
-          "mandatory": [
-            "fn",
-            "option"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "close_bracket",
-          "modifiers": [
-            "option"
-          ]
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "comma",
-        "modifiers": {
-          "mandatory": [
-            "fn",
-            "shift"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "comma",
-          "modifiers": [
-            "shift"
-          ]
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    }
-  ]
-},
-{
-  "description": "(2/2) Auto close brackets & quotes ( (), '', \"\", ``, [], {}, ââ, ââ, <> )",
-  "manipulators": [
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "9",
-        "modifiers": {
-          "mandatory": [
-            "shift"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "9",
-          "modifiers": [
-            "shift"
-          ]
-        },
-        {
-          "key_code": "0",
-          "modifiers": [
-            "shift"
-          ]
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "quote"
-      },
-      "to": [
-        {
-          "key_code": "quote"
-        },
-        {
-          "key_code": "quote"
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "quote",
-        "modifiers": {
-          "mandatory": [
-            "shift"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "quote",
-          "modifiers": [
-            "shift"
-          ]
-        },
-        {
-          "key_code": "quote",
-          "modifiers": [
-            "shift"
-          ]
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "grave_accent_and_tilde"
-      },
-      "to": [
-        {
-          "key_code": "grave_accent_and_tilde"
-        },
-        {
-          "key_code": "grave_accent_and_tilde"
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "open_bracket"
-      },
-      "to": [
-        {
-          "key_code": "open_bracket"
-        },
-        {
-          "key_code": "close_bracket"
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "open_bracket",
-        "modifiers": {
-          "mandatory": [
-            "shift"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "open_bracket",
-          "modifiers": [
-            "shift"
-          ]
-        },
-        {
-          "key_code": "close_bracket",
-          "modifiers": [
-            "shift"
-          ]
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "open_bracket",
-        "modifiers": {
-          "mandatory": [
-            "option"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "open_bracket",
-          "modifiers": [
-            "option"
-          ]
-        },
-        {
-          "key_code": "open_bracket",
-          "modifiers": [
-            "option",
-            "shift"
-          ]
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "close_bracket",
-        "modifiers": {
-          "mandatory": [
-            "option"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "close_bracket",
-          "modifiers": [
-            "option"
-          ]
-        },
-        {
-          "key_code": "close_bracket",
-          "modifiers": [
-            "option",
-            "shift"
-          ]
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "basic",
-      "from": {
-        "key_code": "comma",
-        "modifiers": {
-          "mandatory": [
-            "shift"
-          ]
-        }
-      },
-      "to": [
-        {
-          "key_code": "comma",
-          "modifiers": [
-            "shift"
-          ]
-        },
-        {
-          "key_code": "period",
-          "modifiers": [
-            "shift"
-          ]
-        },
-        {
-          "key_code": "left_arrow"
-        }
-      ],
-      "conditions": [
-        {
-          "type": "frontmost_application_unless",
-          "bundle_identifiers": [
-            "com.github.atom",
-            "com.googlecode.iterm2",
-            "com.jetbrains.pycharm",
-            "com.microsoft.VSCode",
-            "com.visualstudio.code.oss"
-          ]
-        }
-      ]
-    }
-  ]
-}
+  }
 ]
 
 const ejectToScreenShot = [
@@ -655,6 +62,21 @@ const isMouseNumber = [{
 
 const GlobalMouseButtons = [
   {
+    "description": "[GLOBAL] Mouse 1 - Open Chrome",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+            "key_code": "1"
+        },
+        ...app("Google Chrome"),
+        "conditions": [
+          ...isMouseNumber,
+        ]
+      }
+    ]
+  },
+  {
     "description": "[GLOBAL] Mouse 2 - Open Iterm",
     "manipulators": [
       {
@@ -685,20 +107,21 @@ const GlobalMouseButtons = [
     ]
   },
   {
-    "description": "[GLOBAL] Mouse 6 - Open Chrome",
+    "description": "[GLOBAL] Mouse 5 - Open Tower",
     "manipulators": [
       {
         "type": "basic",
         "from": {
-            "key_code": "6"
+            "key_code": "5"
         },
-        ...app("Google Chrome"),
+        ...app("Tower"),
         "conditions": [
           ...isMouseNumber,
         ]
       }
     ]
   },
+
   {
     "description": "[GLOBAL] Mouse 10 - Stop Recording Camtasia",
     "manipulators": [
@@ -749,13 +172,173 @@ const GlobalMouseButtons = [
   },
 ]
 
-const browserIds = [
-  "^com\\.apple\\.Safari$",
-  "^com\\.google\\.Chrome$"
+const terminalIds = [
+  "^com\\.googlecode\\.iterm2$"
 ]
-const BrowserMouseButtons = [
+
+const itermMouseButtons = [
+    // Toggle back to previous App
     {
-      "description": "[BROWSER] - Mouse 4 => Back",
+      "description": "[BROWSER] - Mouse 2 => PREVIOUS APP",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "2"
+          },
+          "to": toggleBackToPreviousApp,
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": terminalIds
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[Iterm] - Mouse 5 => Back Tab",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "5"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "open_bracket",
+                  "modifiers": [
+                      "left_command",
+                      "left_shift",
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": terminalIds
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[Iterm] - Mouse 6 => Next Tab",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "6"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "close_bracket",
+                  "modifiers": [
+                      "left_command",
+                      "left_shift",
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": terminalIds
+              }
+          ]
+        }
+      ]
+    },
+]
+
+const editorIds = [
+  "^com\\.microsoft\\.VSCode$",
+  "^com\\.sublimetext\\.4$"
+]
+
+const VSCodeMouseButtons = [
+    // Toggle back to previous App
+    {
+      "description": "[VSCODE] - Mouse 3 => PREVIOUS APP",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "3"
+          },
+          "to": toggleBackToPreviousApp,
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": editorIds
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[VSCODE] - Mouse 5 => Back Tab",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "5"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "left_arrow",
+                  "modifiers": [
+                      "left_command",
+                      "left_option",
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": editorIds
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[VSCODE] - Mouse 6 => Next Tab",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "6"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "right_arrow",
+                  "modifiers": [
+                      "left_command",
+                      "left_option",
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": editorIds
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[VSCODE] - Mouse 4 => Copilot Doc selection",
       "manipulators": [
         {
           "type": "basic",
@@ -765,12 +348,99 @@ const BrowserMouseButtons = [
           "to": [
               {
                   "repeat": false,
-                  "key_code": "open_bracket",
+                  "key_code": "d",
                   "modifiers": [
-                      "left_command"
+                      "left_command",
+                      "left_option",
+                      "left_shift"
                   ]
               }
           ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": editorIds
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[VSCODE] - Mouse 8 => Copilot Explain selection",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "8"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "e",
+                  "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift"
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": editorIds
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[VSCODE] - Mouse 7 => Copilot Explain selection",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "7"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "t",
+                  "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift"
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": editorIds
+              }
+          ]
+        }
+      ]
+    },
+]
+
+const browserIds = [
+  "^com\\.apple\\.Safari$",
+  "^com\\.google\\.Chrome$"
+]
+const BrowserMouseButtons = [
+    // Toggle back to previous App
+    {
+      "description": "[BROWSER] - Mouse 1 => PREVIOUS APP",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "1"
+          },
+          "to": toggleBackToPreviousApp,
           "conditions": [
               ...isMouseNumber,
               {
@@ -781,8 +451,62 @@ const BrowserMouseButtons = [
         }
       ]
     },
+    // {
+    //   "description": "[BROWSER] - Mouse 1 => Back",
+    //   "manipulators": [
+    //     {
+    //       "type": "basic",
+    //       "from": {
+    //           "key_code": "1"
+    //       },
+    //       "to": [
+    //           {
+    //               "repeat": false,
+    //               "key_code": "open_bracket",
+    //               "modifiers": [
+    //                   "left_command"
+    //               ]
+    //           }
+    //       ],
+    //       "conditions": [
+    //           ...isMouseNumber,
+    //           {
+    //             "type": "frontmost_application_if",
+    //             "bundle_identifiers": browserIds
+    //           }
+    //       ]
+    //     }
+    //   ]
+    // },
+    // { 
+    //     "description": "[BROWSER] - Mouse 4 => Forward",
+    //     "manipulators": [
+    //         {
+    //             "type": "basic",
+    //             "from": {
+    //               "key_code": "4"
+    //             },
+    //             "to": [
+    //                 {
+    //                     "repeat": false,
+    //                     "key_code": "close_bracket",
+    //                     "modifiers": [
+    //                         "left_command"
+    //                     ]
+    //                 }
+    //             ],
+    //             "conditions": [
+    //                 ...isMouseNumber,
+    //                 {
+    //                   "type": "frontmost_application_if",
+    //                   "bundle_identifiers": browserIds
+    //                 }
+    //             ]
+    //         }
+    //     ]
+    // },
     { 
-        "description": "[BROWSER] - Mouse 5 => Forward",
+        "description": "[BROWSER] - Mouse 5 => Tab Left",
         "manipulators": [
             {
                 "type": "basic",
@@ -792,9 +516,10 @@ const BrowserMouseButtons = [
                 "to": [
                     {
                         "repeat": false,
-                        "key_code": "close_bracket",
+                        "key_code": "tab",
                         "modifiers": [
-                            "left_command"
+                            "left_control",
+                            "left_shift"
                         ]
                     }
                 ],
@@ -807,7 +532,117 @@ const BrowserMouseButtons = [
                 ]
             }
         ]
-    }
+    },
+    { 
+        "description": "[BROWSER] - Mouse 6 => Tab Right",
+        "manipulators": [
+            {
+                "type": "basic",
+                "from": {
+                  "key_code": "6"
+                },
+                "to": [
+                    {
+                        "repeat": false,
+                        "key_code": "tab",
+                        "modifiers": [
+                            "left_control",
+                        ]
+                    }
+                ],
+                "conditions": [
+                    ...isMouseNumber,
+                    {
+                      "type": "frontmost_application_if",
+                      "bundle_identifiers": browserIds
+                    }
+                ]
+            }
+        ]
+    },
+    // Requires vimuim https://chromewebstore.google.com/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+    { 
+        "description": "[BROWSER] - Mouse 9 => Tab Toggle",
+        "manipulators": [
+            {
+                "type": "basic",
+                "from": {
+                  "key_code": "9"
+                },
+                "to": [
+                    {
+                        "repeat": false,
+                        "key_code": "6",
+                        "modifiers": [
+                            "left_shift",
+                        ]
+                    }
+                ],
+                "conditions": [
+                    ...isMouseNumber,
+                    {
+                      "type": "frontmost_application_if",
+                      "bundle_identifiers": browserIds
+                    }
+                ]
+            }
+        ]
+    },
+    { 
+        "description": "[BROWSER] - Mouse 8 => Tab CLOSE",
+        "manipulators": [
+            {
+                "type": "basic",
+                "from": {
+                  "key_code": "8"
+                },
+                "to": [
+                    {
+                        "repeat": false,
+                        "key_code": "w",
+                        "modifiers": [
+                            "left_command",
+                        ]
+                    }
+                ],
+                "conditions": [
+                    ...isMouseNumber,
+                    {
+                      "type": "frontmost_application_if",
+                      "bundle_identifiers": browserIds
+                    }
+                ]
+            }
+        ]
+    },
+    { 
+        "description": "[BROWSER] - Mouse 12 => Tab ReOPEN",
+        "manipulators": [
+            {
+                "type": "basic",
+                "from": {
+                  "key_code": "equal_sign" // 12
+                },
+                "to": [
+                    {
+                        "repeat": false,
+                        "key_code": "t",
+                        "modifiers": [
+                            "left_command",
+                            "left_shift",
+                        ]
+                    }
+                ],
+                "conditions": [
+                    ...isMouseNumber,
+                    {
+                      "type": "frontmost_application_if",
+                      "bundle_identifiers": browserIds
+                    }
+                ]
+            }
+        ]
+    },
 ]
 
 const camtasiaIds = [
@@ -916,8 +751,11 @@ const rules: KarabinerRules[] = [
   // @ts-ignore
   ...autoQuotes,
   ...ejectToScreenShot,
-  ...GlobalMouseButtons,
   ...BrowserMouseButtons,
+  ...VSCodeMouseButtons,
+  ...itermMouseButtons,
+  // Makre sure to load app specfic config before global buttons
+  ...GlobalMouseButtons,
   ...CamtasiaMouseButtons,
   /* Sub layers */
   ...createHyperSubLayers({

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { To, KeyCode, Manipulator, KarabinerRules } from "./types";
 
 /**
@@ -109,6 +110,7 @@ export function createHyperSubLayers(subLayers: {
 
   // console.log('subLayers', subLayers)
   return Object.entries(subLayers).map(([key, value]) => {
+    console.log('───────────────────────────────')
     console.log('key', key)
     console.log('value', value)
     if ("to" in value) {
@@ -165,8 +167,11 @@ export function open(what: string): LayerCommand {
   };
 }
 
+
 /**
  * Shortcut for "Open an app" command (of which there are a bunch)
+ * @param {string} name - The name of the application.
+ * @returns A LayerCommand object representing the command to open the application.
  */
 export function app(name: string): LayerCommand {
   return open(`-a '${name}.app'`);

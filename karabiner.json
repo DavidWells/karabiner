@@ -58,13 +58,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -86,13 +87,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -118,13 +120,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -146,13 +149,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -174,13 +178,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -206,13 +211,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -238,13 +244,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -270,13 +277,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -302,13 +310,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -347,13 +356,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -376,13 +386,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -416,13 +427,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -445,13 +457,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -474,13 +487,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -514,13 +528,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -555,13 +570,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -596,13 +612,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -636,13 +653,14 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_unless",
+                    "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "com.github.atom",
-                      "com.googlecode.iterm2",
-                      "com.jetbrains.pycharm",
-                      "com.microsoft.VSCode",
-                      "com.visualstudio.code.oss"
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.github\\.atom$",
+                      "^com\\.googlecode\\.iterm2$",
+                      "^com\\.jetbrains\\.pycharm$",
+                      "^com\\.visualstudio\\.code\\.oss$"
                     ]
                   }
                 ]
@@ -666,6 +684,622 @@
                   }
                 ],
                 "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "[BROWSER] - Mouse 1 => PREVIOUS APP",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "1"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "l",
+                    "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift",
+                      "left_control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[BROWSER] - Mouse 5 => Tab Left",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "5"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "tab",
+                    "modifiers": [
+                      "left_control",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[BROWSER] - Mouse 6 => Tab Right",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "6"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "tab",
+                    "modifiers": [
+                      "left_control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[BROWSER] - Mouse 9 => Tab Toggle",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "9"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "6",
+                    "modifiers": [
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[BROWSER] - Mouse 8 => Tab CLOSE",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "8"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "w",
+                    "modifiers": [
+                      "left_command"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[BROWSER] - Mouse 12 => Tab ReOPEN",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "equal_sign"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "t",
+                    "modifiers": [
+                      "left_command",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[VSCODE] - Mouse 3 => PREVIOUS APP",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "3"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "l",
+                    "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift",
+                      "left_control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[VSCODE] - Mouse 5 => Back Tab",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "5"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "left_arrow",
+                    "modifiers": [
+                      "left_command",
+                      "left_option"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[VSCODE] - Mouse 6 => Next Tab",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "6"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "right_arrow",
+                    "modifiers": [
+                      "left_command",
+                      "left_option"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[VSCODE] - Mouse 4 => Copilot Doc selection",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "4"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "d",
+                    "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[VSCODE] - Mouse 8 => Copilot Explain selection",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "8"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "e",
+                    "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[VSCODE] - Mouse 7 => Copilot Explain selection",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "7"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "t",
+                    "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[BROWSER] - Mouse 2 => PREVIOUS APP",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "2"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "l",
+                    "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift",
+                      "left_control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[Iterm] - Mouse 5 => Back Tab",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "5"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "open_bracket",
+                    "modifiers": [
+                      "left_command",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[Iterm] - Mouse 6 => Next Tab",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "6"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "close_bracket",
+                    "modifiers": [
+                      "left_command",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[GLOBAL] Mouse 1 - Open Chrome",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "1"
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'Google Chrome.app'"
+                  }
+                ],
+                "description": "Open -a 'Google Chrome.app'",
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -726,19 +1360,19 @@
             ]
           },
           {
-            "description": "[GLOBAL] Mouse 6 - Open Chrome",
+            "description": "[GLOBAL] Mouse 5 - Open Tower",
             "manipulators": [
               {
                 "type": "basic",
                 "from": {
-                  "key_code": "6"
+                  "key_code": "5"
                 },
                 "to": [
                   {
-                    "shell_command": "open -a 'Google Chrome.app'"
+                    "shell_command": "open -a 'Tower.app'"
                   }
                 ],
-                "description": "Open -a 'Google Chrome.app'",
+                "description": "Open -a 'Tower.app'",
                 "conditions": [
                   {
                     "type": "device_if",
@@ -811,82 +1445,6 @@
                         "product_id": 103,
                         "vendor_id": 5426
                       }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "description": "[BROWSER] - Mouse 4 => Back",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "4"
-                },
-                "to": [
-                  {
-                    "repeat": false,
-                    "key_code": "open_bracket",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [
-                      {
-                        "product_id": 103,
-                        "vendor_id": 5426
-                      }
-                    ]
-                  },
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                      "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "description": "[BROWSER] - Mouse 5 => Forward",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "5"
-                },
-                "to": [
-                  {
-                    "repeat": false,
-                    "key_code": "close_bracket",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [
-                      {
-                        "product_id": 103,
-                        "vendor_id": 5426
-                      }
-                    ]
-                  },
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                      "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$"
                     ]
                   }
                 ]
