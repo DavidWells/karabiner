@@ -755,7 +755,7 @@ const browserIds = [
 ]
 const BrowserMouseButtons = [
     {
-      "description": "In browser. Mouse 4 => Back",
+      "description": "[BROWSER] - Mouse 4 => Back",
       "manipulators": [
         {
           "type": "basic",
@@ -782,7 +782,7 @@ const BrowserMouseButtons = [
       ]
     },
     { 
-        "description": "In browser. Mouse 5 => Forward",
+        "description": "[BROWSER] - Mouse 5 => Forward",
         "manipulators": [
             {
                 "type": "basic",
@@ -815,7 +815,7 @@ const camtasiaIds = [
 ]
 const CamtasiaMouseButtons = [
     { 
-        "description": "In camtasia. Mouse 7 => Cut tracks",
+        "description": "[CAMTASIA] Mouse 7 => Cut tracks",
         "manipulators": [
             {
                 "type": "basic",
@@ -843,7 +843,7 @@ const CamtasiaMouseButtons = [
         ]
     },
     { 
-        "description": "In camtasia. Mouse 8 => Ripple delete",
+        "description": "[CAMTASIA] Mouse 8 => Ripple delete",
         "manipulators": [
             {
                 "type": "basic",
