@@ -653,66 +653,225 @@ const isMouseNumber = [{
   ]
 }]
 
-const MouseButtonSafari = [
-        {
-            "description": "Mouse 4 => Back",
-            "manipulators": [
-                {
-                    "type": "basic",
-                    "from": {
-                        "key_code": "4"
-                    },
-                    "to": [
-                        {
-                            "repeat": false,
-                            "key_code": "open_bracket",
-                            "modifiers": [
-                                "left_command"
-                            ]
-                        }
-                    ],
-                    "conditions": [
-                        ...isMouseNumber,
-                        {
-                            "type": "frontmost_application_if",
-                            "bundle_identifiers": [
-                                "^com\\.apple\\.Safari$"
-                            ]
-                        }
-                    ]
-                }
-            ]
+const GlobalMouseButtons = [
+  {
+    "description": "[GLOBAL] Mouse 2 - Open Iterm",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+            "key_code": "2"
         },
-        { 
-            "description": "Mouse 5 => Forward",
-            "manipulators": [
-                {
-                    "type": "basic",
-                    "from": {
-                      "key_code": "5"
-                    },
-                    "to": [
-                        {
-                            "repeat": false,
-                            "key_code": "close_bracket",
-                            "modifiers": [
-                                "left_command"
-                            ]
-                        }
-                    ],
-                    "conditions": [
-                        ...isMouseNumber,
-                        {
-                            "type": "frontmost_application_if",
-                            "bundle_identifiers": [
-                                "^com\\.apple\\.Safari$"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
+        ...app("iTerm"),
+        "conditions": [
+          ...isMouseNumber,
+        ]
+      }
+    ]
+  },
+  {
+    "description": "[GLOBAL] Mouse 3 - Open VSCode",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+            "key_code": "3"
+        },
+        ...app("Visual Studio Code"),
+        "conditions": [
+          ...isMouseNumber,
+        ]
+      }
+    ]
+  },
+  {
+    "description": "[GLOBAL] Mouse 6 - Open Chrome",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+            "key_code": "6"
+        },
+        ...app("Google Chrome"),
+        "conditions": [
+          ...isMouseNumber,
+        ]
+      }
+    ]
+  },
+  {
+    "description": "[GLOBAL] Mouse 10 - Stop Recording Camtasia",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "0"
+        },
+        "to": [
+            {
+                "repeat": false,
+                "key_code": "2",
+                "modifiers": [
+                  "left_command",
+                  "left_option",
+                ]
+            }
+        ],
+        "conditions": [
+          ...isMouseNumber,
+        ]
+      }
+    ]
+  },
+  {
+    "description": "[GLOBAL] Mouse 11 - Start Recording Camtasia",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "hyphen"
+        },
+        "to": [
+            {
+                "repeat": false,
+                "key_code": "2",
+                "modifiers": [
+                  "left_command",
+                  "left_shift"
+                ]
+            }
+        ],
+        "conditions": [
+          ...isMouseNumber,
+        ]
+      }
+    ]
+  },
 ]
+
+const browserIds = [
+  "^com\\.apple\\.Safari$",
+  "^com\\.google\\.Chrome$"
+]
+const BrowserMouseButtons = [
+    {
+      "description": "In browser. Mouse 4 => Back",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "4"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "open_bracket",
+                  "modifiers": [
+                      "left_command"
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": browserIds
+              }
+          ]
+        }
+      ]
+    },
+    { 
+        "description": "In browser. Mouse 5 => Forward",
+        "manipulators": [
+            {
+                "type": "basic",
+                "from": {
+                  "key_code": "5"
+                },
+                "to": [
+                    {
+                        "repeat": false,
+                        "key_code": "close_bracket",
+                        "modifiers": [
+                            "left_command"
+                        ]
+                    }
+                ],
+                "conditions": [
+                    ...isMouseNumber,
+                    {
+                      "type": "frontmost_application_if",
+                      "bundle_identifiers": browserIds
+                    }
+                ]
+            }
+        ]
+    }
+]
+
+const camtasiaIds = [
+  "^com\\.techsmith\\.camtasia2023$",
+]
+const CamtasiaMouseButtons = [
+    { 
+        "description": "In camtasia. Mouse 7 => Cut tracks",
+        "manipulators": [
+            {
+                "type": "basic",
+                "from": {
+                  "key_code": "7"
+                },
+                "to": [
+                    {
+                        "repeat": false,
+                        "key_code": "t",
+                        "modifiers": [
+                            "left_command",
+                            "left_shift"
+                        ]
+                    }
+                ],
+                "conditions": [
+                    ...isMouseNumber,
+                    {
+                        "type": "frontmost_application_if",
+                        "bundle_identifiers": camtasiaIds
+                    }
+                ]
+            }
+        ]
+    },
+    { 
+        "description": "In camtasia. Mouse 8 => Ripple delete",
+        "manipulators": [
+            {
+                "type": "basic",
+                "from": {
+                  "key_code": "8"
+                },
+                "to": [
+                    {
+                        "repeat": false,
+                        "key_code": "delete_or_backspace",
+                        "modifiers": [
+                            "left_command",
+                        ]
+                    }
+                ],
+                "conditions": [
+                    ...isMouseNumber,
+                    {
+                        "type": "frontmost_application_if",
+                        "bundle_identifiers": camtasiaIds
+                    }
+                ]
+            }
+        ]
+    }
+]
+
+
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself
@@ -757,7 +916,10 @@ const rules: KarabinerRules[] = [
   // @ts-ignore
   ...autoQuotes,
   ...ejectToScreenShot,
-  ...MouseButtonSafari,
+  ...GlobalMouseButtons,
+  ...BrowserMouseButtons,
+  ...CamtasiaMouseButtons,
+  /* Sub layers */
   ...createHyperSubLayers({
     /* Remap single key */
     7: {

@@ -2,6 +2,12 @@
 
 If you like TypeScript and want your Karabiner configuration maintainable & type-safe, you probably want to use the custom configuration DSL / generator I created in `rules.ts` and `utils.ts`!
 
+Get ID of apps on mac
+
+```bash
+osascript -e 'id of app "Camtasia 2023"'
+```
+
 > “This repo is incredible - thanks so much for putting it together! I always avoided Karabiner mostly because of its complicated configuration. **Your project makes it so much easier to work with and so much more powerful. I'm geeking out on how much faster I'm going to be now.**”
 >
 > — @jhanstra ([source](https://github.com/mxstbr/karabiner/pull/4))

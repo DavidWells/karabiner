@@ -670,7 +670,155 @@
             ]
           },
           {
-            "description": "Mouse 4 => Back",
+            "description": "[GLOBAL] Mouse 2 - Open Iterm",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "2"
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'iTerm.app'"
+                  }
+                ],
+                "description": "Open -a 'iTerm.app'",
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[GLOBAL] Mouse 3 - Open VSCode",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "3"
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'Visual Studio Code.app'"
+                  }
+                ],
+                "description": "Open -a 'Visual Studio Code.app'",
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[GLOBAL] Mouse 6 - Open Chrome",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "6"
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a 'Google Chrome.app'"
+                  }
+                ],
+                "description": "Open -a 'Google Chrome.app'",
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[GLOBAL] Mouse 10 - Stop Recording Camtasia",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "0"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "2",
+                    "modifiers": [
+                      "left_command",
+                      "left_option"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[GLOBAL] Mouse 11 - Start Recording Camtasia",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "hyphen"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "2",
+                    "modifiers": [
+                      "left_command",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "In browser. Mouse 4 => Back",
             "manipulators": [
               {
                 "type": "basic",
@@ -699,7 +847,8 @@
                   {
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "^com\\.apple\\.Safari$"
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
                     ]
                   }
                 ]
@@ -707,7 +856,7 @@
             ]
           },
           {
-            "description": "Mouse 5 => Forward",
+            "description": "In browser. Mouse 5 => Forward",
             "manipulators": [
               {
                 "type": "basic",
@@ -736,7 +885,83 @@
                   {
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                      "^com\\.apple\\.Safari$"
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "In camtasia. Mouse 7 => Cut tracks",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "7"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "t",
+                    "modifiers": [
+                      "left_command",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.techsmith\\.camtasia2023$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "In camtasia. Mouse 8 => Ripple delete",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "8"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "delete_or_backspace",
+                    "modifiers": [
+                      "left_command"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.techsmith\\.camtasia2023$"
                     ]
                   }
                 ]
