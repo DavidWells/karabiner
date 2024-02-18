@@ -921,7 +921,7 @@ const rules: KarabinerRules[] = [
   ...CamtasiaMouseButtons,
   /* Sub layers */
   ...createHyperSubLayers({
-    /* Remap single key */
+    /* Remap hyper key + single key */
     7: {
       "to": [
         {
