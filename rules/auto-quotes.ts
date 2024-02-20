@@ -35,7 +35,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if", // "frontmost_application_unless" if NOT editor
+          "type": "frontmost_application_unless", // "frontmost_application_unless" if NOT editor
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -57,7 +57,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -83,7 +83,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -105,7 +105,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -127,7 +127,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -153,7 +153,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -179,7 +179,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -205,7 +205,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -231,7 +231,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -270,7 +270,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -293,7 +293,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -327,7 +327,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -350,7 +350,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -373,7 +373,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -407,7 +407,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -442,7 +442,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -477,7 +477,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]
@@ -511,7 +511,7 @@ export const autoQuotes = [
       ],
       "conditions": [
         {
-          "type": "frontmost_application_if",
+          "type": "frontmost_application_unless",
           "bundle_identifiers": textEditorIds
         }
       ]

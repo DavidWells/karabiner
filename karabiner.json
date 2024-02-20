@@ -58,7 +58,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -87,7 +87,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -120,7 +120,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -149,7 +149,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -178,7 +178,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -211,7 +211,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -244,7 +244,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -277,7 +277,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -310,7 +310,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -356,7 +356,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -386,7 +386,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -427,7 +427,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -457,7 +457,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -487,7 +487,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -528,7 +528,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -570,7 +570,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -612,7 +612,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -653,7 +653,7 @@
                 ],
                 "conditions": [
                   {
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
                       "^com\\.sublimetext\\.4$",
@@ -721,7 +721,10 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$"
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.google\\.Chrome\\.canary$",
+                      "^com\\.opera\\.Opera$",
+                      "^com\\.brave\\.Browser$"
                     ]
                   }
                 ]
@@ -760,7 +763,10 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$"
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.google\\.Chrome\\.canary$",
+                      "^com\\.opera\\.Opera$",
+                      "^com\\.brave\\.Browser$"
                     ]
                   }
                 ]
@@ -798,7 +804,10 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$"
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.google\\.Chrome\\.canary$",
+                      "^com\\.opera\\.Opera$",
+                      "^com\\.brave\\.Browser$"
                     ]
                   }
                 ]
@@ -836,7 +845,10 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$"
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.google\\.Chrome\\.canary$",
+                      "^com\\.opera\\.Opera$",
+                      "^com\\.brave\\.Browser$"
                     ]
                   }
                 ]
@@ -874,7 +886,10 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$"
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.google\\.Chrome\\.canary$",
+                      "^com\\.opera\\.Opera$",
+                      "^com\\.brave\\.Browser$"
                     ]
                   }
                 ]
@@ -913,7 +928,10 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$"
+                      "^com\\.google\\.Chrome$",
+                      "^com\\.google\\.Chrome\\.canary$",
+                      "^com\\.opera\\.Opera$",
+                      "^com\\.brave\\.Browser$"
                     ]
                   }
                 ]
@@ -1160,7 +1178,7 @@
             ]
           },
           {
-            "description": "[BROWSER] - Mouse 2 => PREVIOUS APP",
+            "description": "[Iterm] - Mouse 2 => PREVIOUS APP",
             "manipulators": [
               {
                 "type": "basic",

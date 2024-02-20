@@ -179,7 +179,7 @@ const terminalIds = [
 const itermMouseButtons = [
     // Toggle back to previous App
     {
-      "description": "[BROWSER] - Mouse 2 => PREVIOUS APP",
+      "description": "[Iterm] - Mouse 2 => PREVIOUS APP",
       "manipulators": [
         {
           "type": "basic",
@@ -428,7 +428,10 @@ const VSCodeMouseButtons = [
 
 const browserIds = [
   "^com\\.apple\\.Safari$",
-  "^com\\.google\\.Chrome$"
+  "^com\\.google\\.Chrome$",
+  "^com\\.google\\.Chrome\\.canary$",
+  "^com\\.opera\\.Opera$",
+  "^com\\.brave\\.Browser$",
 ]
 const BrowserMouseButtons = [
     // Toggle back to previous App
