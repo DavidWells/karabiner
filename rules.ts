@@ -770,6 +770,7 @@ const rules: KarabinerRules[] = [
         }
       ],
     },
+
     /* Remap o = "Open" applications */
     o: {
       1: app("1Password"),
@@ -798,7 +799,25 @@ const rules: KarabinerRules[] = [
         "raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink"
       ),
     },
-
+    /* Shortcut window management via rectangle.app */
+    a: {
+      description: "Window: Move to left display",
+      "to": [
+        {
+          key_code: "left_arrow",
+          modifiers: ["left_option", "left_command", "left_control"],
+        },
+      ],
+    },
+    s: {
+      description: "Window: Move to right display",
+      "to": [
+        {
+          key_code: "right_arrow",
+          modifiers: ["left_option", "left_command", "left_control"],
+        },
+      ],
+    },
     // w = "Window" via rectangle.app
     w: {
       semicolon: {
@@ -930,8 +949,8 @@ const rules: KarabinerRules[] = [
       },
     },
 
-    // s = "System"
-    s: {
+    // z = "System"
+    z: {
       u: {
         to: [
           {
