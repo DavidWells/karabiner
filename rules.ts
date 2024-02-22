@@ -424,6 +424,35 @@ const VSCodeMouseButtons = [
         }
       ]
     },
+    {
+      "description": "[VSCODE] - Mouse 12 => MD preview",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "equal_sign"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "m",
+                  "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift"
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": editorIds
+              }
+          ]
+        }
+      ]
+    },
 ]
 
 const browserIds = [

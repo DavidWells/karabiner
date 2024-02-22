@@ -1178,6 +1178,46 @@
             ]
           },
           {
+            "description": "[VSCODE] - Mouse 12 => MD preview",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "equal_sign"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "m",
+                    "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "[Iterm] - Mouse 2 => PREVIOUS APP",
             "manipulators": [
               {
