@@ -56,6 +56,10 @@ const isMouseNumber = [{
     {
       "product_id": 103,
       "vendor_id": 5426
+    },
+    {
+      "product_id": 83,
+      "vendor_id": 5426
     }
   ]
 }]
@@ -848,7 +852,7 @@ const rules: KarabinerRules[] = [
       ],
     },
     // w = "Window" via rectangle.app
-    w: {
+    a: {
       semicolon: {
         description: "Window: Hide",
         to: [
@@ -912,11 +916,11 @@ const rules: KarabinerRules[] = [
           },
         ],
       },
-      f: {
+      s: {
         description: "Window: Full Screen",
         to: [
           {
-            key_code: "f",
+            key_code: "m",
             modifiers: ["right_option", "right_command"],
           },
         ],
