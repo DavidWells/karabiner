@@ -1,5 +1,7 @@
 # @DavidWells's Karabiner Elements configuration
 
+Fork of https://github.com/mxstbr/karabiner
+
 If you like TypeScript and want your Karabiner configuration maintainable & type-safe, you probably want to use the custom configuration DSL / generator I created in `rules.ts` and `utils.ts`!
 
 Get ID of apps on mac
