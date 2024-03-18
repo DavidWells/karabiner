@@ -50,6 +50,25 @@ const ejectToScreenShot = [
   }
 ]
 
+const ejectToDelete = [
+  {
+    "description": "Eject to Screenshot",
+    "manipulators": [
+      {
+        "from": {
+          "consumer_key_code": "eject"
+        },
+        "to": [
+          {
+            "key_code": "delete_or_backspace",
+          }
+        ],
+        "type": "basic"
+      }
+    ]
+  }
+]
+
 const isMouseNumber = [{
   "type": "device_if",
   "identifiers": [
@@ -786,7 +805,8 @@ const rules: KarabinerRules[] = [
   },
   // @ts-ignore
   ...autoQuotes,
-  ...ejectToScreenShot,
+  // ...ejectToScreenShot,
+  ...ejectToDelete,
   ...BrowserMouseButtons,
   ...VSCodeMouseButtons,
   ...itermMouseButtons,
