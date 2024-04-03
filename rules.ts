@@ -193,6 +193,32 @@ const GlobalMouseButtons = [
       }
     ]
   },
+  // Setup mac for recording
+  {
+    "description": "[GLOBAL] Mouse 12 - Pre Recording Camtasia",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "equal_sign"
+        },
+        "to": [
+            {
+                "repeat": false,
+                "key_code": "h",
+                "modifiers": [
+                  "left_option",
+                  "left_command",
+                  "left_control"
+                ]
+            }
+        ],
+        "conditions": [
+          ...isMouseNumber,
+        ]
+      }
+    ]
+  },
 ]
 
 const terminalIds = [
@@ -389,35 +415,7 @@ const VSCodeMouseButtons = [
         }
       ]
     },
-    {
-      "description": "[VSCODE] - Mouse 8 => Copilot Explain selection",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "8"
-          },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "e",
-                  "modifiers": [
-                      "left_command",
-                      "left_option",
-                      "left_shift"
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": editorIds
-              }
-          ]
-        }
-      ]
-    },
+
     {
       "description": "[VSCODE] - Mouse 7 => Copilot Explain selection",
       "manipulators": [
@@ -448,12 +446,41 @@ const VSCodeMouseButtons = [
       ]
     },
     {
-      "description": "[VSCODE] - Mouse 12 => MD preview",
+      "description": "[VSCODE] - Mouse 8 => Copilot Explain selection",
       "manipulators": [
         {
           "type": "basic",
           "from": {
-              "key_code": "equal_sign"
+              "key_code": "8"
+          },
+          "to": [
+              {
+                  "repeat": false,
+                  "key_code": "e",
+                  "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_shift"
+                  ]
+              }
+          ],
+          "conditions": [
+              ...isMouseNumber,
+              {
+                "type": "frontmost_application_if",
+                "bundle_identifiers": editorIds
+              }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[VSCODE] - Mouse 9 => MD preview",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+              "key_code": "9"
           },
           "to": [
               {
@@ -670,34 +697,34 @@ const BrowserMouseButtons = [
             }
         ]
     },
-    { 
-        "description": "[BROWSER] - Mouse 12 => Tab ReOPEN",
-        "manipulators": [
-            {
-                "type": "basic",
-                "from": {
-                  "key_code": "equal_sign" // 12
-                },
-                "to": [
-                    {
-                        "repeat": false,
-                        "key_code": "t",
-                        "modifiers": [
-                            "left_command",
-                            "left_shift",
-                        ]
-                    }
-                ],
-                "conditions": [
-                    ...isMouseNumber,
-                    {
-                      "type": "frontmost_application_if",
-                      "bundle_identifiers": browserIds
-                    }
-                ]
-            }
-        ]
-    },
+    // { 
+    //     "description": "[BROWSER] - Mouse 12 => Tab ReOPEN",
+    //     "manipulators": [
+    //         {
+    //             "type": "basic",
+    //             "from": {
+    //               "key_code": "equal_sign" // 12
+    //             },
+    //             "to": [
+    //                 {
+    //                     "repeat": false,
+    //                     "key_code": "t",
+    //                     "modifiers": [
+    //                         "left_command",
+    //                         "left_shift",
+    //                     ]
+    //                 }
+    //             ],
+    //             "conditions": [
+    //                 ...isMouseNumber,
+    //                 {
+    //                   "type": "frontmost_application_if",
+    //                   "bundle_identifiers": browserIds
+    //                 }
+    //             ]
+    //         }
+    //     ]
+    // },
 ]
 
 const camtasiaIds = [
@@ -761,7 +788,71 @@ const CamtasiaMouseButtons = [
     }
 ]
 
+const WINDOW_FULL = {
+  description: "Window: Full Screen",
+  to: [
+    {
+      key_code: "m",
+      modifiers: ["right_option", "right_command"],
+    },
+  ],
+}
 
+const WINDOW_BOTTOM_HALF = {
+  description: "Window: Bottom half",
+  to: [
+    {
+      key_code: "down_arrow",
+      modifiers: ["left_option", "left_control"],
+    },
+  ],
+}
+
+const WINDOW_LEFT = {
+  description: "Window: Left half",
+  to: [
+    {
+      key_code: "left_arrow",
+      modifiers: ["left_option", "left_control"],
+    },
+  ],
+}
+
+const WINDOW_RIGHT = {
+  description: "Window: Right half",
+  to: [
+    {
+      key_code: "right_arrow",
+      modifiers: ["left_option", "left_control"],
+    },
+  ],
+}
+
+const MOVE_WINDOW_RIGHT = {
+  description: "Window: Move Right",
+  to: [
+    {
+      key_code: "right_arrow",
+      modifiers: ["left_option", "left_control", 'left_command'],
+    },
+  ],
+}
+
+const MOVE_WINDOW_LEFT = {
+  description: "Window: Move Left",
+  to: [
+    {
+      key_code: "left_arrow",
+      modifiers: ["left_option", "left_control", 'left_command'],
+    },
+  ],
+}
+
+const IS_MOUSE = {
+  "conditions": [
+    ...isMouseNumber,
+  ]
+}
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself
@@ -816,6 +907,28 @@ const rules: KarabinerRules[] = [
   /* Sub layers */
   ...createHyperSubLayers({
     /* Remap hyper key + single key */
+    3: {
+      ...WINDOW_FULL,
+      ...IS_MOUSE,
+    },
+    'up_arrow': {
+      ...WINDOW_FULL,
+    },
+    'down_arrow': {
+      ...WINDOW_BOTTOM_HALF,
+    },
+    'right_arrow': {
+      ...WINDOW_RIGHT,
+    },
+    'left_arrow': {
+      ...WINDOW_LEFT,
+    },
+    "right_shift": {
+      ...MOVE_WINDOW_RIGHT,
+    },
+    "slash": {
+      ...MOVE_WINDOW_LEFT,
+    },
     7: {
       "to": [
         {
@@ -823,7 +936,6 @@ const rules: KarabinerRules[] = [
         }
       ],
     },
-
     /* Remap o = "Open" applications */
     o: {
       1: app("1Password"),
@@ -936,15 +1048,7 @@ const rules: KarabinerRules[] = [
           },
         ],
       },
-      s: {
-        description: "Window: Full Screen",
-        to: [
-          {
-            key_code: "m",
-            modifiers: ["right_option", "right_command"],
-          },
-        ],
-      },
+      s: WINDOW_FULL,
       u: {
         description: "Window: Previous Tab",
         to: [
