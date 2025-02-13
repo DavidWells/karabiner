@@ -1,881 +1,864 @@
 // @ts-nocheck
-import fs from "fs";
-import { KarabinerRules } from "./types";
-import { createHyperSubLayers, app, open } from "./utils";
-import { autoQuotes } from "./rules/auto-quotes";
+import fs from 'fs'
+import { KarabinerRules } from './types'
+import { createHyperSubLayers, app, open } from './utils'
+import { autoQuotes } from './rules/auto-quotes'
 
 const textEditorIds = [
-  "^com\\.microsoft\\.VSCode$",
-  "^com\\.sublimetext\\.4$",
-  "^com\\.github\\.atom$",
-  "^com\\.googlecode\\.iterm2$",
-  "^com\\.jetbrains\\.pycharm$",
-  "^com\\.visualstudio\\.code\\.oss$"
+  '^com\\.microsoft\\.VSCode$',
+  '^com\\.sublimetext\\.4$',
+  '^com\\.github\\.atom$',
+  '^com\\.googlecode\\.iterm2$',
+  '^com\\.jetbrains\\.pycharm$',
+  '^com\\.visualstudio\\.code\\.oss$',
+  '^com\\.cursor\\.code\\.oss$',
+  '^com\\.todesktop\\.230313mzl4w4u92$',
+]
+
+const editorIds = ['^com\\.microsoft\\.VSCode$', '^com\\.sublimetext\\.4$']
+
+const terminalIds = ['^com\\.googlecode\\.iterm2$']
+
+// Super whisper
+const OPEN_TEXT_TO_SPEECH = [
+  {
+    key_code: 'spacebar',
+    modifiers: ['left_option'],
+  },
 ]
 
 // Set in keyboard maestro
 const toggleBackToPreviousApp = [
   {
-      "repeat": false,
-      "key_code": "l",
-      "modifiers": [
-          "left_command",
-          "left_option",
-          "left_shift",
-          "left_control",
-      ]
-  }
+    repeat: false,
+    key_code: 'l',
+    modifiers: ['left_command', 'left_option', 'left_shift', 'left_control'],
+  },
 ]
 
 const ejectToScreenShot = [
   {
-    "description": "Eject to Screenshot",
-    "manipulators": [
+    description: 'Eject to Screenshot',
+    manipulators: [
       {
-        "from": {
-          "consumer_key_code": "eject"
+        from: {
+          consumer_key_code: 'eject',
         },
-        "to": [
+        to: [
           {
-            "key_code": "5",
-            "modifiers": [
-              "left_command",
-              "left_shift"
-            ]
-          }
+            key_code: '5',
+            modifiers: ['left_command', 'left_shift'],
+          },
         ],
-        "type": "basic"
-      }
-    ]
-  }
+        type: 'basic',
+      },
+    ],
+  },
 ]
 
 const ejectToDelete = [
   {
-    "description": "Eject to Screenshot",
-    "manipulators": [
+    description: 'Eject to Screenshot',
+    manipulators: [
       {
-        "from": {
-          "consumer_key_code": "eject"
+        from: {
+          consumer_key_code: 'eject',
         },
-        "to": [
+        to: [
           {
-            "key_code": "delete_or_backspace",
-          }
+            key_code: 'delete_or_backspace',
+          },
         ],
-        "type": "basic"
-      }
-    ]
-  }
+        type: 'basic',
+      },
+    ],
+  },
 ]
 
-const isMouseNumber = [{
-  "type": "device_if",
-  "identifiers": [
-    {
-      "product_id": 103,
-      "vendor_id": 5426
-    },
-    {
-      "product_id": 83,
-      "vendor_id": 5426
-    }
-  ]
-}]
+/* Razer mouse */
+const isMouseNumber = [
+  {
+    type: 'device_if',
+    identifiers: [
+      {
+        product_id: 103,
+        vendor_id: 5426,
+      },
+      {
+        product_id: 83,
+        vendor_id: 5426,
+      },
+    ],
+  },
+]
 
 const GlobalMouseButtons = [
   {
-    "description": "[GLOBAL] Mouse 1 - Open Chrome",
-    "manipulators": [
+    description: '[GLOBAL] Mouse 1 - Open Chrome',
+    manipulators: [
       {
-        "type": "basic",
-        "from": {
-            "key_code": "1"
+        type: 'basic',
+        from: {
+          key_code: '1',
         },
-        ...app("Google Chrome"),
-        "conditions": [
-          ...isMouseNumber,
-        ]
-      }
-    ]
+        ...app('Google Chrome'),
+        conditions: [...isMouseNumber],
+      },
+    ],
   },
   {
-    "description": "[GLOBAL] Mouse 2 - Open Iterm",
-    "manipulators": [
+    description: '[GLOBAL] Mouse 2 - Open Iterm',
+    manipulators: [
       {
-        "type": "basic",
-        "from": {
-            "key_code": "2"
+        type: 'basic',
+        from: {
+          key_code: '2',
         },
-        ...app("iTerm"),
-        "conditions": [
-          ...isMouseNumber,
-        ]
-      }
-    ]
+        ...app('iTerm'),
+        conditions: [...isMouseNumber],
+      },
+    ],
   },
   {
-    "description": "[GLOBAL] Mouse 3 - Open VSCode",
-    "manipulators": [
+    description: '[GLOBAL] Mouse 3 - Open Cursor',
+    manipulators: [
       {
-        "type": "basic",
-        "from": {
-            "key_code": "3"
+        type: 'basic',
+        from: {
+          key_code: '3',
         },
-        ...app("Visual Studio Code"),
-        "conditions": [
-          ...isMouseNumber,
-        ]
-      }
-    ]
+        ...app('Cursor'),
+        // ...app('Visual Studio Code'),
+        conditions: [...isMouseNumber],
+      },
+    ],
   },
-  {
-    "description": "[GLOBAL] Mouse 5 - Open Tower",
-    "manipulators": [
+    {
+    description: '[GLOBAL] Mouse 4 - Open Text to speech',
+    manipulators: [
       {
-        "type": "basic",
-        "from": {
-            "key_code": "5"
+        type: 'basic',
+        from: {
+          key_code: '4',
         },
-        ...app("Tower"),
-        "conditions": [
-          ...isMouseNumber,
-        ]
-      }
-    ]
-  },
+        to: OPEN_TEXT_TO_SPEECH,
+        // ...app('Asana'),
 
-  {
-    "description": "[GLOBAL] Mouse 10 - Stop Recording Camtasia",
-    "manipulators": [
-      {
-        "type": "basic",
-        "from": {
-          "key_code": "0"
-        },
-        "to": [
-            {
-                "repeat": false,
-                "key_code": "2",
-                "modifiers": [
-                  "left_command",
-                  "left_option",
-                ]
-            }
-        ],
-        "conditions": [
-          ...isMouseNumber,
-        ]
-      }
-    ]
+        conditions: [...isMouseNumber],
+      },
+    ],
   },
   {
-    "description": "[GLOBAL] Mouse 11 - Start Recording Camtasia",
-    "manipulators": [
+    description: '[GLOBAL] Mouse 5 - Open Tower',
+    manipulators: [
       {
-        "type": "basic",
-        "from": {
-          "key_code": "hyphen"
+        type: 'basic',
+        from: {
+          key_code: '5',
         },
-        "to": [
-            {
-                "repeat": false,
-                "key_code": "2",
-                "modifiers": [
-                  "left_command",
-                  "left_shift"
-                ]
-            }
-        ],
-        "conditions": [
-          ...isMouseNumber,
-        ]
-      }
-    ]
+        ...app('Tower'),
+        conditions: [...isMouseNumber],
+      },
+    ],
   },
-  // Setup mac for recording
   {
-    "description": "[GLOBAL] Mouse 12 - Pre Recording Camtasia",
-    "manipulators": [
+    description: '[GLOBAL] Mouse 10 - Stop Recording Camtasia',
+    manipulators: [
       {
-        "type": "basic",
-        "from": {
-          "key_code": "equal_sign"
+        type: 'basic',
+        from: {
+          key_code: '0',
         },
-        "to": [
-            {
-                "repeat": false,
-                "key_code": "h",
-                "modifiers": [
-                  "left_option",
-                  "left_command",
-                  "left_control"
-                ]
-            }
+        to: [
+          {
+            repeat: false,
+            key_code: '2',
+            modifiers: ['left_command', 'left_option'],
+          },
         ],
-        "conditions": [
-          ...isMouseNumber,
-        ]
-      }
-    ]
+        conditions: [...isMouseNumber],
+      },
+    ],
+  },
+  {
+    description: '[GLOBAL] Mouse 11 - Start Recording Camtasia',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'hyphen',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: '2',
+            modifiers: ['left_command', 'left_shift'],
+          },
+        ],
+        conditions: [...isMouseNumber],
+      },
+    ],
+  },
+  // Setup mac for recording vide and rrestore
+  {
+    description: '[GLOBAL] Mouse 12 - Pre Recording Camtasia',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'equal_sign',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'h',
+            modifiers: ['left_option', 'left_command', 'left_control'],
+          },
+        ],
+        conditions: [...isMouseNumber],
+      },
+    ],
   },
 ]
 
-const terminalIds = [
-  "^com\\.googlecode\\.iterm2$"
+const voiceToText = [
+  {
+    description: 'Double tap command to type x',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          simultaneous: [
+            {
+              key_code: 'left_command',
+            },
+            {
+              key_code: 'left_command',
+            },
+          ],
+          simultaneous_options: {
+            detect_key_down_unordered: true,
+            key_down_order: 'strict',
+            key_up_order: 'strict',
+            key_up_when: 'any',
+          },
+        },
+        to: [
+          {
+            key_code: 'x',
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 const itermMouseButtons = [
-    // Toggle back to previous App
-    {
-      "description": "[Iterm] - Mouse 2 => PREVIOUS APP",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "2"
+  // Toggle back to previous App
+  {
+    description: '[Iterm] - Mouse 2 => PREVIOUS APP',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '2',
+        },
+        to: toggleBackToPreviousApp,
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: terminalIds,
           },
-          "to": toggleBackToPreviousApp,
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": terminalIds
-              }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[Iterm] - Mouse 5 => Back Tab",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "5"
+        ],
+      },
+    ],
+  },
+  {
+    description: '[Iterm] - Mouse 5 => Back Tab',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '5',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'open_bracket',
+            modifiers: ['left_command', 'left_shift'],
           },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "open_bracket",
-                  "modifiers": [
-                      "left_command",
-                      "left_shift",
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": terminalIds
-              }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[Iterm] - Mouse 6 => Next Tab",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "6"
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: terminalIds,
           },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "close_bracket",
-                  "modifiers": [
-                      "left_command",
-                      "left_shift",
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": terminalIds
-              }
-          ]
-        }
-      ]
-    },
-]
-
-const editorIds = [
-  "^com\\.microsoft\\.VSCode$",
-  "^com\\.sublimetext\\.4$"
+        ],
+      },
+    ],
+  },
+  {
+    description: '[Iterm] - Mouse 6 => Next Tab',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '6',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'close_bracket',
+            modifiers: ['left_command', 'left_shift'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: terminalIds,
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 const VSCodeMouseButtons = [
-    // Toggle back to previous App
-    {
-      "description": "[VSCODE] - Mouse 3 => PREVIOUS APP",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "3"
+  // Toggle back to previous App
+  {
+    description: '[VSCODE] - Mouse 3 => PREVIOUS APP',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '3',
+        },
+        to: toggleBackToPreviousApp,
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
           },
-          "to": toggleBackToPreviousApp,
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": editorIds
-              }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[VSCODE] - Mouse 5 => Back Tab",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "5"
+        ],
+      },
+    ],
+  },
+  {
+    description: '[VSCODE] - Mouse 5 => Back Tab',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '5',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'left_arrow',
+            modifiers: ['left_command', 'left_option'],
           },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "left_arrow",
-                  "modifiers": [
-                      "left_command",
-                      "left_option",
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": editorIds
-              }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[VSCODE] - Mouse 6 => Next Tab",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "6"
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
           },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "right_arrow",
-                  "modifiers": [
-                      "left_command",
-                      "left_option",
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": editorIds
-              }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[VSCODE] - Mouse 4 => Copilot Doc selection",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "4"
+        ],
+      },
+    ],
+  },
+  {
+    description: '[VSCODE] - Mouse 6 => Next Tab',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '6',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'right_arrow',
+            modifiers: ['left_command', 'left_option'],
           },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "d",
-                  "modifiers": [
-                      "left_command",
-                      "left_option",
-                      "left_shift"
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": editorIds
-              }
-          ]
-        }
-      ]
-    },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    description: '[VSCODE] - Mouse 4 => Copilot Doc selection',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '4',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'd',
+            modifiers: ['left_command', 'left_option', 'left_shift'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
+          },
+        ],
+      },
+    ],
+  },
 
-    {
-      "description": "[VSCODE] - Mouse 7 => Copilot Explain selection",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "7"
+  {
+    description: '[VSCODE] - Mouse 7 => Copilot Explain selection',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '7',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 't',
+            modifiers: ['left_command', 'left_option', 'left_shift'],
           },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "t",
-                  "modifiers": [
-                      "left_command",
-                      "left_option",
-                      "left_shift"
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": editorIds
-              }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[VSCODE] - Mouse 8 => Copilot Explain selection",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "8"
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
           },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "e",
-                  "modifiers": [
-                      "left_command",
-                      "left_option",
-                      "left_shift"
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": editorIds
-              }
-          ]
-        }
-      ]
-    },
-    {
-      "description": "[VSCODE] - Mouse 9 => MD preview",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "9"
+        ],
+      },
+    ],
+  },
+  {
+    description: '[VSCODE] - Mouse 8 => Copilot Explain selection',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '8',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'e',
+            modifiers: ['left_command', 'left_option', 'left_shift'],
           },
-          "to": [
-              {
-                  "repeat": false,
-                  "key_code": "m",
-                  "modifiers": [
-                      "left_command",
-                      "left_option",
-                      "left_shift"
-                  ]
-              }
-          ],
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": editorIds
-              }
-          ]
-        }
-      ]
-    },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    description: '[VSCODE] - Mouse 9 => MD preview',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '9',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'm',
+            modifiers: ['left_command', 'left_option', 'left_shift'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 const browserIds = [
-  "^com\\.apple\\.Safari$",
-  "^com\\.google\\.Chrome$",
-  "^com\\.google\\.Chrome\\.canary$",
-  "^com\\.opera\\.Opera$",
-  "^com\\.brave\\.Browser$",
+  '^com\\.apple\\.Safari$',
+  '^com\\.google\\.Chrome$',
+  '^com\\.google\\.Chrome\\.canary$',
+  '^com\\.opera\\.Opera$',
+  '^com\\.brave\\.Browser$',
 ]
 const BrowserMouseButtons = [
-    // Toggle back to previous App
-    {
-      "description": "[BROWSER] - Mouse 1 => PREVIOUS APP",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-              "key_code": "1"
+  // Toggle back to previous App
+  {
+    description: '[BROWSER] - Mouse 1 => PREVIOUS APP',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '1',
+        },
+        to: toggleBackToPreviousApp,
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: browserIds,
           },
-          "to": toggleBackToPreviousApp,
-          "conditions": [
-              ...isMouseNumber,
-              {
-                "type": "frontmost_application_if",
-                "bundle_identifiers": browserIds
-              }
-          ]
-        }
-      ]
-    },
-    // {
-    //   "description": "[BROWSER] - Mouse 1 => Back",
-    //   "manipulators": [
-    //     {
-    //       "type": "basic",
-    //       "from": {
-    //           "key_code": "1"
-    //       },
-    //       "to": [
-    //           {
-    //               "repeat": false,
-    //               "key_code": "open_bracket",
-    //               "modifiers": [
-    //                   "left_command"
-    //               ]
-    //           }
-    //       ],
-    //       "conditions": [
-    //           ...isMouseNumber,
-    //           {
-    //             "type": "frontmost_application_if",
-    //             "bundle_identifiers": browserIds
-    //           }
-    //       ]
-    //     }
-    //   ]
-    // },
-    // { 
-    //     "description": "[BROWSER] - Mouse 4 => Forward",
-    //     "manipulators": [
-    //         {
-    //             "type": "basic",
-    //             "from": {
-    //               "key_code": "4"
-    //             },
-    //             "to": [
-    //                 {
-    //                     "repeat": false,
-    //                     "key_code": "close_bracket",
-    //                     "modifiers": [
-    //                         "left_command"
-    //                     ]
-    //                 }
-    //             ],
-    //             "conditions": [
-    //                 ...isMouseNumber,
-    //                 {
-    //                   "type": "frontmost_application_if",
-    //                   "bundle_identifiers": browserIds
-    //                 }
-    //             ]
-    //         }
-    //     ]
-    // },
-    { 
-        "description": "[BROWSER] - Mouse 5 => Tab Left",
-        "manipulators": [
-            {
-                "type": "basic",
-                "from": {
-                  "key_code": "5"
-                },
-                "to": [
-                    {
-                        "repeat": false,
-                        "key_code": "tab",
-                        "modifiers": [
-                            "left_control",
-                            "left_shift"
-                        ]
-                    }
-                ],
-                "conditions": [
-                    ...isMouseNumber,
-                    {
-                      "type": "frontmost_application_if",
-                      "bundle_identifiers": browserIds
-                    }
-                ]
-            }
-        ]
-    },
-    { 
-        "description": "[BROWSER] - Mouse 6 => Tab Right",
-        "manipulators": [
-            {
-                "type": "basic",
-                "from": {
-                  "key_code": "6"
-                },
-                "to": [
-                    {
-                        "repeat": false,
-                        "key_code": "tab",
-                        "modifiers": [
-                            "left_control",
-                        ]
-                    }
-                ],
-                "conditions": [
-                    ...isMouseNumber,
-                    {
-                      "type": "frontmost_application_if",
-                      "bundle_identifiers": browserIds
-                    }
-                ]
-            }
-        ]
-    },
-    // Requires vimuim https://chromewebstore.google.com/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
-    { 
-        "description": "[BROWSER] - Mouse 9 => Tab Toggle",
-        "manipulators": [
-            {
-                "type": "basic",
-                "from": {
-                  "key_code": "9"
-                },
-                "to": [
-                    {
-                        "repeat": false,
-                        "key_code": "6",
-                        "modifiers": [
-                            "left_shift",
-                        ]
-                    }
-                ],
-                "conditions": [
-                    ...isMouseNumber,
-                    {
-                      "type": "frontmost_application_if",
-                      "bundle_identifiers": browserIds
-                    }
-                ]
-            }
-        ]
-    },
-    { 
-        "description": "[BROWSER] - Mouse 8 => Tab CLOSE",
-        "manipulators": [
-            {
-                "type": "basic",
-                "from": {
-                  "key_code": "8"
-                },
-                "to": [
-                    {
-                        "repeat": false,
-                        "key_code": "w",
-                        "modifiers": [
-                            "left_command",
-                        ]
-                    }
-                ],
-                "conditions": [
-                    ...isMouseNumber,
-                    {
-                      "type": "frontmost_application_if",
-                      "bundle_identifiers": browserIds
-                    }
-                ]
-            }
-        ]
-    },
-    // { 
-    //     "description": "[BROWSER] - Mouse 12 => Tab ReOPEN",
-    //     "manipulators": [
-    //         {
-    //             "type": "basic",
-    //             "from": {
-    //               "key_code": "equal_sign" // 12
-    //             },
-    //             "to": [
-    //                 {
-    //                     "repeat": false,
-    //                     "key_code": "t",
-    //                     "modifiers": [
-    //                         "left_command",
-    //                         "left_shift",
-    //                     ]
-    //                 }
-    //             ],
-    //             "conditions": [
-    //                 ...isMouseNumber,
-    //                 {
-    //                   "type": "frontmost_application_if",
-    //                   "bundle_identifiers": browserIds
-    //                 }
-    //             ]
-    //         }
-    //     ]
-    // },
+        ],
+      },
+    ],
+  },
+  // {
+  //   "description": "[BROWSER] - Mouse 1 => Back",
+  //   "manipulators": [
+  //     {
+  //       "type": "basic",
+  //       "from": {
+  //           "key_code": "1"
+  //       },
+  //       "to": [
+  //           {
+  //               "repeat": false,
+  //               "key_code": "open_bracket",
+  //               "modifiers": [
+  //                   "left_command"
+  //               ]
+  //           }
+  //       ],
+  //       "conditions": [
+  //           ...isMouseNumber,
+  //           {
+  //             "type": "frontmost_application_if",
+  //             "bundle_identifiers": browserIds
+  //           }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //     "description": "[BROWSER] - Mouse 4 => Forward",
+  //     "manipulators": [
+  //         {
+  //             "type": "basic",
+  //             "from": {
+  //               "key_code": "4"
+  //             },
+  //             "to": [
+  //                 {
+  //                     "repeat": false,
+  //                     "key_code": "close_bracket",
+  //                     "modifiers": [
+  //                         "left_command"
+  //                     ]
+  //                 }
+  //             ],
+  //             "conditions": [
+  //                 ...isMouseNumber,
+  //                 {
+  //                   "type": "frontmost_application_if",
+  //                   "bundle_identifiers": browserIds
+  //                 }
+  //             ]
+  //         }
+  //     ]
+  // },
+  {
+    description: '[BROWSER] - Mouse 5 => Tab Left',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '5',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'tab',
+            modifiers: ['left_control', 'left_shift'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: browserIds,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    description: '[BROWSER] - Mouse 6 => Tab Right',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '6',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'tab',
+            modifiers: ['left_control'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: browserIds,
+          },
+        ],
+      },
+    ],
+  },
+  // Requires vimuim https://chromewebstore.google.com/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+  {
+    description: '[BROWSER] - Mouse 9 => Tab Toggle',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '9',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: '6',
+            modifiers: ['left_shift'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: browserIds,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    description: '[BROWSER] - Mouse 8 => Tab CLOSE',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '8',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'w',
+            modifiers: ['left_command'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: browserIds,
+          },
+        ],
+      },
+    ],
+  },
+  // {
+  //     "description": "[BROWSER] - Mouse 12 => Tab ReOPEN",
+  //     "manipulators": [
+  //         {
+  //             "type": "basic",
+  //             "from": {
+  //               "key_code": "equal_sign" // 12
+  //             },
+  //             "to": [
+  //                 {
+  //                     "repeat": false,
+  //                     "key_code": "t",
+  //                     "modifiers": [
+  //                         "left_command",
+  //                         "left_shift",
+  //                     ]
+  //                 }
+  //             ],
+  //             "conditions": [
+  //                 ...isMouseNumber,
+  //                 {
+  //                   "type": "frontmost_application_if",
+  //                   "bundle_identifiers": browserIds
+  //                 }
+  //             ]
+  //         }
+  //     ]
+  // },
 ]
 
-const camtasiaIds = [
-  "^com\\.techsmith\\.camtasia2023$",
-]
+const camtasiaIds = ['^com\\.techsmith\\.camtasia2023$']
 const CamtasiaMouseButtons = [
-    { 
-        "description": "[CAMTASIA] Mouse 7 => Cut tracks",
-        "manipulators": [
-            {
-                "type": "basic",
-                "from": {
-                  "key_code": "7"
-                },
-                "to": [
-                    {
-                        "repeat": false,
-                        "key_code": "t",
-                        "modifiers": [
-                            "left_command",
-                            "left_shift"
-                        ]
-                    }
-                ],
-                "conditions": [
-                    ...isMouseNumber,
-                    {
-                        "type": "frontmost_application_if",
-                        "bundle_identifiers": camtasiaIds
-                    }
-                ]
-            }
-        ]
-    },
-    { 
-        "description": "[CAMTASIA] Mouse 8 => Ripple delete",
-        "manipulators": [
-            {
-                "type": "basic",
-                "from": {
-                  "key_code": "8"
-                },
-                "to": [
-                    {
-                        "repeat": false,
-                        "key_code": "delete_or_backspace",
-                        "modifiers": [
-                            "left_command",
-                        ]
-                    }
-                ],
-                "conditions": [
-                    ...isMouseNumber,
-                    {
-                        "type": "frontmost_application_if",
-                        "bundle_identifiers": camtasiaIds
-                    }
-                ]
-            }
-        ]
-    }
+  {
+    description: '[CAMTASIA] Mouse 7 => Cut tracks',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '7',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 't',
+            modifiers: ['left_command', 'left_shift'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: camtasiaIds,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    description: '[CAMTASIA] Mouse 8 => Ripple delete',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '8',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'delete_or_backspace',
+            modifiers: ['left_command'],
+          },
+        ],
+        conditions: [
+          ...isMouseNumber,
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: camtasiaIds,
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 const WINDOW_FULL = {
-  description: "Window: Full Screen",
+  description: 'Window: Full Screen',
   to: [
     {
-      key_code: "m",
-      modifiers: ["right_option", "right_command"],
+      key_code: 'm',
+      modifiers: ['right_option', 'right_command'],
     },
   ],
 }
 
 const WINDOW_BOTTOM_HALF = {
-  description: "Window: Bottom half",
+  description: 'Window: Bottom half',
   to: [
     {
-      key_code: "down_arrow",
-      modifiers: ["left_option", "left_control"],
+      key_code: 'down_arrow',
+      modifiers: ['left_option', 'left_control'],
     },
   ],
 }
 
 const WINDOW_LEFT = {
-  description: "Window: Left half",
+  description: 'Window: Left half',
   to: [
     {
-      key_code: "left_arrow",
-      modifiers: ["left_option", "left_control"],
+      key_code: 'left_arrow',
+      modifiers: ['left_option', 'left_control'],
     },
   ],
 }
 
 const WINDOW_RIGHT = {
-  description: "Window: Right half",
+  description: 'Window: Right half',
   to: [
     {
-      key_code: "right_arrow",
-      modifiers: ["left_option", "left_control"],
+      key_code: 'right_arrow',
+      modifiers: ['left_option', 'left_control'],
     },
   ],
 }
 
 const MOVE_WINDOW_RIGHT = {
-  description: "Window: Move Right",
+  description: 'Window: Move Right',
   to: [
     {
-      key_code: "right_arrow",
-      modifiers: ["left_option", "left_control", 'left_command'],
+      key_code: 'right_arrow',
+      modifiers: ['left_option', 'left_control', 'left_command'],
     },
   ],
 }
 
 const MOVE_WINDOW_LEFT = {
-  description: "Window: Move Left",
+  description: 'Window: Move Left',
   to: [
     {
-      key_code: "left_arrow",
-      modifiers: ["left_option", "left_control", 'left_command'],
+      key_code: 'left_arrow',
+      modifiers: ['left_option', 'left_control', 'left_command'],
     },
   ],
 }
 
 const IS_MOUSE = {
-  "conditions": [
-    ...isMouseNumber,
-  ]
+  conditions: [...isMouseNumber],
 }
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself
   {
-    description: "Hyper Key (⌃⌥⇧⌘)",
+    description: 'Hyper Key (⌃⌥⇧⌘)',
     manipulators: [
       {
-        description: "Caps Lock -> Hyper Key",
+        description: 'Caps Lock -> Hyper Key',
         from: {
-          key_code: "caps_lock",
+          key_code: 'caps_lock',
         },
+        // 'to' is onHold caps lock
         to: [
           {
-            key_code: "left_shift",
-            modifiers: ["left_command", "left_control", "left_option"],
+            key_code: 'left_shift',
+            modifiers: ['left_command', 'left_control', 'left_option'],
           },
         ],
         to_if_alone: [
           {
-            key_code: "escape",
+            key_code: 'escape',
+            modifiers: ['left_shift'],
           },
         ],
-        type: "basic",
+        // "parameters": {
+        //   "basic.to_if_alone_timeout_milliseconds": 250,
+        //   "basic.to_delayed_action_delay_milliseconds": 500
+        // },
+        type: 'basic',
       },
       //      {
       //        type: "basic",
@@ -895,9 +878,10 @@ const rules: KarabinerRules[] = [
     ],
   },
   // @ts-ignore
-  ...autoQuotes,
+  // ...autoQuotes,
   // ...ejectToScreenShot,
   ...ejectToDelete,
+  // ...voiceToText,
   ...BrowserMouseButtons,
   ...VSCodeMouseButtons,
   ...itermMouseButtons,
@@ -911,353 +895,370 @@ const rules: KarabinerRules[] = [
       ...WINDOW_FULL,
       ...IS_MOUSE,
     },
-    'up_arrow': {
+    up_arrow: {
       ...WINDOW_FULL,
     },
-    'down_arrow': {
+    down_arrow: {
       ...WINDOW_BOTTOM_HALF,
     },
-    'right_arrow': {
+    right_arrow: {
       ...WINDOW_RIGHT,
     },
-    'left_arrow': {
+    left_arrow: {
       ...WINDOW_LEFT,
     },
-    "right_shift": {
+    right_shift: {
       ...MOVE_WINDOW_RIGHT,
     },
-    "slash": {
+    slash: {
       ...MOVE_WINDOW_LEFT,
     },
     7: {
-      "to": [
+      to: [
         {
-          "key_code": "up_arrow"
-        }
+          key_code: 'up_arrow',
+        },
       ],
     },
     /* Remap o = "Open" applications */
     o: {
-      1: app("1Password"),
-      g: app("Google Chrome"),
-      c: app("Google Chrome"),
-      v: app("Visual Studio Code"),
-      d: app("Discord"),
-      s: app("Slack"),
-      e: app("Superhuman"),
-      n: app("Notion"),
-      t: app("Warp"),
+      1: app('1Password'),
+      g: app('Google Chrome'),
+      c: app('Google Chrome'),
+      v: app('Visual Studio Code'),
+      d: app('Discord'),
+      s: app('Slack'),
+      e: app('Superhuman'),
+      n: app('Notion'),
+      t: app('Warp'),
       // Open todo list managed via *H*ypersonic
-      h: open(
-        "notion://www.notion.so/stellatehq/7b33b924746647499d906c55f89d5026"
-      ),
-      z: app("zoom.us"),
-      m: app("Mochi"),
-      f: app("Finder"),
-      r: app("Telegram"),
+      h: open('notion://www.notion.so/stellatehq/7b33b924746647499d906c55f89d5026'),
+      z: app('zoom.us'),
+      m: app('Mochi'),
+      f: app('Finder'),
+      r: app('Telegram'),
       // "i"Message
-      i: app("Messages"),
-      p: app("Spotify"),
-      a: app("iA Presenter"),
-      w: open("https://web.whatsapp.com"),
-      l: open(
-        "raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink"
-      ),
+      i: app('Messages'),
+      p: app('Spotify'),
+      a: app('iA Presenter'),
+      w: open('https://web.whatsapp.com'),
+      l: open('raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink'),
     },
     /* Shortcut window management via rectangle.app */
+    // a: {
+    //   description: 'Window: Move to left display',
+    //   to: [
+    //     {
+    //       key_code: 'left_arrow',
+    //       modifiers: ['left_option', 'left_command', 'left_control'],
+    //     },
+    //   ],
+    // },
+
     a: {
-      description: "Window: Move to left display",
-      "to": [
+      description: 'Trigger Option + Space',
+      to: OPEN_TEXT_TO_SPEECH,
+    },
+    s: {
+      description: 'Window: Move to right display',
+      to: [
         {
-          key_code: "left_arrow",
-          modifiers: ["left_option", "left_command", "left_control"],
+          key_code: 'right_arrow',
+          modifiers: ['left_option', 'left_command', 'left_control'],
         },
       ],
     },
-    s: {
-      description: "Window: Move to right display",
-      "to": [
+    q: {
+      description: 'Trigger Claude shortcut',
+      to: [
         {
-          key_code: "right_arrow",
-          modifiers: ["left_option", "left_command", "left_control"],
+          key_code: 'u',
+          modifiers: ['left_command'],
+        },
+      ],
+    },
+    left_command: {
+      description: 'Trigger Voice Option + Space',
+      to: [
+        {
+          key_code: 'u',
+          modifiers: ['left_command'],
+        },
+      ],
+    },
+    z: {
+      description: 'Trigger Enter',
+      to: [
+        {
+          key_code: 'return_or_enter',
         },
       ],
     },
     // w = "Window" via rectangle.app
-    a: {
-      semicolon: {
-        description: "Window: Hide",
-        to: [
-          {
-            key_code: "h",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      y: {
-        description: "Window: First Third",
-        to: [
-          {
-            key_code: "left_arrow",
-            modifiers: ["right_option", "right_control"],
-          },
-        ],
-      },
-      k: {
-        description: "Window: Top Half",
-        to: [
-          {
-            key_code: "up_arrow",
-            modifiers: ["right_option", "right_command"],
-          },
-        ],
-      },
-      j: {
-        description: "Window: Bottom Half",
-        to: [
-          {
-            key_code: "down_arrow",
-            modifiers: ["right_option", "right_command"],
-          },
-        ],
-      },
-      o: {
-        description: "Window: Last Third",
-        to: [
-          {
-            key_code: "right_arrow",
-            modifiers: ["right_option", "right_control"],
-          },
-        ],
-      },
-      h: {
-        description: "Window: Left Half",
-        to: [
-          {
-            key_code: "left_arrow",
-            modifiers: ["right_option", "right_command"],
-          },
-        ],
-      },
-      l: {
-        description: "Window: Right Half",
-        to: [
-          {
-            key_code: "right_arrow",
-            modifiers: ["right_option", "right_command"],
-          },
-        ],
-      },
-      s: WINDOW_FULL,
-      u: {
-        description: "Window: Previous Tab",
-        to: [
-          {
-            key_code: "tab",
-            modifiers: ["right_control", "right_shift"],
-          },
-        ],
-      },
-      i: {
-        description: "Window: Next Tab",
-        to: [
-          {
-            key_code: "tab",
-            modifiers: ["right_control"],
-          },
-        ],
-      },
-      n: {
-        description: "Window: Next Window",
-        to: [
-          {
-            key_code: "grave_accent_and_tilde",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      b: {
-        description: "Window: Back",
-        to: [
-          {
-            key_code: "open_bracket",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      // Note: No literal connection. Both f and n are already taken.
-      m: {
-        description: "Window: Forward",
-        to: [
-          {
-            key_code: "close_bracket",
-            modifiers: ["right_command"],
-          },
-        ],
-      },
-      d: {
-        description: "Window: Next display",
-        to: [
-          {
-            key_code: "right_arrow",
-            modifiers: ["right_control", "right_option", "right_command"],
-          },
-        ],
-      },
-    },
+    // a: {
+    //   semicolon: {
+    //     description: "Window: Hide",
+    //     to: [
+    //       {
+    //         key_code: "h",
+    //         modifiers: ["right_command"],
+    //       },
+    //     ],
+    //   },
+    //   y: {
+    //     description: "Window: First Third",
+    //     to: [
+    //       {
+    //         key_code: "left_arrow",
+    //         modifiers: ["right_option", "right_control"],
+    //       },
+    //     ],
+    //   },
+    //   k: {
+    //     description: "Window: Top Half",
+    //     to: [
+    //       {
+    //         key_code: "up_arrow",
+    //         modifiers: ["right_option", "right_command"],
+    //       },
+    //     ],
+    //   },
+    //   j: {
+    //     description: "Window: Bottom Half",
+    //     to: [
+    //       {
+    //         key_code: "down_arrow",
+    //         modifiers: ["right_option", "right_command"],
+    //       },
+    //     ],
+    //   },
+    //   o: {
+    //     description: "Window: Last Third",
+    //     to: [
+    //       {
+    //         key_code: "right_arrow",
+    //         modifiers: ["right_option", "right_control"],
+    //       },
+    //     ],
+    //   },
+    //   h: {
+    //     description: "Window: Left Half",
+    //     to: [
+    //       {
+    //         key_code: "left_arrow",
+    //         modifiers: ["right_option", "right_command"],
+    //       },
+    //     ],
+    //   },
+    //   l: {
+    //     description: "Window: Right Half",
+    //     to: [
+    //       {
+    //         key_code: "right_arrow",
+    //         modifiers: ["right_option", "right_command"],
+    //       },
+    //     ],
+    //   },
+    //   s: WINDOW_FULL,
+    //   u: {
+    //     description: "Window: Previous Tab",
+    //     to: [
+    //       {
+    //         key_code: "tab",
+    //         modifiers: ["right_control", "right_shift"],
+    //       },
+    //     ],
+    //   },
+    //   i: {
+    //     description: "Window: Next Tab",
+    //     to: [
+    //       {
+    //         key_code: "tab",
+    //         modifiers: ["right_control"],
+    //       },
+    //     ],
+    //   },
+    //   n: {
+    //     description: "Window: Next Window",
+    //     to: [
+    //       {
+    //         key_code: "grave_accent_and_tilde",
+    //         modifiers: ["right_command"],
+    //       },
+    //     ],
+    //   },
+    //   b: {
+    //     description: "Window: Back",
+    //     to: [
+    //       {
+    //         key_code: "open_bracket",
+    //         modifiers: ["right_command"],
+    //       },
+    //     ],
+    //   },
+    //   // Note: No literal connection. Both f and n are already taken.
+    //   m: {
+    //     description: "Window: Forward",
+    //     to: [
+    //       {
+    //         key_code: "close_bracket",
+    //         modifiers: ["right_command"],
+    //       },
+    //     ],
+    //   },
+    //   d: {
+    //     description: "Window: Next display",
+    //     to: [
+    //       {
+    //         key_code: "right_arrow",
+    //         modifiers: ["right_control", "right_option", "right_command"],
+    //       },
+    //     ],
+    //   },
+    // },
 
     // z = "System"
-    z: {
-      u: {
-        to: [
-          {
-            key_code: "volume_increment",
-          },
-        ],
-      },
-      j: {
-        to: [
-          {
-            key_code: "volume_decrement",
-          },
-        ],
-      },
-      i: {
-        to: [
-          {
-            key_code: "display_brightness_increment",
-          },
-        ],
-      },
-      k: {
-        to: [
-          {
-            key_code: "display_brightness_decrement",
-          },
-        ],
-      },
-      l: {
-        to: [
-          {
-            key_code: "q",
-            modifiers: ["right_control", "right_command"],
-          },
-        ],
-      },
-      p: {
-        to: [
-          {
-            key_code: "play_or_pause",
-          },
-        ],
-      },
-      semicolon: {
-        to: [
-          {
-            key_code: "fastforward",
-          },
-        ],
-      },
-      e: {
-        to: [
-          {
-            // Emoji picker
-            key_code: "spacebar",
-            modifiers: ["right_control", "right_command"],
-          },
-        ],
-      },
-      // Turn on Elgato KeyLight
-      y: {
-        to: [
-          {
-            shell_command: `curl -H 'Content-Type: application/json' --request PUT --data '{ "numberOfLights": 1, "lights": [ { "on": 1, "brightness": 100, "temperature": 215 } ] }' http://192.168.8.84:9123/elgato/lights`,
-          },
-        ],
-      },
-      h: {
-        to: [
-          {
-            shell_command: `curl -H 'Content-Type: application/json' --request PUT --data '{ "numberOfLights": 1, "lights": [ { "on": 0, "brightness": 100, "temperature": 215 } ] }' http://192.168.8.84:9123/elgato/lights`,
-          },
-        ],
-      },
-    },
+    // z: {
+    //   u: {
+    //     to: [
+    //       {
+    //         key_code: 'volume_increment',
+    //       },
+    //     ],
+    //   },
+    //   j: {
+    //     to: [
+    //       {
+    //         key_code: 'volume_decrement',
+    //       },
+    //     ],
+    //   },
+    //   i: {
+    //     to: [
+    //       {
+    //         key_code: 'display_brightness_increment',
+    //       },
+    //     ],
+    //   },
+    //   k: {
+    //     to: [
+    //       {
+    //         key_code: 'display_brightness_decrement',
+    //       },
+    //     ],
+    //   },
+    //   l: {
+    //     to: [
+    //       {
+    //         key_code: 'q',
+    //         modifiers: ['right_control', 'right_command'],
+    //       },
+    //     ],
+    //   },
+    //   p: {
+    //     to: [
+    //       {
+    //         key_code: 'play_or_pause',
+    //       },
+    //     ],
+    //   },
+    //   semicolon: {
+    //     to: [
+    //       {
+    //         key_code: 'fastforward',
+    //       },
+    //     ],
+    //   },
+    //   e: {
+    //     to: [
+    //       {
+    //         // Emoji picker
+    //         key_code: 'spacebar',
+    //         modifiers: ['right_control', 'right_command'],
+    //       },
+    //     ],
+    //   },
+    //   // Turn on Elgato KeyLight
+    //   y: {
+    //     to: [
+    //       {
+    //         shell_command: `curl -H 'Content-Type: application/json' --request PUT --data '{ "numberOfLights": 1, "lights": [ { "on": 1, "brightness": 100, "temperature": 215 } ] }' http://192.168.8.84:9123/elgato/lights`,
+    //       },
+    //     ],
+    //   },
+    //   h: {
+    //     to: [
+    //       {
+    //         shell_command: `curl -H 'Content-Type: application/json' --request PUT --data '{ "numberOfLights": 1, "lights": [ { "on": 0, "brightness": 100, "temperature": 215 } ] }' http://192.168.8.84:9123/elgato/lights`,
+    //       },
+    //     ],
+    //   },
+    // },
 
     // v = "moVe" which isn't "m" because we want it to be on the left hand
     // so that hjkl work like they do in vim
     v: {
       h: {
-        to: [{ key_code: "left_arrow" }],
+        to: [{ key_code: 'left_arrow' }],
       },
       j: {
-        to: [{ key_code: "down_arrow" }],
+        to: [{ key_code: 'down_arrow' }],
       },
       k: {
-        to: [{ key_code: "up_arrow" }],
+        to: [{ key_code: 'up_arrow' }],
       },
       l: {
-        to: [{ key_code: "right_arrow" }],
+        to: [{ key_code: 'right_arrow' }],
       },
       // Magicmove via homerow.app
       m: {
-        to: [{ key_code: "f", modifiers: ["right_control"] }],
+        to: [{ key_code: 'f', modifiers: ['right_control'] }],
       },
       // Scroll mode via homerow.app
       s: {
-        to: [{ key_code: "j", modifiers: ["right_control"] }],
+        to: [{ key_code: 'j', modifiers: ['right_control'] }],
       },
       d: {
-        to: [{ key_code: "d", modifiers: ["right_shift", "right_command"] }],
+        to: [{ key_code: 'd', modifiers: ['right_shift', 'right_command'] }],
       },
       u: {
-        to: [{ key_code: "page_down" }],
+        to: [{ key_code: 'page_down' }],
       },
       i: {
-        to: [{ key_code: "page_up" }],
+        to: [{ key_code: 'page_up' }],
       },
     },
 
     // c = Musi*c* which isn't "m" because we want it to be on the left hand
     c: {
       p: {
-        to: [{ key_code: "play_or_pause" }],
+        to: [{ key_code: 'play_or_pause' }],
       },
       n: {
-        to: [{ key_code: "fastforward" }],
+        to: [{ key_code: 'fastforward' }],
       },
       b: {
-        to: [{ key_code: "rewind" }],
+        to: [{ key_code: 'rewind' }],
       },
     },
 
     // r = "Raycast"
     r: {
-      l: open(
-        "raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink"
-      ),
-      e: open(
-        "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
-      ),
-      c: open("raycast://extensions/raycast/system/open-camera"),
-      p: open("raycast://extensions/raycast/raycast/confetti"),
-      a: open("raycast://extensions/raycast/raycast-ai/ai-chat"),
-      s: open("raycast://extensions/peduarte/silent-mention/index"),
-      h: open(
-        "raycast://extensions/raycast/clipboard-history/clipboard-history"
-      ),
-      1: open(
-        "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-1"
-      ),
-      2: open(
-        "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-2"
-      ),
+      l: open('raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink'),
+      e: open('raycast://extensions/raycast/emoji-symbols/search-emoji-symbols'),
+      c: open('raycast://extensions/raycast/system/open-camera'),
+      p: open('raycast://extensions/raycast/raycast/confetti'),
+      a: open('raycast://extensions/raycast/raycast-ai/ai-chat'),
+      s: open('raycast://extensions/peduarte/silent-mention/index'),
+      h: open('raycast://extensions/raycast/clipboard-history/clipboard-history'),
+      1: open('raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-1'),
+      2: open('raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-2'),
     },
   }),
-];
+]
 
 fs.writeFileSync(
-  "karabiner.json",
+  'karabiner.json',
   JSON.stringify(
     {
       global: {
@@ -1265,7 +1266,7 @@ fs.writeFileSync(
       },
       profiles: [
         {
-          name: "Default",
+          name: 'Default',
           complex_modifications: {
             rules,
           },
@@ -1273,6 +1274,6 @@ fs.writeFileSync(
       ],
     },
     null,
-    2
-  )
-);
+    2,
+  ),
+)
