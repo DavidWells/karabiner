@@ -33,6 +33,10 @@
                     ]
                   }
                 ],
+                "parameters": {
+                  "basic.to_if_alone_timeout_milliseconds": 250,
+                  "basic.to_delayed_action_delay_milliseconds": 500
+                },
                 "type": "basic"
               }
             ]
@@ -206,51 +210,6 @@
                     "key_code": "6",
                     "modifiers": [
                       "left_shift"
-                    ]
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [
-                      {
-                        "product_id": 103,
-                        "vendor_id": 5426
-                      },
-                      {
-                        "product_id": 83,
-                        "vendor_id": 5426
-                      }
-                    ]
-                  },
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                      "^com\\.apple\\.Safari$",
-                      "^com\\.google\\.Chrome$",
-                      "^com\\.google\\.Chrome\\.canary$",
-                      "^com\\.opera\\.Opera$",
-                      "^com\\.brave\\.Browser$"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "description": "[BROWSER] - Mouse 8 => Tab CLOSE",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "8"
-                },
-                "to": [
-                  {
-                    "repeat": false,
-                    "key_code": "w",
-                    "modifiers": [
-                      "left_command"
                     ]
                   }
                 ],
@@ -590,6 +549,98 @@
             ]
           },
           {
+            "description": "Double press escape -> Run last command, single press -> escape",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "escape",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "1",
+                    "modifiers": [
+                      "shift"
+                    ]
+                  },
+                  {
+                    "key_code": "1",
+                    "modifiers": [
+                      "shift"
+                    ]
+                  },
+                  {
+                    "key_code": "return_or_enter"
+                  },
+                  {
+                    "key_code": "return_or_enter"
+                  }
+                ],
+                "to_after_key_up": [
+                  {
+                    "set_variable": {
+                      "name": "escape pressed",
+                      "value": 0
+                    }
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "escape pressed",
+                    "value": 1
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "parameters": {
+                  "basic.to_delayed_action_delay_milliseconds": 250
+                },
+                "from": {
+                  "key_code": "escape",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "escape pressed",
+                      "value": 1
+                    }
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "escape pressed",
+                        "value": 0
+                      }
+                    },
+                    {
+                      "key_code": "escape"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
             "description": "[Iterm] - Mouse 2 => PREVIOUS APP",
             "manipulators": [
               {
@@ -707,6 +758,216 @@
                       }
                     ]
                   },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Go to start of line",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "z",
+                  "modifiers": {
+                    "mandatory": [
+                      "command"
+                    ],
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "a",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Go to end of line",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "x",
+                  "modifiers": {
+                    "mandatory": [
+                      "command"
+                    ],
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "e",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Go to start of line left arrow - option",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_arrow",
+                  "modifiers": {
+                    "mandatory": [
+                      "option"
+                    ],
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "a",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Go to start of line left arrow - control",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_arrow",
+                  "modifiers": {
+                    "mandatory": [
+                      "control"
+                    ],
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "a",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Go to end of line right arrow - option",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "right_arrow",
+                  "modifiers": {
+                    "mandatory": [
+                      "option"
+                    ],
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "e",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Go to end of line right arrow - control",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "right_arrow",
+                  "modifiers": {
+                    "mandatory": [
+                      "control"
+                    ],
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "e",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
                   {
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
@@ -861,6 +1122,81 @@
                   }
                 ],
                 "description": "Open -a 'Tower.app'",
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      },
+                      {
+                        "product_id": 83,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[Global] - Mouse 7 => Enter key",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "7"
+                },
+                "to": [
+                  {
+                    "repeat": false,
+                    "key_code": "return_or_enter"
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 103,
+                        "vendor_id": 5426
+                      },
+                      {
+                        "product_id": 83,
+                        "vendor_id": 5426
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[Global] - Mouse 8 => Select all and Delete",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "8"
+                },
+                "to": [
+                  {
+                    "key_code": "a",
+                    "modifiers": [
+                      "command"
+                    ]
+                  },
+                  {
+                    "key_code": "c",
+                    "modifiers": [
+                      "command"
+                    ]
+                  },
+                  {
+                    "key_code": "delete_or_backspace"
+                  }
+                ],
                 "conditions": [
                   {
                     "type": "device_if",
@@ -1396,6 +1732,11 @@
                   },
                   {
                     "type": "variable_if",
+                    "name": "hyper_sublayer_d",
+                    "value": 0
+                  },
+                  {
+                    "type": "variable_if",
                     "name": "hyper_sublayer_s",
                     "value": 0
                   },
@@ -1918,6 +2259,36 @@
             ]
           },
           {
+            "description": "Hyper Key + d",
+            "manipulators": [
+              {
+                "description": "Trigger Darkmode",
+                "to": [
+                  {
+                    "key_code": "8",
+                    "modifiers": [
+                      "left_command",
+                      "left_option",
+                      "left_control"
+                    ]
+                  }
+                ],
+                "type": "basic",
+                "from": {
+                  "key_code": "d",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command",
+                      "left_control",
+                      "left_shift",
+                      "left_option"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
             "description": "Hyper Key + s",
             "manipulators": [
               {
@@ -2110,6 +2481,11 @@
                   {
                     "type": "variable_if",
                     "name": "hyper_sublayer_a",
+                    "value": 0
+                  },
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_d",
                     "value": 0
                   },
                   {
@@ -2449,6 +2825,11 @@
                   },
                   {
                     "type": "variable_if",
+                    "name": "hyper_sublayer_d",
+                    "value": 0
+                  },
+                  {
+                    "type": "variable_if",
                     "name": "hyper_sublayer_s",
                     "value": 0
                   },
@@ -2632,6 +3013,11 @@
                   {
                     "type": "variable_if",
                     "name": "hyper_sublayer_a",
+                    "value": 0
+                  },
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_d",
                     "value": 0
                   },
                   {

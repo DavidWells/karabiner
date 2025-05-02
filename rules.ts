@@ -161,6 +161,50 @@ const GlobalMouseButtons = [
       },
     ],
   },
+  // Add mapping of key 7 here that maps to enter
+  {
+    description: '[Global] - Mouse 7 => Enter key',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '7',
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'return_or_enter',
+          },
+        ],
+        conditions: [...isMouseNumber],
+      },
+    ],
+  },
+  {
+    description: '[Global] - Mouse 8 => Select all and Delete',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '8',
+        },
+        to: [
+          {
+            "key_code": "a",
+            "modifiers": ["command"]
+          },
+          {
+            "key_code": "c",
+            "modifiers": ["command"]
+          },
+          {
+            "key_code": "delete_or_backspace"
+          }
+        ],
+        conditions: [...isMouseNumber],
+      },
+    ],
+  },
   {
     description: '[GLOBAL] Mouse 10 - Stop Recording Camtasia',
     manipulators: [
@@ -253,7 +297,424 @@ const voiceToText = [
   },
 ]
 
+const terminalPreviousCommand = [
+  // !
+  {
+    "key_code": "1",
+    "modifiers": ["shift"]
+  },
+  // !
+  {
+    "key_code": "1",
+    "modifiers": ["shift"],
+  },
+  // {
+  //   "wait_milliseconds": 100
+  // },
+  {
+    "key_code": "return_or_enter",
+  },
+  {
+    "key_code": "return_or_enter",
+  },
+]
+
+const doubleKeyPressWIP = {
+  "description": "Double escape to front arrow",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "escape",
+        "modifiers": {
+          "optional": ["any"]
+        }
+      },
+      "to": [
+        {
+          "key_code": "escape"
+        }
+      ],
+      "to_if_alone": [
+        {
+          "key_code": "escape"
+        }
+      ],
+      "to_if_held_down": [
+        {
+          "key_code": "escape"
+        }
+      ],
+      "parameters": {
+        "basic.to_if_alone_timeout_milliseconds": 250,
+        "basic.to_if_double_tap_timeout_milliseconds": 250
+      },
+      "to_after_key_up": [
+        // !
+        {
+          "key_code": "1",
+          "modifiers": ["shift"]
+        },
+        // !
+        {
+          "key_code": "1",
+          "modifiers": ["shift"],
+        },
+        // {
+        //   "wait_milliseconds": 100
+        // },
+        {
+          "key_code": "return_or_enter",
+        },
+        {
+          "key_code": "return_or_enter",
+        },
+      ],
+      conditions: [
+        {
+          type: 'frontmost_application_if',
+          bundle_identifiers: terminalIds,
+        },
+      ],
+    }
+  ]
+}
+
+const terminalLineJumpShortCuts = [{
+  "description": "Go to start of line",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "z",
+        "modifiers": {
+          "mandatory": ["command"],
+          "optional": ["any"]
+        },
+      },
+      "to": [
+        {
+          "key_code": "a",
+          "modifiers": ["control"]
+        }
+      ],
+      conditions: [
+        {
+          type: 'frontmost_application_if',
+          bundle_identifiers: terminalIds,
+        },
+      ],
+    },
+  ],
+},
+{
+  "description": "Go to end of line",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "x",
+        "modifiers": {
+          "mandatory": ["command"],
+          "optional": ["any"]
+        },
+      },
+      "to": [
+        {
+          "key_code": "e",
+          "modifiers": ["control"]
+        }
+      ],
+      conditions: [
+        {
+          type: 'frontmost_application_if',
+          bundle_identifiers: terminalIds,
+        },
+      ],
+    },
+  ],
+},
+{
+  "description": "Go to start of line left arrow - option",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "left_arrow",
+        "modifiers": {
+          "mandatory": ["option"],
+          "optional": ["any"]
+        },
+      },
+      "to": [
+        {
+          "key_code": "a",
+          "modifiers": ["control"]
+        }
+      ],
+      conditions: [
+        {
+          type: 'frontmost_application_if',
+          bundle_identifiers: terminalIds,
+        },
+      ],
+    }
+  ]
+},
+{
+  "description": "Go to start of line left arrow - control",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "left_arrow",
+        "modifiers": {
+          "mandatory": ["control"],
+          "optional": ["any"]
+        },
+      },
+      "to": [
+        {
+          "key_code": "a",
+          "modifiers": ["control"]
+        }
+      ],
+      conditions: [
+        {
+          type: 'frontmost_application_if',
+          bundle_identifiers: terminalIds,
+        },
+      ],
+    }
+  ]
+},
+{
+  "description": "Go to end of line right arrow - option",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "right_arrow",
+        "modifiers": {
+          "mandatory": ["option"],
+          "optional": ["any"]
+        },
+      },
+      "to": [
+        {
+          "key_code": "e",
+          "modifiers": ["control"]
+        }
+      ],
+      conditions: [
+        {
+          type: 'frontmost_application_if',
+          bundle_identifiers: terminalIds,
+        },
+      ],
+    }
+  ]
+},
+{
+  "description": "Go to end of line right arrow - control",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "right_arrow",
+        "modifiers": {
+          "mandatory": ["control"],
+          "optional": ["any"]
+        },
+      },
+      "to": [
+        {
+          "key_code": "e",
+          "modifiers": ["control"]
+        }
+      ],
+      conditions: [
+        {
+          type: 'frontmost_application_if',
+          bundle_identifiers: terminalIds,
+        },
+      ],
+    }
+  ]
+}
+]
+
+const IS_TERMINAL_WINDOW = [
+  {
+    type: 'frontmost_application_if',
+    bundle_identifiers: terminalIds,
+  },
+]
+  
+function mapDoublePress({ 
+  title,
+  from = 'grave_accent_and_tilde', 
+  to,
+  conditions = []
+}) {
+  const _title = title || `Double press ${JSON.stringify(from)} -> ${JSON.stringify(to)}`
+  const _from = (typeof from === 'string') ? {
+    "key_code": from,
+    "modifiers": {
+      "optional": [
+        "any"
+      ]
+    }
+  } : from
+  const fromKeyCode = _from.key_code
+  const varName = `${_from.key_code} pressed`
+
+  const ruleConditions = [
+    {
+      "type": "variable_if",
+      "name": varName,
+      "value": 1
+    }
+  ]
+
+  if (conditions.length) {
+    ruleConditions.push(...conditions)
+  }
+
+  return {
+    "description": title,
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": _from,
+        "to": terminalPreviousCommand,
+        "to_after_key_up": [
+          {
+            "set_variable": {
+              "name": varName,
+              "value": 0
+            }
+          }
+        ],
+        "conditions": ruleConditions
+      },
+      {
+        "type": "basic",
+        "parameters": {
+          "basic.to_delayed_action_delay_milliseconds": 250
+        },
+        "from": _from,
+        "to": [
+          {
+            "set_variable": {
+              "name": varName,
+              "value": 1
+            }
+          }
+        ],
+        "to_delayed_action": {
+          "to_if_invoked": [
+            {
+              "set_variable": {
+                "name": varName,
+                "value": 0
+              }
+            },
+            {
+              "key_code": fromKeyCode
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+
+const DoublePressTwo = {
+  "description": "Tilde: double tap -> escape, single tap -> tilde",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "grave_accent_and_tilde",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": terminalPreviousCommand,
+      "to_after_key_up": [
+        {
+          "set_variable": {
+            "name": "tilde pressed",
+            "value": 0
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "type": "variable_if",
+          "name": "tilde pressed",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "parameters": {
+        "basic.to_delayed_action_delay_milliseconds": 250
+      },
+      "from": {
+        "key_code": "grave_accent_and_tilde",
+        "modifiers": {
+          "optional": [
+            "any"
+          ]
+        }
+      },
+      "to": [
+        {
+          "set_variable": {
+            "name": "tilde pressed",
+            "value": 1
+          }
+        }
+      ],
+      "to_delayed_action": {
+        "to_if_invoked": [
+          {
+            "set_variable": {
+              "name": "tilde pressed",
+              "value": 0
+            }
+          },
+          {
+            "key_code": "grave_accent_and_tilde"
+          }
+        ]
+      }
+    }
+  ]
+}
+
 const itermMouseButtons = [
+  /* If double tap Q, run previous command */
+  mapDoublePress({
+    title: 'Double press escape -> Run last command, single press -> escape',
+    // from: 'grave_accent_and_tilde',
+    // from: 'left_shift',
+    from: 'escape',
+    // from: 'left_command',
+    //from: 'tab',
+    // from: {
+    //   key_code: 'escape',
+    //   modifiers: ['left_shift'],
+    // },
+    to: terminalPreviousCommand,
+    conditions: IS_TERMINAL_WINDOW
+  }),
+  // doubleKeyPressWIP,
   // Toggle back to previous App
   {
     description: '[Iterm] - Mouse 2 => PREVIOUS APP',
@@ -658,31 +1119,31 @@ const BrowserMouseButtons = [
       },
     ],
   },
-  {
-    description: '[BROWSER] - Mouse 8 => Tab CLOSE',
-    manipulators: [
-      {
-        type: 'basic',
-        from: {
-          key_code: '8',
-        },
-        to: [
-          {
-            repeat: false,
-            key_code: 'w',
-            modifiers: ['left_command'],
-          },
-        ],
-        conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: browserIds,
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   description: '[BROWSER] - Mouse 8 => Tab CLOSE',
+  //   manipulators: [
+  //     {
+  //       type: 'basic',
+  //       from: {
+  //         key_code: '8',
+  //       },
+  //       to: [
+  //         {
+  //           repeat: false,
+  //           key_code: 'w',
+  //           modifiers: ['left_command'],
+  //         },
+  //       ],
+  //       conditions: [
+  //         ...isMouseNumber,
+  //         {
+  //           type: 'frontmost_application_if',
+  //           bundle_identifiers: browserIds,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   // {
   //     "description": "[BROWSER] - Mouse 12 => Tab ReOPEN",
   //     "manipulators": [
@@ -767,6 +1228,7 @@ const CamtasiaMouseButtons = [
   },
 ]
 
+// Driven by rectangle.app
 const WINDOW_FULL = {
   description: 'Window: Full Screen',
   to: [
@@ -854,10 +1316,10 @@ const rules: KarabinerRules[] = [
             modifiers: ['left_shift'],
           },
         ],
-        // "parameters": {
-        //   "basic.to_if_alone_timeout_milliseconds": 250,
-        //   "basic.to_delayed_action_delay_milliseconds": 500
-        // },
+        "parameters": {
+          "basic.to_if_alone_timeout_milliseconds": 250,
+          "basic.to_delayed_action_delay_milliseconds": 500
+        },
         type: 'basic',
       },
       //      {
@@ -885,6 +1347,7 @@ const rules: KarabinerRules[] = [
   ...BrowserMouseButtons,
   ...VSCodeMouseButtons,
   ...itermMouseButtons,
+  ...terminalLineJumpShortCuts,
   // Makre sure to load app specfic config before global buttons
   ...GlobalMouseButtons,
   ...CamtasiaMouseButtons,
@@ -958,6 +1421,15 @@ const rules: KarabinerRules[] = [
     a: {
       description: 'Trigger Option + Space',
       to: OPEN_TEXT_TO_SPEECH,
+    },
+    d: {
+      description: 'Trigger Darkmode',
+        to: [
+        {
+          key_code: '8',
+          modifiers: ['left_command', 'left_option', 'left_control'],
+        },
+      ],
     },
     s: {
       description: 'Window: Move to right display',
