@@ -15,7 +15,12 @@ const textEditorIds = [
   '^com\\.todesktop\\.230313mzl4w4u92$',
 ]
 
-const editorIds = ['^com\\.microsoft\\.VSCode$', '^com\\.sublimetext\\.4$']
+const editorIds = [
+  '^com\\.microsoft\\.VSCode$', 
+  '^com\\.sublimetext\\.4$',
+  // cursor
+  '^com\\.todesktop\\.230313mzl4w4u92$'
+]
 
 const terminalIds = ['^com\\.googlecode\\.iterm2$']
 
@@ -787,6 +792,139 @@ const itermMouseButtons = [
   },
 ]
 
+const CursorShortcuts = [
+  {
+    "description": "[Cursor] Add file to chat context",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "z",
+          "modifiers": {
+            "mandatory": ["left_shift"]
+          }
+        },
+        "to": [
+          {
+            "key_code": "a",
+            "modifiers": ["left_control", "left_shift"]
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
+          },
+        ],
+      }
+    ]
+  },
+  // resume. @TODO verify this works
+  {
+    "description": "[Cursor] Resume chat",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "left_shift",
+          "modifiers": {
+            "optional": ["any"]
+          }
+        },
+        "to": [
+          {
+            "key_code": "left_shift"
+          }
+        ],
+        "to_if_alone": [
+          {
+            "key_code": "left_shift",
+            "hold_down_milliseconds": 200
+          }
+        ],
+        "to_if_held_down": [
+          {
+            "key_code": "left_shift"
+          }
+        ],
+        "parameters": {
+          "basic.to_if_alone_timeout_milliseconds": 200
+        },
+        "conditions": [
+          {
+            "type": "variable_if",
+            "name": "left_shift_pressed",
+            "value": 1
+          },
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
+          },
+        ]
+      },
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "left_shift",
+          "modifiers": {
+            "optional": ["any"]
+          }
+        },
+        "to": [
+          {
+            "set_variable": {
+              "name": "left_shift_pressed",
+              "value": 1
+            }
+          },
+          {
+            "key_code": "left_shift"
+          }
+        ],
+        "to_delayed_action": {
+          "to_if_invoked": [
+            {
+              "set_variable": {
+                "name": "left_shift_pressed",
+                "value": 0
+              }
+            }
+          ],
+          "to_if_canceled": [
+            {
+              "set_variable": {
+                "name": "left_shift_pressed",
+                "value": 0
+              }
+            }
+          ]
+        }, 
+        "to_if_alone": [
+          {
+            "key_code": "f3",
+            "modifiers": ["left_control", "left_shift", "left_option", "left_command"]
+          }
+        ],
+        "parameters": {
+          "basic.to_if_alone_timeout_milliseconds": 200,
+          "basic.to_delayed_action_delay_milliseconds": 400
+        },
+        "conditions": [
+          {
+            "type": "variable_unless",
+            "name": "left_shift_pressed",
+            "value": 1
+          },
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds,
+          },
+        ]
+      }
+    ]
+  }
+]
+
 const VSCodeMouseButtons = [
   // Toggle back to previous App
   {
@@ -1348,6 +1486,7 @@ const rules: KarabinerRules[] = [
   ...VSCodeMouseButtons,
   ...itermMouseButtons,
   ...terminalLineJumpShortCuts,
+  ...CursorShortcuts,
   // Makre sure to load app specfic config before global buttons
   ...GlobalMouseButtons,
   ...CamtasiaMouseButtons,

@@ -279,7 +279,8 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
-                      "^com\\.sublimetext\\.4$"
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
                     ]
                   }
                 ]
@@ -322,7 +323,8 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
-                      "^com\\.sublimetext\\.4$"
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
                     ]
                   }
                 ]
@@ -365,7 +367,8 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
-                      "^com\\.sublimetext\\.4$"
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
                     ]
                   }
                 ]
@@ -409,7 +412,8 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
-                      "^com\\.sublimetext\\.4$"
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
                     ]
                   }
                 ]
@@ -453,7 +457,8 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
-                      "^com\\.sublimetext\\.4$"
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
                     ]
                   }
                 ]
@@ -497,7 +502,8 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
-                      "^com\\.sublimetext\\.4$"
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
                     ]
                   }
                 ]
@@ -541,7 +547,8 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.microsoft\\.VSCode$",
-                      "^com\\.sublimetext\\.4$"
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
                     ]
                   }
                 ]
@@ -972,6 +979,161 @@
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
                       "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[Cursor] Add file to chat context",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "z",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "a",
+                    "modifiers": [
+                      "left_control",
+                      "left_shift"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "[Cursor] Resume chat",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "left_shift"
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "left_shift",
+                    "hold_down_milliseconds": 200
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "key_code": "left_shift"
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_alone_timeout_milliseconds": 200
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "left_shift_pressed",
+                    "value": 1
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "left_shift_pressed",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "left_shift"
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "left_shift_pressed",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "left_shift_pressed",
+                        "value": 0
+                      }
+                    }
+                  ]
+                },
+                "to_if_alone": [
+                  {
+                    "key_code": "f3",
+                    "modifiers": [
+                      "left_control",
+                      "left_shift",
+                      "left_option",
+                      "left_command"
+                    ]
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_alone_timeout_milliseconds": 200,
+                  "basic.to_delayed_action_delay_milliseconds": 400
+                },
+                "conditions": [
+                  {
+                    "type": "variable_unless",
+                    "name": "left_shift_pressed",
+                    "value": 1
+                  },
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.VSCode$",
+                      "^com\\.sublimetext\\.4$",
+                      "^com\\.todesktop\\.230313mzl4w4u92$"
                     ]
                   }
                 ]
