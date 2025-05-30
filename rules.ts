@@ -461,7 +461,7 @@ const terminalLineJumpShortCuts = [
             "key_code": "down_arrow",
             "modifiers": ["left_command"]
           },
-          /* Scroll down in editor mode */
+          /* Scroll down in editor mode... Causes jump to end of output... fine for now */
           {
             "key_code": "f",
             "modifiers": ["left_control"]
