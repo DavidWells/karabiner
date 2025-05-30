@@ -99,14 +99,15 @@ const isMouseNumber = [
 
 const GlobalMouseButtons = [
   {
-    description: '[GLOBAL] Mouse 1 - Open Chrome',
+    description: '[GLOBAL] Mouse 1 - Open Cursor',
     manipulators: [
       {
         type: 'basic',
         from: {
           key_code: '1',
         },
-        ...app('Google Chrome'),
+        ...app('Cursor'),
+        // ...app('Visual Studio Code'),
         conditions: [...isMouseNumber],
       },
     ],
@@ -124,16 +125,15 @@ const GlobalMouseButtons = [
       },
     ],
   },
-  {
-    description: '[GLOBAL] Mouse 3 - Open Cursor',
+    {
+    description: '[GLOBAL] Mouse 3 - Open Chrome',
     manipulators: [
       {
         type: 'basic',
         from: {
           key_code: '3',
         },
-        ...app('Cursor'),
-        // ...app('Visual Studio Code'),
+        ...app('Google Chrome'),
         conditions: [...isMouseNumber],
       },
     ],
@@ -168,7 +168,7 @@ const GlobalMouseButtons = [
   },
   // Add mapping of key 7 here that maps to enter
   {
-    description: '[Global] - Mouse 7 => Enter key',
+    description: '[GLOBAL] Mouse 7 - Enter key',
     manipulators: [
       {
         type: 'basic',
@@ -186,7 +186,7 @@ const GlobalMouseButtons = [
     ],
   },
   {
-    description: '[Global] - Mouse 8 => Select all and Delete',
+    description: '[GLOBAL] Mouse 8 - Select all and Delete',
     manipulators: [
       {
         type: 'basic',
@@ -385,7 +385,98 @@ const doubleKeyPressWIP = {
   ]
 }
 
-const terminalLineJumpShortCuts = [{
+
+
+const terminalLineJumpShortCuts = [
+  {
+    "description": "Page up global",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "up_arrow",
+          "modifiers": {
+            "mandatory": ["left_option"]
+          }
+        },
+        "to": [
+          {
+            "key_code": "up_arrow",
+            "modifiers": ["left_control", "left_option", "left_command"]
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: terminalIds,
+          },
+        ],
+      }
+    ]
+  },
+  {
+    "description": "Page down global",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "down_arrow",
+          "modifiers": {
+            "mandatory": ["left_option"]
+          }
+        },
+        "to": [
+          {
+            "key_code": "down_arrow",
+            "modifiers": ["left_control", "left_option", "left_command"]
+          },
+          /* Scroll down in editor mode */
+          // {
+          //   "key_code": "f",
+          //   "modifiers": ["left_control"]
+          // }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: terminalIds,
+          },
+        ],
+      }
+    ]
+  },
+  {
+    "description": "Page down cmd global",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "down_arrow",
+          "modifiers": {
+            "mandatory": ["left_command"]
+          }
+        },
+        "to": [
+          {
+            "key_code": "down_arrow",
+            "modifiers": ["left_command"]
+          },
+          /* Scroll down in editor mode */
+          {
+            "key_code": "f",
+            "modifiers": ["left_control"]
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: terminalIds,
+          },
+        ],
+      }
+    ]
+  },
+  {
   "description": "Go to start of line",
   "manipulators": [
     {
@@ -1492,6 +1583,13 @@ const rules: KarabinerRules[] = [
   ...CamtasiaMouseButtons,
   /* Sub layers */
   ...createHyperSubLayers({
+    1: {
+      type: 'basic',
+      from: {
+        key_code: '1',
+      },
+      ...app('Cursor'),
+    },
     /* Remap hyper key + single key */
     3: {
       ...WINDOW_FULL,
