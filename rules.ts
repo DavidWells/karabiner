@@ -796,20 +796,20 @@ const DoublePressTwo = {
 
 const itermMouseButtons = [
   /* If double tap Q, run previous command */
-  mapDoublePress({
-    title: 'Double press escape -> Run last command, single press -> escape',
-    // from: 'grave_accent_and_tilde',
-    // from: 'left_shift',
-    from: 'escape',
-    // from: 'left_command',
-    //from: 'tab',
-    // from: {
-    //   key_code: 'escape',
-    //   modifiers: ['left_shift'],
-    // },
-    to: terminalPreviousCommand,
-    conditions: IS_TERMINAL_WINDOW
-  }),
+  // mapDoublePress({
+  //   title: 'Double press escape -> Run last command, single press -> escape',
+  //   // from: 'grave_accent_and_tilde',
+  //   // from: 'left_shift',
+  //   from: 'escape',
+  //   // from: 'left_command',
+  //   //from: 'tab',
+  //   // from: {
+  //   //   key_code: 'escape',
+  //   //   modifiers: ['left_shift'],
+  //   // },
+  //   to: terminalPreviousCommand,
+  //   conditions: IS_TERMINAL_WINDOW
+  // }),
   // doubleKeyPressWIP,
   // Toggle back to previous App
   {
@@ -1612,6 +1612,14 @@ const rules: KarabinerRules[] = [
     },
     slash: {
       ...MOVE_WINDOW_LEFT,
+    },
+    w: {
+      to: [
+        {
+          key_code: 'f',
+          modifiers: ['left_option'],
+        },
+      ],
     },
     7: {
       to: [

@@ -556,98 +556,6 @@
             ]
           },
           {
-            "description": "Double press escape -> Run last command, single press -> escape",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "1",
-                    "modifiers": [
-                      "shift"
-                    ]
-                  },
-                  {
-                    "key_code": "1",
-                    "modifiers": [
-                      "shift"
-                    ]
-                  },
-                  {
-                    "key_code": "return_or_enter"
-                  },
-                  {
-                    "key_code": "return_or_enter"
-                  }
-                ],
-                "to_after_key_up": [
-                  {
-                    "set_variable": {
-                      "name": "escape pressed",
-                      "value": 0
-                    }
-                  }
-                ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "escape pressed",
-                    "value": 1
-                  },
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                      "^com\\.googlecode\\.iterm2$"
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "parameters": {
-                  "basic.to_delayed_action_delay_milliseconds": 250
-                },
-                "from": {
-                  "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "set_variable": {
-                      "name": "escape pressed",
-                      "value": 1
-                    }
-                  }
-                ],
-                "to_delayed_action": {
-                  "to_if_invoked": [
-                    {
-                      "set_variable": {
-                        "name": "escape pressed",
-                        "value": 0
-                      }
-                    },
-                    {
-                      "key_code": "escape"
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
             "description": "[Iterm] - Mouse 2 => PREVIOUS APP",
             "manipulators": [
               {
@@ -1945,6 +1853,33 @@
             ]
           },
           {
+            "description": "Hyper Key + w",
+            "manipulators": [
+              {
+                "to": [
+                  {
+                    "key_code": "f",
+                    "modifiers": [
+                      "left_option"
+                    ]
+                  }
+                ],
+                "type": "basic",
+                "from": {
+                  "key_code": "w",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command",
+                      "left_control",
+                      "left_shift",
+                      "left_option"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
             "description": "Hyper Key sublayer \"o\"",
             "manipulators": [
               {
@@ -2021,6 +1956,11 @@
                   {
                     "type": "variable_if",
                     "name": "hyper_sublayer_slash",
+                    "value": 0
+                  },
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_w",
                     "value": 0
                   },
                   {
@@ -2778,6 +2718,11 @@
                   },
                   {
                     "type": "variable_if",
+                    "name": "hyper_sublayer_w",
+                    "value": 0
+                  },
+                  {
+                    "type": "variable_if",
                     "name": "hyper_sublayer_o",
                     "value": 0
                   },
@@ -3123,6 +3068,11 @@
                   },
                   {
                     "type": "variable_if",
+                    "name": "hyper_sublayer_w",
+                    "value": 0
+                  },
+                  {
+                    "type": "variable_if",
                     "name": "hyper_sublayer_o",
                     "value": 0
                   },
@@ -3316,6 +3266,11 @@
                   {
                     "type": "variable_if",
                     "name": "hyper_sublayer_slash",
+                    "value": 0
+                  },
+                  {
+                    "type": "variable_if",
+                    "name": "hyper_sublayer_w",
                     "value": 0
                   },
                   {
