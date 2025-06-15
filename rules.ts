@@ -1648,7 +1648,7 @@ const rules: KarabinerRules[] = [
       // "i"Message
       i: app('Messages'),
       p: app('Spotify'),
-      a: app('iA Presenter'),
+      // a: app('iA Presenter'),
       w: open('https://web.whatsapp.com'),
       l: open('raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink'),
     },
