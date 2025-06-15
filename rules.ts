@@ -1642,7 +1642,7 @@ const rules: KarabinerRules[] = [
       // Open todo list managed via *H*ypersonic
       h: open('notion://www.notion.so/stellatehq/7b33b924746647499d906c55f89d5026'),
       z: app('zoom.us'),
-      m: app('Mochi'),
+      // m: app('Mochi'),
       f: app('Finder'),
       r: app('Telegram'),
       // "i"Message
