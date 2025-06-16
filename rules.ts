@@ -2107,7 +2107,7 @@ const HIT_ENTER = {
   ],
 }
 
-const rules: KarabinerRules[] = [
+let rules: KarabinerRules[] = [
   // Define the Hyper key itself
   makeHyperKey('caps_lock'),
   makeRightHyperKey('right_command'),
@@ -2140,6 +2140,11 @@ const rules: KarabinerRules[] = [
     // To enter
   }),
 ]
+
+const DEBUG = false
+if (DEBUG) {
+  rules = []
+} 
 
 fs.writeFileSync(
   'karabiner.json',
