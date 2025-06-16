@@ -16,7 +16,7 @@ const textEditorIds = [
 ]
 
 const editorIds = [
-  '^com\\.microsoft\\.VSCode$', 
+  '^com\\.microsoft\\.VSCode$',
   '^com\\.sublimetext\\.4$',
   // cursor
   '^com\\.todesktop\\.230313mzl4w4u92$'
@@ -113,7 +113,7 @@ const GlobalMouseButtons = [
     ],
   },
   {
-    description: '[GLOBAL] Mouse 2 - Open Iterm',
+    description: '[GLOBAL] Mouse 2 - Open Terminal',
     manipulators: [
       {
         type: 'basic',
@@ -248,7 +248,7 @@ const GlobalMouseButtons = [
       },
     ],
   },
-  // Setup mac for recording vide and rrestore
+  // Setup mac for recording vide and restore
   {
     description: '[GLOBAL] Mouse 12 - Pre Recording Camtasia',
     manipulators: [
@@ -384,8 +384,6 @@ const doubleKeyPressWIP = {
     }
   ]
 }
-
-
 
 const terminalLineJumpShortCuts = [
   {
@@ -794,7 +792,7 @@ const DoublePressTwo = {
   ]
 }
 
-const itermMouseButtons = [
+const terminalMouseButtons = [
   /* If double tap Q, run previous command */
   // mapDoublePress({
   //   title: 'Double press escape -> Run last command, single press -> escape',
@@ -813,7 +811,7 @@ const itermMouseButtons = [
   // doubleKeyPressWIP,
   // Toggle back to previous App
   {
-    description: '[Iterm] - Mouse 2 => PREVIOUS APP',
+    description: '[Terminal] - Mouse 2 => PREVIOUS APP',
     manipulators: [
       {
         type: 'basic',
@@ -832,7 +830,7 @@ const itermMouseButtons = [
     ],
   },
   {
-    description: '[Iterm] - Mouse 5 => Back Tab',
+    description: '[Terminal] - Mouse 5 => Back Tab',
     manipulators: [
       {
         type: 'basic',
@@ -857,7 +855,7 @@ const itermMouseButtons = [
     ],
   },
   {
-    description: '[Iterm] - Mouse 6 => Next Tab',
+    description: '[Terminal] - Mouse 6 => Next Tab',
     manipulators: [
       {
         type: 'basic',
@@ -881,6 +879,63 @@ const itermMouseButtons = [
       },
     ],
   },
+]
+
+const terminalNav = [
+  {
+    description: '[Terminal] - Shift + Left Arrow => Back Tab',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'left_arrow',
+          modifiers: {
+            mandatory: ['left_shift']
+          }
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'open_bracket',
+            modifiers: ['left_command', 'left_shift']
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: terminalIds
+          }
+        ]
+      }
+    ]
+  },
+  {
+    description: '[Terminal] - Shift + Right Arrow => Next Tab',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'right_arrow',
+          modifiers: {
+            mandatory: ['left_shift']
+          }
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'close_bracket',
+            modifiers: ['left_command', 'left_shift']
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: terminalIds
+          }
+        ]
+      }
+    ]
+  }
 ]
 
 const CursorShortcuts = [
@@ -1016,10 +1071,10 @@ const CursorShortcuts = [
   }
 ]
 
-const VSCodeMouseButtons = [
+const CodeEditorMouseButtons = [
   // Toggle back to previous App
   {
-    description: '[VSCODE] - Mouse 3 => PREVIOUS APP',
+    description: '[EDITOR] - Mouse 3 => PREVIOUS APP',
     manipulators: [
       {
         type: 'basic',
@@ -1038,7 +1093,7 @@ const VSCodeMouseButtons = [
     ],
   },
   {
-    description: '[VSCODE] - Mouse 5 => Back Tab',
+    description: '[EDITOR] - Mouse 5 => Back Tab',
     manipulators: [
       {
         type: 'basic',
@@ -1063,7 +1118,7 @@ const VSCodeMouseButtons = [
     ],
   },
   {
-    description: '[VSCODE] - Mouse 6 => Next Tab',
+    description: '[EDITOR] - Mouse 6 => Next Tab',
     manipulators: [
       {
         type: 'basic',
@@ -1088,7 +1143,7 @@ const VSCodeMouseButtons = [
     ],
   },
   {
-    description: '[VSCODE] - Mouse 4 => Copilot Doc selection',
+    description: '[EDITOR] - Mouse 4 => Copilot Doc selection',
     manipulators: [
       {
         type: 'basic',
@@ -1112,9 +1167,8 @@ const VSCodeMouseButtons = [
       },
     ],
   },
-
   {
-    description: '[VSCODE] - Mouse 7 => Copilot Explain selection',
+    description: '[EDITOR] - Mouse 7 => Copilot Explain selection',
     manipulators: [
       {
         type: 'basic',
@@ -1139,7 +1193,7 @@ const VSCodeMouseButtons = [
     ],
   },
   {
-    description: '[VSCODE] - Mouse 8 => Copilot Explain selection',
+    description: '[EDITOR] - Mouse 8 => Copilot Explain selection',
     manipulators: [
       {
         type: 'basic',
@@ -1164,7 +1218,7 @@ const VSCodeMouseButtons = [
     ],
   },
   {
-    description: '[VSCODE] - Mouse 9 => MD preview',
+    description: '[EDITOR] - Mouse 9 => MD preview',
     manipulators: [
       {
         type: 'basic',
@@ -1188,6 +1242,63 @@ const VSCodeMouseButtons = [
       },
     ],
   },
+]
+
+const CodeEditorNav = [
+  {
+    description: '[EDITOR] - Shift + Left Arrow => Back Tab',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'left_arrow',
+          modifiers: {
+            mandatory: ['left_shift']
+          }
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'left_arrow',
+            modifiers: ['left_command', 'left_option']
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds
+          }
+        ]
+      }
+    ]
+  },
+  {
+    description: '[EDITOR] - Shift + Right Arrow => Next Tab',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'right_arrow',
+          modifiers: {
+            mandatory: ['left_shift']
+          }
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'right_arrow',
+            modifiers: ['left_command', 'left_option']
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: editorIds
+          }
+        ]
+      }
+    ]
+  }
 ]
 
 const browserIds = [
@@ -1403,6 +1514,63 @@ const BrowserMouseButtons = [
   // },
 ]
 
+const BrowserNav = [
+  {
+    description: '[BROWSER] - Shift + Right Arrow => Tab Right',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'right_arrow',
+          modifiers: {
+            mandatory: ['left_shift']
+          }
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'tab',
+            modifiers: ['left_control']
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: browserIds
+          }
+        ]
+      }
+    ]
+  },
+  {
+    description: '[BROWSER] - Shift + Left Arrow => Tab Left',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'left_arrow',
+          modifiers: {
+            mandatory: ['left_shift']
+          }
+        },
+        to: [
+          {
+            repeat: false,
+            key_code: 'tab',
+            modifiers: ['left_control', 'left_shift']
+          }
+        ],
+        conditions: [
+          {
+            type: 'frontmost_application_if',
+            bundle_identifiers: browserIds
+          }
+        ]
+      }
+    ]
+  }
+]
+
 const camtasiaIds = ['^com\\.techsmith\\.camtasia2023$']
 const CamtasiaMouseButtons = [
   {
@@ -1574,11 +1742,14 @@ const rules: KarabinerRules[] = [
   ...ejectToDelete,
   // ...voiceToText,
   ...BrowserMouseButtons,
-  ...VSCodeMouseButtons,
-  ...itermMouseButtons,
+  ...BrowserNav,
+  ...CodeEditorMouseButtons,
+  ...CodeEditorNav,
+  ...terminalMouseButtons,
+  ...terminalNav,
   ...terminalLineJumpShortCuts,
   ...CursorShortcuts,
-  // Makre sure to load app specfic config before global buttons
+  // Make sure to load app specific config before global buttons
   ...GlobalMouseButtons,
   ...CamtasiaMouseButtons,
   /* Sub layers */
@@ -1613,7 +1784,51 @@ const rules: KarabinerRules[] = [
     slash: {
       ...MOVE_WINDOW_LEFT,
     },
+    /* Remap o = "Open" applications */
+    o: {
+      1: app('1Password'),
+      g: app('Google Chrome'),
+      c: app('Google Chrome'),
+      v: app('Visual Studio Code'),
+      d: app('Discord'),
+      s: app('Slack'),
+      e: app('Superhuman'),
+      n: app('Notion'),
+      t: app('Warp'),
+      z: app('zoom.us'),
+      f: app('Finder'),
+      r: app('Telegram'),
+      // "i"Message
+      i: app('Messages'),
+      p: app('Spotify'),
+      w: open('https://web.whatsapp.com'),
+    },
+    /* Shortcut window management via rectangle.app */
+    // a: {
+    //   description: 'Window: Move to left display',
+    //   to: [
+    //     {
+    //       key_code: 'left_arrow',
+    //       modifiers: ['left_option', 'left_command', 'left_control'],
+    //     },
+    //   ],
+    // },
+
+    a: {
+      description: 'Trigger Option + Space. Superwhisper',
+      to: OPEN_TEXT_TO_SPEECH,
+    },
     w: {
+      description: 'Global Jump to windows via script kit',
+      to: [
+        {
+          key_code: 'f',
+          modifiers: ['left_option'],
+        },
+      ],
+    },
+    'tab': {
+      description: 'Global Jump to windows via script kit',
       to: [
         {
           key_code: 'f',
@@ -1628,47 +1843,8 @@ const rules: KarabinerRules[] = [
         },
       ],
     },
-    /* Remap o = "Open" applications */
-    o: {
-      1: app('1Password'),
-      g: app('Google Chrome'),
-      c: app('Google Chrome'),
-      v: app('Visual Studio Code'),
-      d: app('Discord'),
-      s: app('Slack'),
-      e: app('Superhuman'),
-      n: app('Notion'),
-      t: app('Warp'),
-      // Open todo list managed via *H*ypersonic
-      h: open('notion://www.notion.so/stellatehq/7b33b924746647499d906c55f89d5026'),
-      z: app('zoom.us'),
-      // m: app('Mochi'),
-      f: app('Finder'),
-      r: app('Telegram'),
-      // "i"Message
-      i: app('Messages'),
-      p: app('Spotify'),
-      // a: app('iA Presenter'),
-      w: open('https://web.whatsapp.com'),
-      l: open('raycast://extensions/stellate/mxstbr-commands/open-mxs-is-shortlink'),
-    },
-    /* Shortcut window management via rectangle.app */
-    // a: {
-    //   description: 'Window: Move to left display',
-    //   to: [
-    //     {
-    //       key_code: 'left_arrow',
-    //       modifiers: ['left_option', 'left_command', 'left_control'],
-    //     },
-    //   ],
-    // },
-
-    a: {
-      description: 'Trigger Option + Space',
-      to: OPEN_TEXT_TO_SPEECH,
-    },
     d: {
-      description: 'Trigger Darkmode',
+      description: 'Trigger Dark-mode',
         to: [
         {
           key_code: '8',
@@ -1913,7 +2089,6 @@ const rules: KarabinerRules[] = [
     // },
 
     // v = "moVe" which isn't "m" because we want it to be on the left hand
-    // so that hjkl work like they do in vim
     v: {
       h: {
         to: [{ key_code: 'left_arrow' }],
