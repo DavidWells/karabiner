@@ -1,7 +1,7 @@
 // @ts-nocheck
 import fs from 'fs'
 import { KarabinerRules } from './types'
-import { createHyperSubLayers, app, open } from './utils'
+import { createHyperSubLayers, createRightHyperSubLayers, app, open } from './utils'
 import { autoQuotes } from './rules/auto-quotes'
 
 const textEditorIds = [
@@ -435,10 +435,7 @@ const terminalLineJumpShortCuts = [
           }
         ],
         conditions: [
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: terminalIds,
-          },
+          ...IS_TERMINAL_WINDOW,
         ],
       }
     ]
@@ -1623,6 +1620,11 @@ const MOVE_WINDOW_LEFT = {
   ],
 }
 
+const SUPER_WHISPER = {
+  description: 'Trigger Option + Space. Superwhisper',
+  to: OPEN_TEXT_TO_SPEECH,
+}
+
 const IS_MOUSE = {
   conditions: [...isMouseButton],
 }
@@ -1688,10 +1690,7 @@ const hyperLayerKeys = {
   //   ],
   // },
 
-  a: {
-    description: 'Trigger Option + Space. Superwhisper',
-    to: OPEN_TEXT_TO_SPEECH,
-  },
+  a: SUPER_WHISPER,
   w: {
     description: 'Global Jump to windows via script kit',
     to: [
@@ -2069,11 +2068,49 @@ function makeHyperKey(from = 'caps_lock') {
   }
 }
 
+function makeRightHyperKey(from = 'right_command') {
+  return {
+    description: 'Right Hyper Key (⌃⌥⇧⌘)',
+    manipulators: [
+      {
+        type: 'basic',
+        description: 'Right Command -> Right Hyper Key',
+        from: {
+          key_code: from,
+        },
+        to: [
+          {
+            key_code: 'right_shift',
+            modifiers: ['right_command', 'right_control', 'right_option'],
+          },
+        ],
+        to_if_alone: [
+          {
+            key_code: 'escape',
+            modifiers: ['right_shift'],
+          },
+        ],
+        "parameters": {
+          "basic.to_if_alone_timeout_milliseconds": 250,
+          "basic.to_delayed_action_delay_milliseconds": 500
+        },
+      },
+    ],
+  }
+}
+
+const HIT_ENTER = {
+  to: [
+    {
+      key_code: 'return_or_enter',
+    },
+  ],
+}
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself
   makeHyperKey('caps_lock'),
-  //makeHyperKey('right_command'),
+  makeRightHyperKey('right_command'),
   // @ts-ignore
   // ...autoQuotes,
   // ...ejectToScreenShot,
@@ -2092,6 +2129,16 @@ const rules: KarabinerRules[] = [
   ...CamtasiaMouseButtons,
   /* Sub layers */
   ...createHyperSubLayers(hyperLayerKeys),
+  /* Right Hyper Sub layers */
+  ...createRightHyperSubLayers({
+    comma: SUPER_WHISPER,
+    period: SUPER_WHISPER,
+    right_option: SUPER_WHISPER,
+    spacebar: HIT_ENTER,
+    slash: HIT_ENTER,
+    // left_shift: HIT_ENTER,
+    // To enter
+  }),
 ]
 
 fs.writeFileSync(

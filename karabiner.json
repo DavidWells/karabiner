@@ -42,6 +42,40 @@
             ]
           },
           {
+            "description": "Right Hyper Key (⌃⌥⇧⌘)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "description": "Right Command -> Right Hyper Key",
+                "from": {
+                  "key_code": "right_command"
+                },
+                "to": [
+                  {
+                    "key_code": "right_shift",
+                    "modifiers": [
+                      "right_command",
+                      "right_control",
+                      "right_option"
+                    ]
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "escape",
+                    "modifiers": [
+                      "right_shift"
+                    ]
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_alone_timeout_milliseconds": 250,
+                  "basic.to_delayed_action_delay_milliseconds": 500
+                }
+              }
+            ]
+          },
+          {
             "description": "Eject to Screenshot",
             "manipulators": [
               {
@@ -3703,6 +3737,162 @@
                     "value": 1
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "description": "Right Hyper Key + comma",
+            "manipulators": [
+              {
+                "description": "Trigger Option + Space. Superwhisper",
+                "to": [
+                  {
+                    "key_code": "spacebar",
+                    "modifiers": [
+                      "left_option"
+                    ]
+                  }
+                ],
+                "type": "basic",
+                "from": {
+                  "key_code": "comma",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command",
+                      "right_control",
+                      "right_shift",
+                      "right_option"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "description": "Right Hyper Key + period",
+            "manipulators": [
+              {
+                "description": "Trigger Option + Space. Superwhisper",
+                "to": [
+                  {
+                    "key_code": "spacebar",
+                    "modifiers": [
+                      "left_option"
+                    ]
+                  }
+                ],
+                "type": "basic",
+                "from": {
+                  "key_code": "period",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command",
+                      "right_control",
+                      "right_shift",
+                      "right_option"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "description": "Right Hyper Key + right_option",
+            "manipulators": [
+              {
+                "description": "Trigger Option + Space. Superwhisper",
+                "to": [
+                  {
+                    "key_code": "spacebar",
+                    "modifiers": [
+                      "left_option"
+                    ]
+                  }
+                ],
+                "type": "basic",
+                "from": {
+                  "key_code": "right_option",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command",
+                      "right_control",
+                      "right_shift",
+                      "right_option"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "description": "Right Hyper Key + spacebar",
+            "manipulators": [
+              {
+                "to": [
+                  {
+                    "key_code": "return_or_enter"
+                  }
+                ],
+                "type": "basic",
+                "from": {
+                  "key_code": "spacebar",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command",
+                      "right_control",
+                      "right_shift",
+                      "right_option"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "description": "Right Hyper Key + slash",
+            "manipulators": [
+              {
+                "to": [
+                  {
+                    "key_code": "return_or_enter"
+                  }
+                ],
+                "type": "basic",
+                "from": {
+                  "key_code": "slash",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command",
+                      "right_control",
+                      "right_shift",
+                      "right_option"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "description": "Right Hyper Key + left_shift",
+            "manipulators": [
+              {
+                "to": [
+                  {
+                    "key_code": "return_or_enter"
+                  }
+                ],
+                "type": "basic",
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "mandatory": [
+                      "right_command",
+                      "right_control",
+                      "right_shift",
+                      "right_option"
+                    ]
+                  }
+                }
               }
             ]
           }
