@@ -11,6 +11,7 @@
             "description": "Hyper Key (⌃⌥⇧⌘)",
             "manipulators": [
               {
+                "type": "basic",
                 "description": "Caps Lock -> Hyper Key",
                 "from": {
                   "key_code": "caps_lock"
@@ -36,8 +37,7 @@
                 "parameters": {
                   "basic.to_if_alone_timeout_milliseconds": 250,
                   "basic.to_delayed_action_delay_milliseconds": 500
-                },
-                "type": "basic"
+                }
               }
             ]
           },
@@ -317,7 +317,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Mouse 3 => PREVIOUS APP",
+            "description": "[EDITOR] - Mouse 3 => PREVIOUS APP",
             "manipulators": [
               {
                 "type": "basic",
@@ -363,7 +363,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Mouse 5 => Back Tab",
+            "description": "[EDITOR] - Mouse 5 => Back Tab",
             "manipulators": [
               {
                 "type": "basic",
@@ -407,7 +407,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Mouse 6 => Next Tab",
+            "description": "[EDITOR] - Mouse 6 => Next Tab",
             "manipulators": [
               {
                 "type": "basic",
@@ -451,7 +451,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Mouse 4 => Copilot Doc selection",
+            "description": "[EDITOR] - Mouse 4 => Copilot Doc selection",
             "manipulators": [
               {
                 "type": "basic",
@@ -496,7 +496,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Mouse 7 => Copilot Explain selection",
+            "description": "[EDITOR] - Mouse 7 => Copilot Explain selection",
             "manipulators": [
               {
                 "type": "basic",
@@ -541,7 +541,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Mouse 8 => Copilot Explain selection",
+            "description": "[EDITOR] - Mouse 8 => Copilot Explain selection",
             "manipulators": [
               {
                 "type": "basic",
@@ -586,7 +586,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Mouse 9 => MD preview",
+            "description": "[EDITOR] - Mouse 9 => MD preview",
             "manipulators": [
               {
                 "type": "basic",
@@ -631,7 +631,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Shift + Left Arrow => Back Tab",
+            "description": "[EDITOR] - Shift + Left Arrow => Back Tab",
             "manipulators": [
               {
                 "type": "basic",
@@ -667,7 +667,7 @@
             ]
           },
           {
-            "description": "[VSCODE] - Shift + Right Arrow => Next Tab",
+            "description": "[EDITOR] - Shift + Right Arrow => Next Tab",
             "manipulators": [
               {
                 "type": "basic",
@@ -703,7 +703,7 @@
             ]
           },
           {
-            "description": "[Iterm] - Mouse 2 => PREVIOUS APP",
+            "description": "[Terminal] - Mouse 2 => PREVIOUS APP",
             "manipulators": [
               {
                 "type": "basic",
@@ -747,7 +747,7 @@
             ]
           },
           {
-            "description": "[Iterm] - Mouse 5 => Back Tab",
+            "description": "[Terminal] - Mouse 5 => Back Tab",
             "manipulators": [
               {
                 "type": "basic",
@@ -789,7 +789,7 @@
             ]
           },
           {
-            "description": "[Iterm] - Mouse 6 => Next Tab",
+            "description": "[Terminal] - Mouse 6 => Next Tab",
             "manipulators": [
               {
                 "type": "basic",
@@ -831,7 +831,7 @@
             ]
           },
           {
-            "description": "[ITERM] - Shift + Left Arrow => Back Tab",
+            "description": "[Terminal] - Shift + Left Arrow => Back Tab",
             "manipulators": [
               {
                 "type": "basic",
@@ -865,7 +865,7 @@
             ]
           },
           {
-            "description": "[ITERM] - Shift + Right Arrow => Next Tab",
+            "description": "[Terminal] - Shift + Right Arrow => Next Tab",
             "manipulators": [
               {
                 "type": "basic",
@@ -1402,7 +1402,7 @@
             ]
           },
           {
-            "description": "[GLOBAL] Mouse 2 - Open Iterm",
+            "description": "[GLOBAL] Mouse 2 - Open Terminal",
             "manipulators": [
               {
                 "type": "basic",
@@ -2163,7 +2163,7 @@
                   },
                   {
                     "type": "variable_if",
-                    "name": "hyper_sublayer_d",
+                    "name": "hyper_sublayer_f1",
                     "value": 0
                   },
                   {
@@ -2650,7 +2650,7 @@
             ]
           },
           {
-            "description": "Hyper Key + d",
+            "description": "Hyper Key + f1",
             "manipulators": [
               {
                 "description": "Trigger Dark-mode",
@@ -2666,7 +2666,7 @@
                 ],
                 "type": "basic",
                 "from": {
-                  "key_code": "d",
+                  "key_code": "f1",
                   "modifiers": {
                     "mandatory": [
                       "left_command",
@@ -2891,7 +2891,7 @@
                   },
                   {
                     "type": "variable_if",
-                    "name": "hyper_sublayer_d",
+                    "name": "hyper_sublayer_f1",
                     "value": 0
                   },
                   {
@@ -3246,7 +3246,7 @@
                   },
                   {
                     "type": "variable_if",
-                    "name": "hyper_sublayer_d",
+                    "name": "hyper_sublayer_f1",
                     "value": 0
                   },
                   {
@@ -3453,7 +3453,7 @@
                   },
                   {
                     "type": "variable_if",
-                    "name": "hyper_sublayer_d",
+                    "name": "hyper_sublayer_f1",
                     "value": 0
                   },
                   {

@@ -22,7 +22,38 @@ const editorIds = [
   '^com\\.todesktop\\.230313mzl4w4u92$'
 ]
 
-const terminalIds = ['^com\\.googlecode\\.iterm2$']
+const terminalIds = [
+  '^com\\.googlecode\\.iterm2$'
+]
+
+const browserIds = [
+  '^com\\.apple\\.Safari$',
+  '^com\\.google\\.Chrome$',
+  '^com\\.google\\.Chrome\\.canary$',
+  '^com\\.opera\\.Opera$',
+  '^com\\.brave\\.Browser$',
+]
+
+const IS_TERMINAL_WINDOW = [
+  {
+    type: 'frontmost_application_if',
+    bundle_identifiers: terminalIds,
+  },
+]
+
+const IS_EDITOR_WINDOW = [
+  {
+    type: 'frontmost_application_if',
+    bundle_identifiers: editorIds,
+  },
+]
+
+const IS_BROWSER_WINDOW = [
+  {
+    type: 'frontmost_application_if',
+    bundle_identifiers: browserIds,
+  },
+]
 
 // Super whisper
 const OPEN_TEXT_TO_SPEECH = [
@@ -61,7 +92,7 @@ const ejectToScreenShot = [
   },
 ]
 
-const ejectToDelete = [
+const ejectKeyToDelete = [
   {
     description: 'Eject to Screenshot',
     manipulators: [
@@ -81,7 +112,7 @@ const ejectToDelete = [
 ]
 
 /* Razer mouse */
-const isMouseNumber = [
+const isMouseButton = [
   {
     type: 'device_if',
     identifiers: [
@@ -108,7 +139,7 @@ const GlobalMouseButtons = [
         },
         ...app('Cursor'),
         // ...app('Visual Studio Code'),
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -121,7 +152,7 @@ const GlobalMouseButtons = [
           key_code: '2',
         },
         ...app('iTerm'),
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -134,7 +165,7 @@ const GlobalMouseButtons = [
           key_code: '3',
         },
         ...app('Google Chrome'),
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -149,7 +180,7 @@ const GlobalMouseButtons = [
         to: OPEN_TEXT_TO_SPEECH,
         // ...app('Asana'),
 
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -162,7 +193,7 @@ const GlobalMouseButtons = [
           key_code: '5',
         },
         ...app('Tower'),
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -181,7 +212,7 @@ const GlobalMouseButtons = [
             key_code: 'return_or_enter',
           },
         ],
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -206,7 +237,7 @@ const GlobalMouseButtons = [
             "key_code": "delete_or_backspace"
           }
         ],
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -225,7 +256,7 @@ const GlobalMouseButtons = [
             modifiers: ['left_command', 'left_option'],
           },
         ],
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -244,7 +275,7 @@ const GlobalMouseButtons = [
             modifiers: ['left_command', 'left_shift'],
           },
         ],
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -264,7 +295,7 @@ const GlobalMouseButtons = [
             modifiers: ['left_option', 'left_command', 'left_control'],
           },
         ],
-        conditions: [...isMouseNumber],
+        conditions: [...isMouseButton],
       },
     ],
   },
@@ -435,10 +466,7 @@ const terminalLineJumpShortCuts = [
           // }
         ],
         conditions: [
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: terminalIds,
-          },
+          ...IS_TERMINAL_WINDOW,
         ],
       }
     ]
@@ -466,10 +494,7 @@ const terminalLineJumpShortCuts = [
           }
         ],
         conditions: [
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: terminalIds,
-          },
+          ...IS_TERMINAL_WINDOW,
         ],
       }
     ]
@@ -493,10 +518,7 @@ const terminalLineJumpShortCuts = [
         }
       ],
       conditions: [
-        {
-          type: 'frontmost_application_if',
-          bundle_identifiers: terminalIds,
-        },
+        ...IS_TERMINAL_WINDOW,
       ],
     },
   ],
@@ -520,10 +542,7 @@ const terminalLineJumpShortCuts = [
         }
       ],
       conditions: [
-        {
-          type: 'frontmost_application_if',
-          bundle_identifiers: terminalIds,
-        },
+        ...IS_TERMINAL_WINDOW,
       ],
     },
   ],
@@ -547,10 +566,7 @@ const terminalLineJumpShortCuts = [
         }
       ],
       conditions: [
-        {
-          type: 'frontmost_application_if',
-          bundle_identifiers: terminalIds,
-        },
+        ...IS_TERMINAL_WINDOW,
       ],
     }
   ]
@@ -574,10 +590,7 @@ const terminalLineJumpShortCuts = [
         }
       ],
       conditions: [
-        {
-          type: 'frontmost_application_if',
-          bundle_identifiers: terminalIds,
-        },
+        ...IS_TERMINAL_WINDOW,
       ],
     }
   ]
@@ -601,10 +614,7 @@ const terminalLineJumpShortCuts = [
         }
       ],
       conditions: [
-        {
-          type: 'frontmost_application_if',
-          bundle_identifiers: terminalIds,
-        },
+        ...IS_TERMINAL_WINDOW,
       ],
     }
   ]
@@ -628,21 +638,11 @@ const terminalLineJumpShortCuts = [
         }
       ],
       conditions: [
-        {
-          type: 'frontmost_application_if',
-          bundle_identifiers: terminalIds,
-        },
+        ...IS_TERMINAL_WINDOW,
       ],
     }
   ]
 }
-]
-
-const IS_TERMINAL_WINDOW = [
-  {
-    type: 'frontmost_application_if',
-    bundle_identifiers: terminalIds,
-  },
 ]
   
 function mapDoublePress({ 
@@ -820,11 +820,8 @@ const terminalMouseButtons = [
         },
         to: toggleBackToPreviousApp,
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: terminalIds,
-          },
+          ...isMouseButton,
+          ...IS_TERMINAL_WINDOW,
         ],
       },
     ],
@@ -845,11 +842,8 @@ const terminalMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: terminalIds,
-          },
+          ...isMouseButton,
+          ...IS_TERMINAL_WINDOW,
         ],
       },
     ],
@@ -870,11 +864,8 @@ const terminalMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: terminalIds,
-          },
+          ...isMouseButton,
+          ...IS_TERMINAL_WINDOW,
         ],
       },
     ],
@@ -901,10 +892,7 @@ const terminalNav = [
           }
         ],
         conditions: [
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: terminalIds
-          }
+          ...IS_TERMINAL_WINDOW,
         ]
       }
     ]
@@ -928,10 +916,7 @@ const terminalNav = [
           }
         ],
         conditions: [
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: terminalIds
-          }
+          ...IS_TERMINAL_WINDOW,
         ]
       }
     ]
@@ -957,10 +942,7 @@ const CursorShortcuts = [
           }
         ],
         conditions: [
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...IS_EDITOR_WINDOW,
         ],
       }
     ]
@@ -1002,10 +984,7 @@ const CursorShortcuts = [
             "name": "left_shift_pressed",
             "value": 1
           },
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...IS_EDITOR_WINDOW,
         ]
       },
       {
@@ -1061,10 +1040,7 @@ const CursorShortcuts = [
             "name": "left_shift_pressed",
             "value": 1
           },
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...IS_EDITOR_WINDOW,
         ]
       }
     ]
@@ -1083,11 +1059,8 @@ const CodeEditorMouseButtons = [
         },
         to: toggleBackToPreviousApp,
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...isMouseButton,
+          ...IS_EDITOR_WINDOW,
         ],
       },
     ],
@@ -1108,11 +1081,8 @@ const CodeEditorMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...isMouseButton,
+          ...IS_EDITOR_WINDOW,
         ],
       },
     ],
@@ -1133,11 +1103,8 @@ const CodeEditorMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...isMouseButton,
+          ...IS_EDITOR_WINDOW,
         ],
       },
     ],
@@ -1158,11 +1125,8 @@ const CodeEditorMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...isMouseButton,
+          ...IS_EDITOR_WINDOW,
         ],
       },
     ],
@@ -1183,11 +1147,8 @@ const CodeEditorMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...isMouseButton,
+          ...IS_EDITOR_WINDOW,
         ],
       },
     ],
@@ -1208,11 +1169,8 @@ const CodeEditorMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...isMouseButton,
+          ...IS_EDITOR_WINDOW,
         ],
       },
     ],
@@ -1233,11 +1191,8 @@ const CodeEditorMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: editorIds,
-          },
+          ...isMouseButton,
+          ...IS_EDITOR_WINDOW,
         ],
       },
     ],
@@ -1301,13 +1256,7 @@ const CodeEditorNav = [
   }
 ]
 
-const browserIds = [
-  '^com\\.apple\\.Safari$',
-  '^com\\.google\\.Chrome$',
-  '^com\\.google\\.Chrome\\.canary$',
-  '^com\\.opera\\.Opera$',
-  '^com\\.brave\\.Browser$',
-]
+
 const BrowserMouseButtons = [
   // Toggle back to previous App
   {
@@ -1320,11 +1269,8 @@ const BrowserMouseButtons = [
         },
         to: toggleBackToPreviousApp,
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: browserIds,
-          },
+          ...isMouseButton,
+          ...IS_BROWSER_WINDOW,
         ],
       },
     ],
@@ -1347,7 +1293,7 @@ const BrowserMouseButtons = [
   //           }
   //       ],
   //       "conditions": [
-  //           ...isMouseNumber,
+  //           ...isMouseButton,
   //           {
   //             "type": "frontmost_application_if",
   //             "bundle_identifiers": browserIds
@@ -1374,7 +1320,7 @@ const BrowserMouseButtons = [
   //                 }
   //             ],
   //             "conditions": [
-  //                 ...isMouseNumber,
+  //                 ...isMouseButton,
   //                 {
   //                   "type": "frontmost_application_if",
   //                   "bundle_identifiers": browserIds
@@ -1399,11 +1345,8 @@ const BrowserMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: browserIds,
-          },
+          ...isMouseButton,
+          ...IS_BROWSER_WINDOW,
         ],
       },
     ],
@@ -1424,11 +1367,8 @@ const BrowserMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: browserIds,
-          },
+          ...isMouseButton,
+          ...IS_BROWSER_WINDOW,
         ],
       },
     ],
@@ -1450,11 +1390,8 @@ const BrowserMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
-          {
-            type: 'frontmost_application_if',
-            bundle_identifiers: browserIds,
-          },
+          ...isMouseButton,
+          ...IS_BROWSER_WINDOW,
         ],
       },
     ],
@@ -1475,7 +1412,7 @@ const BrowserMouseButtons = [
   //         },
   //       ],
   //       conditions: [
-  //         ...isMouseNumber,
+  //         ...isMouseButton,
   //         {
   //           type: 'frontmost_application_if',
   //           bundle_identifiers: browserIds,
@@ -1503,7 +1440,7 @@ const BrowserMouseButtons = [
   //                 }
   //             ],
   //             "conditions": [
-  //                 ...isMouseNumber,
+  //                 ...isMouseButton,
   //                 {
   //                   "type": "frontmost_application_if",
   //                   "bundle_identifiers": browserIds
@@ -1589,7 +1526,7 @@ const CamtasiaMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
+          ...isMouseButton,
           {
             type: 'frontmost_application_if',
             bundle_identifiers: camtasiaIds,
@@ -1614,7 +1551,7 @@ const CamtasiaMouseButtons = [
           },
         ],
         conditions: [
-          ...isMouseNumber,
+          ...isMouseButton,
           {
             type: 'frontmost_application_if',
             bundle_identifiers: camtasiaIds,
@@ -1687,18 +1624,413 @@ const MOVE_WINDOW_LEFT = {
 }
 
 const IS_MOUSE = {
-  conditions: [...isMouseNumber],
+  conditions: [...isMouseButton],
 }
 
-const rules: KarabinerRules[] = [
-  // Define the Hyper key itself
-  {
+const hyperLayerKeys = {
+  1: {
+    type: 'basic',
+    from: {
+      key_code: '1',
+    },
+    ...app('Cursor'),
+  },
+  /* Remap hyper key + single key */
+  3: {
+    ...WINDOW_FULL,
+    ...IS_MOUSE,
+  },
+  up_arrow: {
+    ...WINDOW_FULL,
+  },
+  down_arrow: {
+    ...WINDOW_BOTTOM_HALF,
+  },
+  right_arrow: {
+    ...WINDOW_RIGHT,
+  },
+  left_arrow: {
+    ...WINDOW_LEFT,
+  },
+  right_shift: {
+    ...MOVE_WINDOW_RIGHT,
+  },
+  slash: {
+    ...MOVE_WINDOW_LEFT,
+  },
+  /* Remap o = "Open" applications */
+  o: {
+    1: app('1Password'),
+    g: app('Google Chrome'),
+    c: app('Google Chrome'),
+    v: app('Visual Studio Code'),
+    d: app('Discord'),
+    s: app('Slack'),
+    e: app('Superhuman'),
+    n: app('Notion'),
+    t: app('Warp'),
+    z: app('zoom.us'),
+    f: app('Finder'),
+    r: app('Telegram'),
+    // "i"Message
+    i: app('Messages'),
+    p: app('Spotify'),
+    w: open('https://web.whatsapp.com'),
+  },
+  /* Shortcut window management via rectangle.app */
+  // a: {
+  //   description: 'Window: Move to left display',
+  //   to: [
+  //     {
+  //       key_code: 'left_arrow',
+  //       modifiers: ['left_option', 'left_command', 'left_control'],
+  //     },
+  //   ],
+  // },
+
+  a: {
+    description: 'Trigger Option + Space. Superwhisper',
+    to: OPEN_TEXT_TO_SPEECH,
+  },
+  w: {
+    description: 'Global Jump to windows via script kit',
+    to: [
+      {
+        key_code: 'f',
+        modifiers: ['left_option'],
+      },
+    ],
+  },
+  'tab': {
+    description: 'Global Jump to windows via script kit',
+    to: [
+      {
+        key_code: 'f',
+        modifiers: ['left_option'],
+      },
+    ],
+  },
+  7: {
+    to: [
+      {
+        key_code: 'up_arrow',
+      },
+    ],
+  },
+  f1: {
+    description: 'Trigger Dark-mode',
+      to: [
+      {
+        key_code: '8',
+        modifiers: ['left_command', 'left_option', 'left_control'],
+      },
+    ],
+  },
+  s: {
+    description: 'Window: Move to right display',
+    to: [
+      {
+        key_code: 'right_arrow',
+        modifiers: ['left_option', 'left_command', 'left_control'],
+      },
+    ],
+  },
+  q: {
+    description: 'Trigger Claude shortcut',
+    to: [
+      {
+        key_code: 'u',
+        modifiers: ['left_command'],
+      },
+    ],
+  },
+  left_command: {
+    description: 'Trigger Voice Option + Space',
+    to: [
+      {
+        key_code: 'u',
+        modifiers: ['left_command'],
+      },
+    ],
+  },
+  z: {
+    description: 'Trigger Enter',
+    to: [
+      {
+        key_code: 'return_or_enter',
+      },
+    ],
+  },
+  // w = "Window" via rectangle.app
+  // a: {
+  //   semicolon: {
+  //     description: "Window: Hide",
+  //     to: [
+  //       {
+  //         key_code: "h",
+  //         modifiers: ["right_command"],
+  //       },
+  //     ],
+  //   },
+  //   y: {
+  //     description: "Window: First Third",
+  //     to: [
+  //       {
+  //         key_code: "left_arrow",
+  //         modifiers: ["right_option", "right_control"],
+  //       },
+  //     ],
+  //   },
+  //   k: {
+  //     description: "Window: Top Half",
+  //     to: [
+  //       {
+  //         key_code: "up_arrow",
+  //         modifiers: ["right_option", "right_command"],
+  //       },
+  //     ],
+  //   },
+  //   j: {
+  //     description: "Window: Bottom Half",
+  //     to: [
+  //       {
+  //         key_code: "down_arrow",
+  //         modifiers: ["right_option", "right_command"],
+  //       },
+  //     ],
+  //   },
+  //   o: {
+  //     description: "Window: Last Third",
+  //     to: [
+  //       {
+  //         key_code: "right_arrow",
+  //         modifiers: ["right_option", "right_control"],
+  //       },
+  //     ],
+  //   },
+  //   h: {
+  //     description: "Window: Left Half",
+  //     to: [
+  //       {
+  //         key_code: "left_arrow",
+  //         modifiers: ["right_option", "right_command"],
+  //       },
+  //     ],
+  //   },
+  //   l: {
+  //     description: "Window: Right Half",
+  //     to: [
+  //       {
+  //         key_code: "right_arrow",
+  //         modifiers: ["right_option", "right_command"],
+  //       },
+  //     ],
+  //   },
+  //   s: WINDOW_FULL,
+  //   u: {
+  //     description: "Window: Previous Tab",
+  //     to: [
+  //       {
+  //         key_code: "tab",
+  //         modifiers: ["right_control", "right_shift"],
+  //       },
+  //     ],
+  //   },
+  //   i: {
+  //     description: "Window: Next Tab",
+  //     to: [
+  //       {
+  //         key_code: "tab",
+  //         modifiers: ["right_control"],
+  //       },
+  //     ],
+  //   },
+  //   n: {
+  //     description: "Window: Next Window",
+  //     to: [
+  //       {
+  //         key_code: "grave_accent_and_tilde",
+  //         modifiers: ["right_command"],
+  //       },
+  //     ],
+  //   },
+  //   b: {
+  //     description: "Window: Back",
+  //     to: [
+  //       {
+  //         key_code: "open_bracket",
+  //         modifiers: ["right_command"],
+  //       },
+  //     ],
+  //   },
+  //   // Note: No literal connection. Both f and n are already taken.
+  //   m: {
+  //     description: "Window: Forward",
+  //     to: [
+  //       {
+  //         key_code: "close_bracket",
+  //         modifiers: ["right_command"],
+  //       },
+  //     ],
+  //   },
+  //   d: {
+  //     description: "Window: Next display",
+  //     to: [
+  //       {
+  //         key_code: "right_arrow",
+  //         modifiers: ["right_control", "right_option", "right_command"],
+  //       },
+  //     ],
+  //   },
+  // },
+
+  // z = "System"
+  // z: {
+  //   u: {
+  //     to: [
+  //       {
+  //         key_code: 'volume_increment',
+  //       },
+  //     ],
+  //   },
+  //   j: {
+  //     to: [
+  //       {
+  //         key_code: 'volume_decrement',
+  //       },
+  //     ],
+  //   },
+  //   i: {
+  //     to: [
+  //       {
+  //         key_code: 'display_brightness_increment',
+  //       },
+  //     ],
+  //   },
+  //   k: {
+  //     to: [
+  //       {
+  //         key_code: 'display_brightness_decrement',
+  //       },
+  //     ],
+  //   },
+  //   l: {
+  //     to: [
+  //       {
+  //         key_code: 'q',
+  //         modifiers: ['right_control', 'right_command'],
+  //       },
+  //     ],
+  //   },
+  //   p: {
+  //     to: [
+  //       {
+  //         key_code: 'play_or_pause',
+  //       },
+  //     ],
+  //   },
+  //   semicolon: {
+  //     to: [
+  //       {
+  //         key_code: 'fastforward',
+  //       },
+  //     ],
+  //   },
+  //   e: {
+  //     to: [
+  //       {
+  //         // Emoji picker
+  //         key_code: 'spacebar',
+  //         modifiers: ['right_control', 'right_command'],
+  //       },
+  //     ],
+  //   },
+  //   // Turn on Elgato KeyLight
+  //   y: {
+  //     to: [
+  //       {
+  //         shell_command: `curl -H 'Content-Type: application/json' --request PUT --data '{ "numberOfLights": 1, "lights": [ { "on": 1, "brightness": 100, "temperature": 215 } ] }' http://192.168.8.84:9123/elgato/lights`,
+  //       },
+  //     ],
+  //   },
+  //   h: {
+  //     to: [
+  //       {
+  //         shell_command: `curl -H 'Content-Type: application/json' --request PUT --data '{ "numberOfLights": 1, "lights": [ { "on": 0, "brightness": 100, "temperature": 215 } ] }' http://192.168.8.84:9123/elgato/lights`,
+  //       },
+  //     ],
+  //   },
+  // },
+
+  // v = "moVe" which isn't "m" because we want it to be on the left hand
+  v: {
+    h: {
+      to: [{ key_code: 'left_arrow' }],
+    },
+    j: {
+      to: [{ key_code: 'down_arrow' }],
+    },
+    k: {
+      to: [{ key_code: 'up_arrow' }],
+    },
+    l: {
+      to: [{ key_code: 'right_arrow' }],
+    },
+    // Magicmove via homerow.app
+    m: {
+      to: [{ key_code: 'f', modifiers: ['right_control'] }],
+    },
+    // Scroll mode via homerow.app
+    s: {
+      to: [{ key_code: 'j', modifiers: ['right_control'] }],
+    },
+    d: {
+      to: [{ key_code: 'd', modifiers: ['right_shift', 'right_command'] }],
+    },
+    u: {
+      to: [{ key_code: 'page_down' }],
+    },
+    i: {
+      to: [{ key_code: 'page_up' }],
+    },
+  },
+
+  // c = Musi*c* which isn't "m" because we want it to be on the left hand
+  c: {
+    p: {
+      to: [{ key_code: 'play_or_pause' }],
+    },
+    n: {
+      to: [{ key_code: 'fastforward' }],
+    },
+    b: {
+      to: [{ key_code: 'rewind' }],
+    },
+  },
+
+  // r = "Raycast"
+  r: {
+    l: open('raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink'),
+    e: open('raycast://extensions/raycast/emoji-symbols/search-emoji-symbols'),
+    c: open('raycast://extensions/raycast/system/open-camera'),
+    p: open('raycast://extensions/raycast/raycast/confetti'),
+    a: open('raycast://extensions/raycast/raycast-ai/ai-chat'),
+    s: open('raycast://extensions/peduarte/silent-mention/index'),
+    h: open('raycast://extensions/raycast/clipboard-history/clipboard-history'),
+    1: open('raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-1'),
+    2: open('raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-2'),
+  },
+}
+
+function makeHyperKey(from = 'caps_lock') {
+  return {
     description: 'Hyper Key (⌃⌥⇧⌘)',
     manipulators: [
       {
+        type: 'basic',
         description: 'Caps Lock -> Hyper Key',
         from: {
-          key_code: 'caps_lock',
+          key_code: from,
         },
         // 'to' is onHold caps lock
         to: [
@@ -1717,7 +2049,6 @@ const rules: KarabinerRules[] = [
           "basic.to_if_alone_timeout_milliseconds": 250,
           "basic.to_delayed_action_delay_milliseconds": 500
         },
-        type: 'basic',
       },
       //      {
       //        type: "basic",
@@ -1735,11 +2066,18 @@ const rules: KarabinerRules[] = [
       //        ],
       //      },
     ],
-  },
+  }
+}
+
+
+const rules: KarabinerRules[] = [
+  // Define the Hyper key itself
+  makeHyperKey('caps_lock'),
+  //makeHyperKey('right_command'),
   // @ts-ignore
   // ...autoQuotes,
   // ...ejectToScreenShot,
-  ...ejectToDelete,
+  ...ejectKeyToDelete,
   // ...voiceToText,
   ...BrowserMouseButtons,
   ...BrowserNav,
@@ -1753,400 +2091,7 @@ const rules: KarabinerRules[] = [
   ...GlobalMouseButtons,
   ...CamtasiaMouseButtons,
   /* Sub layers */
-  ...createHyperSubLayers({
-    1: {
-      type: 'basic',
-      from: {
-        key_code: '1',
-      },
-      ...app('Cursor'),
-    },
-    /* Remap hyper key + single key */
-    3: {
-      ...WINDOW_FULL,
-      ...IS_MOUSE,
-    },
-    up_arrow: {
-      ...WINDOW_FULL,
-    },
-    down_arrow: {
-      ...WINDOW_BOTTOM_HALF,
-    },
-    right_arrow: {
-      ...WINDOW_RIGHT,
-    },
-    left_arrow: {
-      ...WINDOW_LEFT,
-    },
-    right_shift: {
-      ...MOVE_WINDOW_RIGHT,
-    },
-    slash: {
-      ...MOVE_WINDOW_LEFT,
-    },
-    /* Remap o = "Open" applications */
-    o: {
-      1: app('1Password'),
-      g: app('Google Chrome'),
-      c: app('Google Chrome'),
-      v: app('Visual Studio Code'),
-      d: app('Discord'),
-      s: app('Slack'),
-      e: app('Superhuman'),
-      n: app('Notion'),
-      t: app('Warp'),
-      z: app('zoom.us'),
-      f: app('Finder'),
-      r: app('Telegram'),
-      // "i"Message
-      i: app('Messages'),
-      p: app('Spotify'),
-      w: open('https://web.whatsapp.com'),
-    },
-    /* Shortcut window management via rectangle.app */
-    // a: {
-    //   description: 'Window: Move to left display',
-    //   to: [
-    //     {
-    //       key_code: 'left_arrow',
-    //       modifiers: ['left_option', 'left_command', 'left_control'],
-    //     },
-    //   ],
-    // },
-
-    a: {
-      description: 'Trigger Option + Space. Superwhisper',
-      to: OPEN_TEXT_TO_SPEECH,
-    },
-    w: {
-      description: 'Global Jump to windows via script kit',
-      to: [
-        {
-          key_code: 'f',
-          modifiers: ['left_option'],
-        },
-      ],
-    },
-    'tab': {
-      description: 'Global Jump to windows via script kit',
-      to: [
-        {
-          key_code: 'f',
-          modifiers: ['left_option'],
-        },
-      ],
-    },
-    7: {
-      to: [
-        {
-          key_code: 'up_arrow',
-        },
-      ],
-    },
-    d: {
-      description: 'Trigger Dark-mode',
-        to: [
-        {
-          key_code: '8',
-          modifiers: ['left_command', 'left_option', 'left_control'],
-        },
-      ],
-    },
-    s: {
-      description: 'Window: Move to right display',
-      to: [
-        {
-          key_code: 'right_arrow',
-          modifiers: ['left_option', 'left_command', 'left_control'],
-        },
-      ],
-    },
-    q: {
-      description: 'Trigger Claude shortcut',
-      to: [
-        {
-          key_code: 'u',
-          modifiers: ['left_command'],
-        },
-      ],
-    },
-    left_command: {
-      description: 'Trigger Voice Option + Space',
-      to: [
-        {
-          key_code: 'u',
-          modifiers: ['left_command'],
-        },
-      ],
-    },
-    z: {
-      description: 'Trigger Enter',
-      to: [
-        {
-          key_code: 'return_or_enter',
-        },
-      ],
-    },
-    // w = "Window" via rectangle.app
-    // a: {
-    //   semicolon: {
-    //     description: "Window: Hide",
-    //     to: [
-    //       {
-    //         key_code: "h",
-    //         modifiers: ["right_command"],
-    //       },
-    //     ],
-    //   },
-    //   y: {
-    //     description: "Window: First Third",
-    //     to: [
-    //       {
-    //         key_code: "left_arrow",
-    //         modifiers: ["right_option", "right_control"],
-    //       },
-    //     ],
-    //   },
-    //   k: {
-    //     description: "Window: Top Half",
-    //     to: [
-    //       {
-    //         key_code: "up_arrow",
-    //         modifiers: ["right_option", "right_command"],
-    //       },
-    //     ],
-    //   },
-    //   j: {
-    //     description: "Window: Bottom Half",
-    //     to: [
-    //       {
-    //         key_code: "down_arrow",
-    //         modifiers: ["right_option", "right_command"],
-    //       },
-    //     ],
-    //   },
-    //   o: {
-    //     description: "Window: Last Third",
-    //     to: [
-    //       {
-    //         key_code: "right_arrow",
-    //         modifiers: ["right_option", "right_control"],
-    //       },
-    //     ],
-    //   },
-    //   h: {
-    //     description: "Window: Left Half",
-    //     to: [
-    //       {
-    //         key_code: "left_arrow",
-    //         modifiers: ["right_option", "right_command"],
-    //       },
-    //     ],
-    //   },
-    //   l: {
-    //     description: "Window: Right Half",
-    //     to: [
-    //       {
-    //         key_code: "right_arrow",
-    //         modifiers: ["right_option", "right_command"],
-    //       },
-    //     ],
-    //   },
-    //   s: WINDOW_FULL,
-    //   u: {
-    //     description: "Window: Previous Tab",
-    //     to: [
-    //       {
-    //         key_code: "tab",
-    //         modifiers: ["right_control", "right_shift"],
-    //       },
-    //     ],
-    //   },
-    //   i: {
-    //     description: "Window: Next Tab",
-    //     to: [
-    //       {
-    //         key_code: "tab",
-    //         modifiers: ["right_control"],
-    //       },
-    //     ],
-    //   },
-    //   n: {
-    //     description: "Window: Next Window",
-    //     to: [
-    //       {
-    //         key_code: "grave_accent_and_tilde",
-    //         modifiers: ["right_command"],
-    //       },
-    //     ],
-    //   },
-    //   b: {
-    //     description: "Window: Back",
-    //     to: [
-    //       {
-    //         key_code: "open_bracket",
-    //         modifiers: ["right_command"],
-    //       },
-    //     ],
-    //   },
-    //   // Note: No literal connection. Both f and n are already taken.
-    //   m: {
-    //     description: "Window: Forward",
-    //     to: [
-    //       {
-    //         key_code: "close_bracket",
-    //         modifiers: ["right_command"],
-    //       },
-    //     ],
-    //   },
-    //   d: {
-    //     description: "Window: Next display",
-    //     to: [
-    //       {
-    //         key_code: "right_arrow",
-    //         modifiers: ["right_control", "right_option", "right_command"],
-    //       },
-    //     ],
-    //   },
-    // },
-
-    // z = "System"
-    // z: {
-    //   u: {
-    //     to: [
-    //       {
-    //         key_code: 'volume_increment',
-    //       },
-    //     ],
-    //   },
-    //   j: {
-    //     to: [
-    //       {
-    //         key_code: 'volume_decrement',
-    //       },
-    //     ],
-    //   },
-    //   i: {
-    //     to: [
-    //       {
-    //         key_code: 'display_brightness_increment',
-    //       },
-    //     ],
-    //   },
-    //   k: {
-    //     to: [
-    //       {
-    //         key_code: 'display_brightness_decrement',
-    //       },
-    //     ],
-    //   },
-    //   l: {
-    //     to: [
-    //       {
-    //         key_code: 'q',
-    //         modifiers: ['right_control', 'right_command'],
-    //       },
-    //     ],
-    //   },
-    //   p: {
-    //     to: [
-    //       {
-    //         key_code: 'play_or_pause',
-    //       },
-    //     ],
-    //   },
-    //   semicolon: {
-    //     to: [
-    //       {
-    //         key_code: 'fastforward',
-    //       },
-    //     ],
-    //   },
-    //   e: {
-    //     to: [
-    //       {
-    //         // Emoji picker
-    //         key_code: 'spacebar',
-    //         modifiers: ['right_control', 'right_command'],
-    //       },
-    //     ],
-    //   },
-    //   // Turn on Elgato KeyLight
-    //   y: {
-    //     to: [
-    //       {
-    //         shell_command: `curl -H 'Content-Type: application/json' --request PUT --data '{ "numberOfLights": 1, "lights": [ { "on": 1, "brightness": 100, "temperature": 215 } ] }' http://192.168.8.84:9123/elgato/lights`,
-    //       },
-    //     ],
-    //   },
-    //   h: {
-    //     to: [
-    //       {
-    //         shell_command: `curl -H 'Content-Type: application/json' --request PUT --data '{ "numberOfLights": 1, "lights": [ { "on": 0, "brightness": 100, "temperature": 215 } ] }' http://192.168.8.84:9123/elgato/lights`,
-    //       },
-    //     ],
-    //   },
-    // },
-
-    // v = "moVe" which isn't "m" because we want it to be on the left hand
-    v: {
-      h: {
-        to: [{ key_code: 'left_arrow' }],
-      },
-      j: {
-        to: [{ key_code: 'down_arrow' }],
-      },
-      k: {
-        to: [{ key_code: 'up_arrow' }],
-      },
-      l: {
-        to: [{ key_code: 'right_arrow' }],
-      },
-      // Magicmove via homerow.app
-      m: {
-        to: [{ key_code: 'f', modifiers: ['right_control'] }],
-      },
-      // Scroll mode via homerow.app
-      s: {
-        to: [{ key_code: 'j', modifiers: ['right_control'] }],
-      },
-      d: {
-        to: [{ key_code: 'd', modifiers: ['right_shift', 'right_command'] }],
-      },
-      u: {
-        to: [{ key_code: 'page_down' }],
-      },
-      i: {
-        to: [{ key_code: 'page_up' }],
-      },
-    },
-
-    // c = Musi*c* which isn't "m" because we want it to be on the left hand
-    c: {
-      p: {
-        to: [{ key_code: 'play_or_pause' }],
-      },
-      n: {
-        to: [{ key_code: 'fastforward' }],
-      },
-      b: {
-        to: [{ key_code: 'rewind' }],
-      },
-    },
-
-    // r = "Raycast"
-    r: {
-      l: open('raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink'),
-      e: open('raycast://extensions/raycast/emoji-symbols/search-emoji-symbols'),
-      c: open('raycast://extensions/raycast/system/open-camera'),
-      p: open('raycast://extensions/raycast/raycast/confetti'),
-      a: open('raycast://extensions/raycast/raycast-ai/ai-chat'),
-      s: open('raycast://extensions/peduarte/silent-mention/index'),
-      h: open('raycast://extensions/raycast/clipboard-history/clipboard-history'),
-      1: open('raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-1'),
-      2: open('raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-2'),
-    },
-  }),
+  ...createHyperSubLayers(hyperLayerKeys),
 ]
 
 fs.writeFileSync(
@@ -2169,3 +2114,44 @@ fs.writeFileSync(
     2,
   ),
 )
+
+console.log('\nHyper Layer Keys and Descriptions:')
+const tableData = Object.entries(hyperLayerKeys)
+  .filter(([_, value]) => value.description)
+  .map(([key, value]) => ({
+    Key: key,
+    Description: value.description
+  }))
+console.table(tableData)
+
+// Standard Karabiner key codes
+const standardKeys = [
+  // Letters
+  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+  'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+  // Numbers
+  '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+  // Symbols
+  'grave_accent_and_tilde', 'hyphen', 'equal_sign', 'open_bracket', 'close_bracket',
+  'backslash', 'semicolon', 'quote', 'comma', 'period', 'slash',
+  // Function keys
+  'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'f10', 'f11', 'f12',
+  // Navigation
+  'return_or_enter', 'tab', 'spacebar', 'delete_or_backspace', 'delete_forward',
+  'left_arrow', 'right_arrow', 'up_arrow', 'down_arrow', 'page_up', 'page_down',
+  'home', 'end',
+  // Modifiers
+  'left_control', 'left_shift', 'left_option', 'left_command',
+  'right_control', 'right_shift', 'right_option', 'right_command',
+  // Media keys
+  'volume_up', 'volume_down', 'mute', 'play_or_pause', 'fastforward', 'rewind',
+  // Other
+  'caps_lock', 'escape', 'eject'
+]
+
+console.log('\nAvailable Keys Not Used in Hyper Layer:')
+const usedKeys = Object.keys(hyperLayerKeys)
+const availableKeys = standardKeys
+  .filter(key => !usedKeys.includes(key))
+  .sort()
+console.log(availableKeys.sort())
