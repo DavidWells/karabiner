@@ -111,6 +111,73 @@ const ejectKeyToDelete = [
   },
 ]
 
+const doubleShiftToEnter = [
+  {
+    "description": "Double-tap left shift → Enter key",
+    "manipulators": [
+      {
+        "conditions": [
+          {
+            "name": "left_shift_pressed",
+            "type": "variable_if",
+            "value": 1
+          }
+        ],
+        "from": {
+          "key_code": "left_shift",
+          "modifiers": {
+            "optional": ["any"]
+          }
+        },
+        "to": [
+          {
+            "key_code": "return_or_enter"
+          }
+        ],
+        "type": "basic"
+      },
+      {
+        "from": {
+          "key_code": "left_shift",
+          "modifiers": {
+            "optional": ["any"]
+          }
+        },
+        "to": [
+          {
+            "set_variable": {
+              "name": "left_shift_pressed",
+              "value": 1
+            }
+          },
+          {
+            "key_code": "left_shift"
+          }
+        ],
+        "to_delayed_action": {
+          "to_if_canceled": [
+            {
+              "set_variable": {
+                "name": "left_shift_pressed",
+                "value": 0
+              }
+            }
+          ],
+          "to_if_invoked": [
+            {
+              "set_variable": {
+                "name": "left_shift_pressed", 
+                "value": 0
+              }
+            }
+          ]
+        },
+        "type": "basic"
+      }
+    ]
+  }
+]
+
 /* Razer mouse */
 const isMouseButton = [
   {
@@ -416,6 +483,20 @@ const doubleKeyPressWIP = {
   ]
 }
 
+const toStartOfLine = [
+  {
+    "key_code": "a",
+    "modifiers": ["control"]
+  }
+]
+
+const toEndOfLine = [
+  {
+    "key_code": "e",
+    "modifiers": ["control"]
+  }
+]
+
 const terminalLineJumpShortCuts = [
   {
     "description": "Page up global",
@@ -528,16 +609,10 @@ const terminalLineJumpShortCuts = [
       "from": {
         "key_code": "x",
         "modifiers": {
-          "mandatory": ["command"],
-          "optional": ["any"]
+          "mandatory": ["left_command"],
         },
       },
-      "to": [
-        {
-          "key_code": "e",
-          "modifiers": ["control"]
-        }
-      ],
+      "to": toEndOfLine,
       conditions: [
         ...IS_TERMINAL_WINDOW,
       ],
@@ -556,12 +631,20 @@ const terminalLineJumpShortCuts = [
           "optional": ["any"]
         },
       },
-      "to": [
-        {
-          "key_code": "a",
-          "modifiers": ["control"]
-        }
+      "to": toStartOfLine,
+      conditions: [
+        ...IS_TERMINAL_WINDOW,
       ],
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "left_arrow",
+        "modifiers": {
+          "mandatory": ["left_command"],
+        },
+      },
+      "to": toStartOfLine,
       conditions: [
         ...IS_TERMINAL_WINDOW,
       ],
@@ -569,7 +652,7 @@ const terminalLineJumpShortCuts = [
   ]
 },
 {
-  "description": "Go to start of line left arrow - control",
+  "description": "Go to start of line left arrow - control/cmd",
   "manipulators": [
     {
       "type": "basic",
@@ -580,12 +663,20 @@ const terminalLineJumpShortCuts = [
           "optional": ["any"]
         },
       },
-      "to": [
-        {
-          "key_code": "a",
-          "modifiers": ["control"]
-        }
+      "to": toStartOfLine,
+      conditions: [
+        ...IS_TERMINAL_WINDOW,
       ],
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "left_arrow",
+        "modifiers": {
+          "mandatory": ["left_command"],
+        },
+      },
+      "to": toStartOfLine,
       conditions: [
         ...IS_TERMINAL_WINDOW,
       ],
@@ -604,12 +695,20 @@ const terminalLineJumpShortCuts = [
           "optional": ["any"]
         },
       },
-      "to": [
-        {
-          "key_code": "e",
-          "modifiers": ["control"]
-        }
+      "to": toEndOfLine,
+      conditions: [
+        ...IS_TERMINAL_WINDOW,
       ],
+    },
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "right_arrow",
+        "modifiers": {
+          "mandatory": ["left_command"],
+        },
+      },
+      "to": toEndOfLine,
       conditions: [
         ...IS_TERMINAL_WINDOW,
       ],
@@ -628,12 +727,7 @@ const terminalLineJumpShortCuts = [
           "optional": ["any"]
         },
       },
-      "to": [
-        {
-          "key_code": "e",
-          "modifiers": ["control"]
-        }
-      ],
+      "to": toEndOfLine,
       conditions: [
         ...IS_TERMINAL_WINDOW,
       ],
@@ -2099,6 +2193,51 @@ function makeRightHyperKey(from = 'right_command') {
   }
 }
 
+const deleteTerminalLine = [
+  {
+    "description": "Left Cmd + Delete → Ctrl+U (delete terminal line)",
+    "manipulators": [
+      {
+        "from": {
+          "key_code": "delete_or_backspace",
+          "modifiers": {
+            "mandatory": ["left_command"]
+          }
+        },
+        "to": [
+          {
+            "key_code": "u",
+            "modifiers": ["control"]
+          }
+        ],
+        "type": "basic",
+        "conditions": [
+          ...IS_TERMINAL_WINDOW,
+        ]
+      },
+        {
+      "from": {
+        "key_code": "escape",
+        "modifiers": {
+          "mandatory": ["command"]
+        }
+      },
+      "to": [
+        {
+          "key_code": "u",
+          "modifiers": ["control"]
+        }
+      ],
+      "type": "basic",
+      "conditions": [
+        ...IS_TERMINAL_WINDOW,
+      ]
+    }
+    ]
+  },
+  
+]
+
 const HIT_ENTER = {
   to: [
     {
@@ -2115,6 +2254,8 @@ let rules: KarabinerRules[] = [
   // ...autoQuotes,
   // ...ejectToScreenShot,
   ...ejectKeyToDelete,
+  ...doubleShiftToEnter,
+  ...deleteTerminalLine,
   // ...voiceToText,
   ...BrowserMouseButtons,
   ...BrowserNav,

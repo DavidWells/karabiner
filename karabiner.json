@@ -92,6 +92,133 @@
             ]
           },
           {
+            "description": "Double-tap left shift → Enter key",
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "name": "left_shift_pressed",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "return_or_enter"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "left_shift_pressed",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "left_shift"
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "left_shift_pressed",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "left_shift_pressed",
+                        "value": 0
+                      }
+                    }
+                  ]
+                },
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "Left Cmd + Delete → Ctrl+U (delete terminal line)",
+            "manipulators": [
+              {
+                "from": {
+                  "key_code": "delete_or_backspace",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "u",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "type": "basic",
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "from": {
+                  "key_code": "escape",
+                  "modifiers": {
+                    "mandatory": [
+                      "command"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "u",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "type": "basic",
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "[BROWSER] - Mouse 1 => PREVIOUS APP",
             "manipulators": [
               {
@@ -1082,10 +1209,7 @@
                   "key_code": "x",
                   "modifiers": {
                     "mandatory": [
-                      "command"
-                    ],
-                    "optional": [
-                      "any"
+                      "left_command"
                     ]
                   }
                 },
@@ -1140,11 +1264,38 @@
                     ]
                   }
                 ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_arrow",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "a",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
               }
             ]
           },
           {
-            "description": "Go to start of line left arrow - control",
+            "description": "Go to start of line left arrow - control/cmd",
             "manipulators": [
               {
                 "type": "basic",
@@ -1156,6 +1307,33 @@
                     ],
                     "optional": [
                       "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "a",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_arrow",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command"
                     ]
                   }
                 },
@@ -1191,6 +1369,33 @@
                     ],
                     "optional": [
                       "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "e",
+                    "modifiers": [
+                      "control"
+                    ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.googlecode\\.iterm2$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "right_arrow",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command"
                     ]
                   }
                 },
