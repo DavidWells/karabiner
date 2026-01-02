@@ -223,7 +223,7 @@ const GlobalMouseButtons = [
       },
     ],
   },
-    {
+  {
     description: '[GLOBAL] Mouse 3 - Open Chrome',
     manipulators: [
       {
@@ -236,17 +236,26 @@ const GlobalMouseButtons = [
       },
     ],
   },
-    {
-    description: '[GLOBAL] Mouse 4 - Open Text to speech',
+  // Mouse 4: Tap = Text to speech, Hold = Command+U (claude voice)
+  {
+    description: '[GLOBAL] Mouse 4 - Tap: Text to speech, Hold: Claude voice',
     manipulators: [
       {
         type: 'basic',
         from: {
           key_code: '4',
         },
-        to: OPEN_TEXT_TO_SPEECH,
-        // ...app('Asana'),
-
+        to_if_alone: OPEN_TEXT_TO_SPEECH,
+        to_if_held_down: [
+          {
+            key_code: 'c',
+            modifiers: ['left_command', 'left_option', 'left_control'],
+          },
+        ],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 300,
+        },
         conditions: [...isMouseButton],
       },
     ],
@@ -283,6 +292,26 @@ const GlobalMouseButtons = [
       },
     ],
   },
+  // Delete line in terminal
+  {
+    description: '[iTerm] Mouse 8 - Control + C',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: '8',
+        },
+        to: [
+          {
+            key_code: 'c',
+            modifiers: ['control'],
+          },
+        ],
+        conditions: [...isMouseButton, ...IS_TERMINAL_WINDOW],
+      },
+    ],
+  },
+  // Select all and delete
   {
     description: '[GLOBAL] Mouse 8 - Select all and Delete',
     manipulators: [
@@ -302,7 +331,7 @@ const GlobalMouseButtons = [
           },
           {
             "key_code": "delete_or_backspace"
-          }
+          },
         ],
         conditions: [...isMouseButton],
       },
@@ -320,7 +349,7 @@ const GlobalMouseButtons = [
           {
             repeat: false,
             key_code: '2',
-            modifiers: ['left_command', 'left_option'],
+            modifiers: ['left_command'],
           },
         ],
         conditions: [...isMouseButton],
@@ -338,8 +367,8 @@ const GlobalMouseButtons = [
         to: [
           {
             repeat: false,
-            key_code: '2',
-            modifiers: ['left_command', 'left_shift'],
+            key_code: '1',
+            modifiers: ['left_command'],
           },
         ],
         conditions: [...isMouseButton],
@@ -902,6 +931,7 @@ const terminalMouseButtons = [
   // doubleKeyPressWIP,
   // Toggle back to previous App
   {
+    // Must match the global mouse 2 button set to terminal (iTerm)
     description: '[Terminal] - Mouse 2 => PREVIOUS APP',
     manipulators: [
       {
@@ -1139,14 +1169,14 @@ const CursorShortcuts = [
 ]
 
 const CodeEditorMouseButtons = [
-  // Toggle back to previous App
+  // Toggle back to previous App. Must match the global mouse 1 button set to cursor
   {
-    description: '[EDITOR] - Mouse 3 => PREVIOUS APP',
+    description: '[EDITOR] - Mouse 1 => PREVIOUS APP',
     manipulators: [
       {
         type: 'basic',
         from: {
-          key_code: '3',
+          key_code: '1',
         },
         to: toggleBackToPreviousApp,
         conditions: [
@@ -1200,72 +1230,73 @@ const CodeEditorMouseButtons = [
       },
     ],
   },
-  {
-    description: '[EDITOR] - Mouse 4 => Copilot Doc selection',
-    manipulators: [
-      {
-        type: 'basic',
-        from: {
-          key_code: '4',
-        },
-        to: [
-          {
-            repeat: false,
-            key_code: 'd',
-            modifiers: ['left_command', 'left_option', 'left_shift'],
-          },
-        ],
-        conditions: [
-          ...isMouseButton,
-          ...IS_EDITOR_WINDOW,
-        ],
-      },
-    ],
-  },
-  {
-    description: '[EDITOR] - Mouse 7 => Copilot Explain selection',
-    manipulators: [
-      {
-        type: 'basic',
-        from: {
-          key_code: '7',
-        },
-        to: [
-          {
-            repeat: false,
-            key_code: 't',
-            modifiers: ['left_command', 'left_option', 'left_shift'],
-          },
-        ],
-        conditions: [
-          ...isMouseButton,
-          ...IS_EDITOR_WINDOW,
-        ],
-      },
-    ],
-  },
-  {
-    description: '[EDITOR] - Mouse 8 => Copilot Explain selection',
-    manipulators: [
-      {
-        type: 'basic',
-        from: {
-          key_code: '8',
-        },
-        to: [
-          {
-            repeat: false,
-            key_code: 'e',
-            modifiers: ['left_command', 'left_option', 'left_shift'],
-          },
-        ],
-        conditions: [
-          ...isMouseButton,
-          ...IS_EDITOR_WINDOW,
-        ],
-      },
-    ],
-  },
+  // Auto gen docs but not working
+  // {
+  //   description: '[EDITOR] - Mouse 4 => Copilot Doc selection',
+  //   manipulators: [
+  //     {
+  //       type: 'basic',
+  //       from: {
+  //         key_code: '4',
+  //       },
+  //       to: [
+  //         {
+  //           repeat: false,
+  //           key_code: 'd',
+  //           modifiers: ['left_command', 'left_option', 'left_shift'],
+  //         },
+  //       ],
+  //       conditions: [
+  //         ...isMouseButton,
+  //         ...IS_EDITOR_WINDOW,
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   description: '[EDITOR] - Mouse 7 => Copilot Explain selection',
+  //   manipulators: [
+  //     {
+  //       type: 'basic',
+  //       from: {
+  //         key_code: '7',
+  //       },
+  //       to: [
+  //         {
+  //           repeat: false,
+  //           key_code: 't',
+  //           modifiers: ['left_command', 'left_option', 'left_shift'],
+  //         },
+  //       ],
+  //       conditions: [
+  //         ...isMouseButton,
+  //         ...IS_EDITOR_WINDOW,
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   description: '[EDITOR] - Mouse 8 => Copilot Explain selection',
+  //   manipulators: [
+  //     {
+  //       type: 'basic',
+  //       from: {
+  //         key_code: '8',
+  //       },
+  //       to: [
+  //         {
+  //           repeat: false,
+  //           key_code: 'e',
+  //           modifiers: ['left_command', 'left_option', 'left_shift'],
+  //         },
+  //       ],
+  //       conditions: [
+  //         ...isMouseButton,
+  //         ...IS_EDITOR_WINDOW,
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     description: '[EDITOR] - Mouse 9 => MD preview',
     manipulators: [
@@ -1351,12 +1382,12 @@ const CodeEditorNav = [
 const BrowserMouseButtons = [
   // Toggle back to previous App
   {
-    description: '[BROWSER] - Mouse 1 => PREVIOUS APP',
+    description: '[BROWSER] - Mouse 3 => PREVIOUS APP',
     manipulators: [
       {
         type: 'basic',
         from: {
-          key_code: '1',
+          key_code: '3',
         },
         to: toggleBackToPreviousApp,
         conditions: [
@@ -1674,7 +1705,7 @@ const WINDOW_BOTTOM_HALF = {
   ],
 }
 
-const WINDOW_LEFT = {
+const WINDOW_LEFT_HALF = {
   description: 'Window: Left half',
   to: [
     {
@@ -1746,7 +1777,40 @@ const hyperLayerKeys = {
     ...WINDOW_RIGHT,
   },
   left_arrow: {
-    ...WINDOW_LEFT,
+    ...WINDOW_LEFT_HALF,
+  },
+  s: {
+    description: 'Window: Move to right display',
+    to: [
+      {
+        key_code: 'right_arrow',
+        modifiers: ['left_option', 'left_command', 'left_control'],
+      },
+    ],
+  },
+  e: {
+    ...WINDOW_FULL,
+  },
+  d: {
+    description: 'Window: Move to right display',
+    to: [
+      {
+        key_code: 'right_arrow',
+        modifiers: ['left_option', 'left_command', 'left_control'],
+      },
+    ],
+  },
+  x: {
+    ...WINDOW_LEFT_HALF,
+  },
+  c: {
+    description: 'Window: Right half',
+    to: [
+      {
+        key_code: 'right_arrow',
+        modifiers: ['left_option', 'left_control'],
+      },
+    ],
   },
   right_shift: {
     ...MOVE_WINDOW_RIGHT,
@@ -1819,24 +1883,15 @@ const hyperLayerKeys = {
       },
     ],
   },
-  s: {
-    description: 'Window: Move to right display',
-    to: [
-      {
-        key_code: 'right_arrow',
-        modifiers: ['left_option', 'left_command', 'left_control'],
-      },
-    ],
-  },
-  q: {
-    description: 'Trigger Claude shortcut',
-    to: [
-      {
-        key_code: 'u',
-        modifiers: ['left_command'],
-      },
-    ],
-  },
+  // q: {
+  //   description: 'Trigger Claude shortcut',
+  //   to: [
+  //     {
+  //       key_code: 'c',
+  //       modifiers: ['left_command', 'left_option', 'left_control'],
+  //     },
+  //   ],
+  // },
   left_command: {
     description: 'Trigger Voice Option + Space',
     to: [
@@ -2089,17 +2144,17 @@ const hyperLayerKeys = {
   },
 
   // c = Musi*c* which isn't "m" because we want it to be on the left hand
-  c: {
-    p: {
-      to: [{ key_code: 'play_or_pause' }],
-    },
-    n: {
-      to: [{ key_code: 'fastforward' }],
-    },
-    b: {
-      to: [{ key_code: 'rewind' }],
-    },
-  },
+  // c: {
+  //   p: {
+  //     to: [{ key_code: 'play_or_pause' }],
+  //   },
+  //   n: {
+  //     to: [{ key_code: 'fastforward' }],
+  //   },
+  //   b: {
+  //     to: [{ key_code: 'rewind' }],
+  //   },
+  // },
 
   // r = "Raycast"
   r: {
@@ -2132,6 +2187,7 @@ function makeHyperKey(from = 'caps_lock') {
             modifiers: ['left_command', 'left_control', 'left_option'],
           },
         ],
+        // IF hyperkey tapped alone then run shift + escape
         to_if_alone: [
           {
             key_code: 'escape',
@@ -2254,7 +2310,7 @@ let rules: KarabinerRules[] = [
   // ...autoQuotes,
   // ...ejectToScreenShot,
   ...ejectKeyToDelete,
-  ...doubleShiftToEnter,
+  // ...doubleShiftToEnter,
   ...deleteTerminalLine,
   // ...voiceToText,
   ...BrowserMouseButtons,
@@ -2287,25 +2343,15 @@ if (DEBUG) {
   rules = []
 } 
 
+// Read existing config to preserve devices, fn_function_keys, etc.
+const existingConfig = JSON.parse(fs.readFileSync('karabiner.json', 'utf-8'))
+
+// Update only the rules, preserve everything else
+existingConfig.profiles[0].complex_modifications.rules = rules
+
 fs.writeFileSync(
   'karabiner.json',
-  JSON.stringify(
-    {
-      global: {
-        show_in_menu_bar: false,
-      },
-      profiles: [
-        {
-          name: 'Default',
-          complex_modifications: {
-            rules,
-          },
-        },
-      ],
-    },
-    null,
-    2,
-  ),
+  JSON.stringify(existingConfig, null, 4),
 )
 
 console.log('\nHyper Layer Keys and Descriptions:')

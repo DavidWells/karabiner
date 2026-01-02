@@ -51,3 +51,8 @@ watches the TypeScript files and rebuilds whenever they change.
 ## License
 
 Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENSE.md).
+
+
+## Notes
+
+Extra double tap of https://app.screencast.com/SnjDxLxv4S2AQ
