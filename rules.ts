@@ -2302,6 +2302,96 @@ const HIT_ENTER = {
   ],
 }
 
+const COPY_LOCATION_KEYS = [
+  {
+    key_code: 'backslash',
+    modifiers: ['left_control', 'left_option', 'left_shift', 'left_command'],
+  },
+]
+
+const copyLocationShortcut = [
+  {
+    description: '[EDITOR] Double-tap left_option => Copy file:line location',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'left_option',
+          modifiers: { optional: ['any'] },
+        },
+        to: COPY_LOCATION_KEYS,
+        conditions: [
+          { type: 'variable_if', name: 'left_option_pressed', value: 1 },
+          ...IS_EDITOR_WINDOW,
+        ],
+      },
+      {
+        type: 'basic',
+        from: {
+          key_code: 'left_option',
+          modifiers: { optional: ['any'] },
+        },
+        to: [
+          { set_variable: { name: 'left_option_pressed', value: 1 } },
+          { key_code: 'left_option' },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: 'left_option_pressed', value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: 'left_option_pressed', value: 0 } },
+          ],
+        },
+        parameters: {
+          'basic.to_delayed_action_delay_milliseconds': 250,
+        },
+        conditions: [...IS_EDITOR_WINDOW],
+      },
+    ],
+  },
+  {
+    description: '[EDITOR] Double-tap left_command => Copy file:line location',
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: 'left_command',
+          modifiers: { optional: ['any'] },
+        },
+        to: COPY_LOCATION_KEYS,
+        conditions: [
+          { type: 'variable_if', name: 'left_command_pressed', value: 1 },
+          ...IS_EDITOR_WINDOW,
+        ],
+      },
+      {
+        type: 'basic',
+        from: {
+          key_code: 'left_command',
+          modifiers: { optional: ['any'] },
+        },
+        to: [
+          { set_variable: { name: 'left_command_pressed', value: 1 } },
+          { key_code: 'left_command' },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: 'left_command_pressed', value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: 'left_command_pressed', value: 0 } },
+          ],
+        },
+        parameters: {
+          'basic.to_delayed_action_delay_milliseconds': 250,
+        },
+        conditions: [...IS_EDITOR_WINDOW],
+      },
+    ],
+  },
+]
+
 let rules: KarabinerRules[] = [
   // Define the Hyper key itself
   makeHyperKey('caps_lock'),
@@ -2317,6 +2407,7 @@ let rules: KarabinerRules[] = [
   ...BrowserNav,
   ...CodeEditorMouseButtons,
   ...CodeEditorNav,
+  ...copyLocationShortcut,
   ...terminalMouseButtons,
   ...terminalNav,
   ...terminalLineJumpShortCuts,
