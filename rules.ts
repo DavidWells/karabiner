@@ -55,6 +55,16 @@ const IS_BROWSER_WINDOW = [
   },
 ]
 
+const IS_CHROME_WINDOW = [
+  {
+    type: 'frontmost_application_if',
+    bundle_identifiers: [
+      '^com\\.google\\.Chrome$',
+      '^com\\.google\\.Chrome\\.canary$',
+    ],
+  },
+]
+
 // Super whisper
 const OPEN_TEXT_TO_SPEECH = [
   {
@@ -2302,6 +2312,60 @@ const HIT_ENTER = {
   ],
 }
 
+// Generates double-tap modifier key rules that fire `to` keys on second press
+function doubleTap({
+  description,
+  to,
+  conditions,
+  keys = ['left_option', 'left_command'],
+}: {
+  description: string
+  to: object[]
+  conditions: object[]
+  keys?: string[]
+}) {
+  return keys.map((key) => ({
+    description: `${description} (${key})`,
+    manipulators: [
+      {
+        type: 'basic',
+        from: {
+          key_code: key,
+          modifiers: { optional: ['any'] },
+        },
+        to,
+        conditions: [
+          { type: 'variable_if', name: `${key}_pressed`, value: 1 },
+          ...conditions,
+        ],
+      },
+      {
+        type: 'basic',
+        from: {
+          key_code: key,
+          modifiers: { optional: ['any'] },
+        },
+        to: [
+          { set_variable: { name: `${key}_pressed`, value: 1 } },
+          { key_code: key },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: `${key}_pressed`, value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: `${key}_pressed`, value: 0 } },
+          ],
+        },
+        parameters: {
+          'basic.to_delayed_action_delay_milliseconds': 250,
+        },
+        conditions: [...conditions],
+      },
+    ],
+  }))
+}
+
 const COPY_LOCATION_KEYS = [
   {
     key_code: 'backslash',
@@ -2309,88 +2373,17 @@ const COPY_LOCATION_KEYS = [
   },
 ]
 
-const copyLocationShortcut = [
-  {
-    description: '[EDITOR] Double-tap left_option => Copy file:line location',
-    manipulators: [
-      {
-        type: 'basic',
-        from: {
-          key_code: 'left_option',
-          modifiers: { optional: ['any'] },
-        },
-        to: COPY_LOCATION_KEYS,
-        conditions: [
-          { type: 'variable_if', name: 'left_option_pressed', value: 1 },
-          ...IS_EDITOR_WINDOW,
-        ],
-      },
-      {
-        type: 'basic',
-        from: {
-          key_code: 'left_option',
-          modifiers: { optional: ['any'] },
-        },
-        to: [
-          { set_variable: { name: 'left_option_pressed', value: 1 } },
-          { key_code: 'left_option' },
-        ],
-        to_delayed_action: {
-          to_if_invoked: [
-            { set_variable: { name: 'left_option_pressed', value: 0 } },
-          ],
-          to_if_canceled: [
-            { set_variable: { name: 'left_option_pressed', value: 0 } },
-          ],
-        },
-        parameters: {
-          'basic.to_delayed_action_delay_milliseconds': 250,
-        },
-        conditions: [...IS_EDITOR_WINDOW],
-      },
-    ],
-  },
-  {
-    description: '[EDITOR] Double-tap left_command => Copy file:line location',
-    manipulators: [
-      {
-        type: 'basic',
-        from: {
-          key_code: 'left_command',
-          modifiers: { optional: ['any'] },
-        },
-        to: COPY_LOCATION_KEYS,
-        conditions: [
-          { type: 'variable_if', name: 'left_command_pressed', value: 1 },
-          ...IS_EDITOR_WINDOW,
-        ],
-      },
-      {
-        type: 'basic',
-        from: {
-          key_code: 'left_command',
-          modifiers: { optional: ['any'] },
-        },
-        to: [
-          { set_variable: { name: 'left_command_pressed', value: 1 } },
-          { key_code: 'left_command' },
-        ],
-        to_delayed_action: {
-          to_if_invoked: [
-            { set_variable: { name: 'left_command_pressed', value: 0 } },
-          ],
-          to_if_canceled: [
-            { set_variable: { name: 'left_command_pressed', value: 0 } },
-          ],
-        },
-        parameters: {
-          'basic.to_delayed_action_delay_milliseconds': 250,
-        },
-        conditions: [...IS_EDITOR_WINDOW],
-      },
-    ],
-  },
-]
+const copyLocationShortcut = doubleTap({
+  description: '[EDITOR] Double-tap => Copy file:line location',
+  to: COPY_LOCATION_KEYS,
+  conditions: IS_EDITOR_WINDOW,
+})
+
+const chromeDoubleTapShortcut = doubleTap({
+  description: '[CHROME] Double-tap => ⌘+Option+N',
+  to: [{ key_code: 'n', modifiers: ['left_command', 'left_option'] }],
+  conditions: IS_CHROME_WINDOW,
+})
 
 let rules: KarabinerRules[] = [
   // Define the Hyper key itself
@@ -2407,6 +2400,7 @@ let rules: KarabinerRules[] = [
   ...BrowserNav,
   ...CodeEditorMouseButtons,
   ...CodeEditorNav,
+  ...chromeDoubleTapShortcut,
   ...copyLocationShortcut,
   ...terminalMouseButtons,
   ...terminalNav,
