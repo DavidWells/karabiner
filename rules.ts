@@ -401,11 +401,11 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Right trigger (button2) ── paste mode => paste + reset, otherwise passthrough
-  // TODO: double-tap is a candidate for mode switcher — set a variable to remap other buttons contextually
+  // ── Right trigger (button2) ── paste if armed, double-tap => right-click, hold => modifier
   {
-    description: '[RELACON] Left trigger: paste mode => Cmd+V, otherwise click',
+    description: '[RELACON] Right trigger: paste/double-tap right-click/hold modifier',
     manipulators: [
+      // Paste mode — Cmd+V and reset
       {
         type: 'basic',
         from: { pointing_button: 'button2' },
@@ -418,17 +418,36 @@ const RelaconButtons = [
           ...isRelacon,
         ],
       },
-      // Hold sets modifier variable for combos with other buttons
+      // Double-tap — fire right-click
+      {
+        type: 'basic',
+        from: { pointing_button: 'button2' },
+        to: [{ pointing_button: 'button2' }],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_dblclick', value: 1 },
+          ...isRelacon,
+        ],
+      },
+      // First press — hold sets modifier, single tap does nothing
       {
         type: 'basic',
         from: { pointing_button: 'button2' },
         to: [
           { set_variable: { name: 'relacon_b2_held', value: 1 } },
+          { set_variable: { name: 'relacon_b2_dblclick', value: 1 } },
         ],
-        to_if_alone: [{ pointing_button: 'button2' }],
         to_after_key_up: [
           { set_variable: { name: 'relacon_b2_held', value: 0 } },
         ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: 'relacon_b2_dblclick', value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: 'relacon_b2_dblclick', value: 0 } },
+          ],
+        },
+        parameters: { 'basic.to_delayed_action_delay_milliseconds': 300 },
         conditions: [...isRelacon],
       },
     ],

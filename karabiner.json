@@ -2001,7 +2001,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Left trigger: paste mode => Cmd+V, otherwise click",
+                        "description": "[RELACON] Right trigger: paste/double-tap right-click/hold modifier",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2046,15 +2046,43 @@
                                 },
                                 "to": [
                                     {
+                                        "pointing_button": "button2"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_dblclick",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button2"
+                                },
+                                "to": [
+                                    {
                                         "set_variable": {
                                             "name": "relacon_b2_held",
                                             "value": 1
                                         }
-                                    }
-                                ],
-                                "to_if_alone": [
+                                    },
                                     {
-                                        "pointing_button": "button2"
+                                        "set_variable": {
+                                            "name": "relacon_b2_dblclick",
+                                            "value": 1
+                                        }
                                     }
                                 ],
                                 "to_after_key_up": [
@@ -2065,6 +2093,27 @@
                                         }
                                     }
                                 ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "relacon_b2_dblclick",
+                                                "value": 0
+                                            }
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "relacon_b2_dblclick",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 300
+                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",

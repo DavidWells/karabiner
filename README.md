@@ -58,7 +58,7 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Physical Button | Event | Tap | Double Tap | Hold | B2 Combo |
 |---|---|---|---|---|---|
 | Left trigger | `button1` | Click + Cmd+C + arm paste | SuperWhisper + arm whisper | — (reserved) | — |
-| Right trigger | `button2` | Paste (Cmd+V) if armed, else right-click | — | Modifier (enables combos) | — |
+| Right trigger | `button2` | Paste (Cmd+V) if armed, else nothing | Right-click | Modifier (enables combos) | — |
 | Scroll wheel press | `button3` | Delete | Esc+Esc+SelectAll+Delete | Esc+Esc+SelectAll+Delete | B2+B3 = Esc+Esc |
 | Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter |
 | Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter |
