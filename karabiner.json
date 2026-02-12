@@ -2081,6 +2081,36 @@
                                     },
                                     {
                                         "key_code": "escape"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button3"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "escape"
+                                    },
+                                    {
+                                        "key_code": "escape"
                                     },
                                     {
                                         "key_code": "a",
@@ -2186,7 +2216,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Back button: tap => Enter, double => Escape",
+                        "description": "[RELACON] Right trigger + Back => Shift+Enter",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2195,13 +2225,16 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "escape"
+                                        "key_code": "return_or_enter",
+                                        "modifiers": [
+                                            "left_shift"
+                                        ]
                                     }
                                 ],
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "double_click_button4",
+                                        "name": "relacon_b2_held",
                                         "value": 1
                                     },
                                     {
@@ -2214,7 +2247,12 @@
                                         ]
                                     }
                                 ]
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Back button => Enter",
+                        "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
@@ -2222,36 +2260,9 @@
                                 },
                                 "to": [
                                     {
-                                        "set_variable": {
-                                            "name": "double_click_button4",
-                                            "value": 1
-                                        }
-                                    },
-                                    {
                                         "key_code": "return_or_enter"
                                     }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_button4",
-                                                "value": 0
-                                            }
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_button4",
-                                                "value": 0
-                                            }
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 300
-                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",

@@ -436,6 +436,16 @@ const RelaconButtons = [
   {
     description: '[RELACON] Middle click: tap => Delete, double/hold => clear all',
     manipulators: [
+      // Combo: button2 held + button3 => clear prompt (Esc + Esc)
+      {
+        type: 'basic',
+        from: { pointing_button: 'button3' },
+        to: [{ key_code: 'escape' }, { key_code: 'escape' }],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          ...isRelacon,
+        ],
+      },
       // Double-click — Esc + Esc + Select All + Delete
       {
         type: 'basic',
@@ -475,12 +485,26 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Back / left side (button4) ── tap => Enter, double => Escape
-  doubleClickButton({
-    description: '[RELACON] Back button: tap => Enter, double => Escape',
+  // ── Combo: button2 held + button4 => Shift+Enter
+  {
+    description: '[RELACON] Right trigger + Back => Shift+Enter',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { pointing_button: 'button4' },
+        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'] }],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          ...isRelacon,
+        ],
+      },
+    ],
+  },
+  // ── Back / left side (button4) ── tap => Enter
+  mapButton({
+    description: '[RELACON] Back button => Enter',
     button: 'button4',
-    to: [{ key_code: 'escape' }],
-    singleTo: [{ key_code: 'return_or_enter' }],
+    to: [{ key_code: 'return_or_enter' }],
     conditions: [...isRelacon],
   }),
 
