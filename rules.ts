@@ -341,7 +341,7 @@ const RelaconButtons = [
           ...isRelacon,
         ],
       },
-      // First click — arm double-click variable, pass through, copy on release
+      // First click — copy on release only if not already armed
       {
         type: 'basic',
         from: { pointing_button: 'button1' },
@@ -362,7 +362,32 @@ const RelaconButtons = [
           ],
         },
         parameters: { 'basic.to_delayed_action_delay_milliseconds': 300 },
-        conditions: [...isRelacon],
+        conditions: [
+          { type: 'variable_unless', name: 'relacon_copied', value: 1 },
+          ...isRelacon,
+        ],
+      },
+      // First click — already armed, just pass through (no copy)
+      {
+        type: 'basic',
+        from: { pointing_button: 'button1' },
+        to: [
+          { set_variable: { name: 'relacon_dblclick', value: 1 } },
+          { pointing_button: 'button1' },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: 'relacon_dblclick', value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: 'relacon_dblclick', value: 0 } },
+          ],
+        },
+        parameters: { 'basic.to_delayed_action_delay_milliseconds': 300 },
+        conditions: [
+          { type: 'variable_if', name: 'relacon_copied', value: 1 },
+          ...isRelacon,
+        ],
       },
     ],
   },
