@@ -64,8 +64,8 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | — |
 | D-pad down | `volume_decrement` | Down arrow | iTerm app | — | — |
-| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev app |
-| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next app |
+| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | — |
+| D-pad right | `scan_next_track` | Right arrow | Tower app | — | — |
 | D-pad center | `play_or_pause` | Enter | — | — | — |
 
 **Whisper mode:** arm via double-click button1 or single press button5. While armed, next button1 click fires SuperWhisper and disarms. Button5 toggles on/off.
