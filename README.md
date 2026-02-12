@@ -76,7 +76,7 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 
 **Reserved:** Button1 (left trigger) hold slot is reserved — adding `to_if_held_down` breaks click-drag and copy/paste flow.
 
-**Future:** Button2 (right trigger) double-tap is a candidate for a mode switcher — set a variable on double-tap to contextually remap other buttons, enabling alternate button layers.
+**Button2 double-tap:** Fires right-click. Single tap does nothing (unless paste is armed).
 
 ## Pattern Ideas
 
