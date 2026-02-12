@@ -2838,14 +2838,17 @@ if (DEBUG) {
   rules = []
 } 
 
+// Resolve symlink so writeFileSync writes to the target, not replacing the link
+const karabinerPath = fs.realpathSync('karabiner.json')
+
 // Read existing config to preserve devices, fn_function_keys, etc.
-const existingConfig = JSON.parse(fs.readFileSync('karabiner.json', 'utf-8'))
+const existingConfig = JSON.parse(fs.readFileSync(karabinerPath, 'utf-8'))
 
 // Update only the rules, preserve everything else
 existingConfig.profiles[0].complex_modifications.rules = rules
 
 fs.writeFileSync(
-  'karabiner.json',
+  karabinerPath,
   JSON.stringify(existingConfig, null, 4),
 )
 
