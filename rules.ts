@@ -329,6 +329,7 @@ const RelaconButtons = [
         to: [
           ...OPEN_TEXT_TO_SPEECH,
           { set_variable: { name: 'relacon_whisper', value: 0 } },
+          { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [
           { type: 'variable_if', name: 'relacon_whisper', value: 1 },
@@ -342,6 +343,7 @@ const RelaconButtons = [
         to: [
           ...OPEN_TEXT_TO_SPEECH,
           { set_variable: { name: 'relacon_whisper', value: 1 } },
+          { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [
           { type: 'variable_if', name: 'relacon_dblclick', value: 1 },
@@ -528,6 +530,7 @@ const RelaconButtons = [
         to: [
           ...OPEN_TEXT_TO_SPEECH,
           { set_variable: { name: 'relacon_whisper', value: 0 } },
+          { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [
           { type: 'variable_if', name: 'relacon_whisper', value: 1 },
@@ -540,6 +543,7 @@ const RelaconButtons = [
         to: [
           ...OPEN_TEXT_TO_SPEECH,
           { set_variable: { name: 'relacon_whisper', value: 1 } },
+          { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [...isRelacon],
       },

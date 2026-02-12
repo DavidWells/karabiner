@@ -1808,6 +1808,12 @@
                                             "name": "relacon_whisper",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_copied",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -1844,6 +1850,12 @@
                                         "set_variable": {
                                             "name": "relacon_whisper",
                                             "value": 1
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_copied",
+                                            "value": 0
                                         }
                                     }
                                 ],
@@ -2328,6 +2340,12 @@
                                             "name": "relacon_whisper",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_copied",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2364,6 +2382,12 @@
                                         "set_variable": {
                                             "name": "relacon_whisper",
                                             "value": 1
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_copied",
+                                            "value": 0
                                         }
                                     }
                                 ],
