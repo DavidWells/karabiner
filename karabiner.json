@@ -2032,25 +2032,27 @@
                                 "from": {
                                     "pointing_button": "button2"
                                 },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b2_held",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
                                 "to_if_alone": [
                                     {
                                         "pointing_button": "button2"
                                     }
                                 ],
-                                "to_if_held_down": [
+                                "to_after_key_up": [
                                     {
-                                        "key_code": "tab",
-                                        "repeat": false
-                                    },
-                                    {
-                                        "key_code": "return_or_enter",
-                                        "repeat": false
+                                        "set_variable": {
+                                            "name": "relacon_b2_held",
+                                            "value": 0
+                                        }
                                     }
                                 ],
-                                "parameters": {
-                                    "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 300
-                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",
@@ -2066,7 +2068,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Middle click: tap => Delete, double => Escape, hold => Select All + Delete",
+                        "description": "[RELACON] Middle click: tap => Delete, double/hold => clear all",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2076,6 +2078,18 @@
                                 "to": [
                                     {
                                         "key_code": "escape"
+                                    },
+                                    {
+                                        "key_code": "escape"
+                                    },
+                                    {
+                                        "key_code": "a",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "delete_or_backspace"
                                     }
                                 ],
                                 "conditions": [
@@ -2255,6 +2269,36 @@
                     {
                         "description": "[RELACON] Forward button => SuperWhisper (toggle whisper mode)",
                         "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button5"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "tab"
+                                    },
+                                    {
+                                        "key_code": "return_or_enter"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
                             {
                                 "type": "basic",
                                 "from": {

@@ -218,6 +218,13 @@ const isRelacon = [
   },
 ]
 
+const CLEAR_ALL = [
+  { key_code: 'escape' },
+  { key_code: 'escape' },
+  { key_code: 'a', modifiers: ['left_command'] },
+  { key_code: 'delete_or_backspace' },
+]
+
 // Maps a pointing_button or consumer_key_code to an action
 function mapButton({ description, button, consumerKey, to, conditions = [] }) {
   const from = consumerKey ? { consumer_key_code: consumerKey } : { pointing_button: button }
@@ -409,32 +416,31 @@ const RelaconButtons = [
           ...isRelacon,
         ],
       },
+      // Hold sets modifier variable for combos with other buttons
       {
         type: 'basic',
         from: { pointing_button: 'button2' },
-        to_if_alone: [{ pointing_button: 'button2' }],
-        to_if_held_down: [
-          { key_code: 'tab', repeat: false },
-          { key_code: 'return_or_enter', repeat: false },
+        to: [
+          { set_variable: { name: 'relacon_b2_held', value: 1 } },
         ],
-        parameters: {
-          'basic.to_if_alone_timeout_milliseconds': 300,
-          'basic.to_if_held_down_threshold_milliseconds': 300,
-        },
+        to_if_alone: [{ pointing_button: 'button2' }],
+        to_after_key_up: [
+          { set_variable: { name: 'relacon_b2_held', value: 0 } },
+        ],
         conditions: [...isRelacon],
       },
     ],
   },
 
-  // ── Middle click / scroll wheel (button3) ── tap => Delete, double => Escape, hold => Select All + Delete
+  // ── Middle click / scroll wheel (button3) ── tap => Delete, double/hold => Esc+Esc+SelectAll+Delete
   {
-    description: '[RELACON] Middle click: tap => Delete, double => Escape, hold => Select All + Delete',
+    description: '[RELACON] Middle click: tap => Delete, double/hold => clear all',
     manipulators: [
-      // Double-click — Escape
+      // Double-click — Esc + Esc + Select All + Delete
       {
         type: 'basic',
         from: { pointing_button: 'button3' },
-        to: [{ key_code: 'escape' }],
+        to: CLEAR_ALL,
         conditions: [
           { type: 'variable_if', name: 'double_click_button3', value: 1 },
           ...isRelacon,
@@ -447,12 +453,7 @@ const RelaconButtons = [
         to_if_alone: [
           { key_code: 'delete_or_backspace' },
         ],
-        to_if_held_down: [
-          { key_code: 'escape', repeat: false },
-          { key_code: 'escape', repeat: false },
-          { key_code: 'a', modifiers: ['left_command'], repeat: false },
-          { key_code: 'delete_or_backspace', repeat: false },
-        ],
+        to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
         to: [
           { set_variable: { name: 'double_click_button3', value: 1 } },
         ],
@@ -487,6 +488,16 @@ const RelaconButtons = [
   {
     description: '[RELACON] Forward button => SuperWhisper (toggle whisper mode)',
     manipulators: [
+      // Combo: button2 held + button5 => Tab + Enter
+      {
+        type: 'basic',
+        from: { pointing_button: 'button5' },
+        to: [{ key_code: 'tab' }, { key_code: 'return_or_enter' }],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          ...isRelacon,
+        ],
+      },
       {
         type: 'basic',
         from: { pointing_button: 'button5' },

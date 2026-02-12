@@ -76,6 +76,36 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 
 **Future:** Button2 (right trigger) double-tap is a candidate for a mode switcher — set a variable on double-tap to contextually remap other buttons, enabling alternate button layers.
 
+## Pattern Ideas
+
+**Multi-button combos**
+- Simultaneous press of two buttons → different action (e.g. Button1+Button2 = app switch)
+- Button + scroll → zoom, horizontal scroll, or volume
+- Button + pointer movement → window resize or desktop switch
+
+**Timing-based**
+- Double-tap-and-hold — double click but hold on second press, triggers a different mode (drag lock)
+- Tap-then-tap-another — sequential presses of different buttons within a window (chord sequence / vim-style)
+
+**Modal / layer patterns**
+- Hold one button to enter a "mode" where all other inputs change meaning
+- Toggle modes — tap a combo to enter persistent mode, tap again to exit
+- Sticky modifiers — tap a button to make the next action modified (one-shot shift)
+
+**Gesture-inspired**
+- Directional hold — hold button + move pointer in a direction = different actions per direction
+- Rapid repeated press (triple-click, quadruple-click) — each count maps to a different action
+
+**Chording**
+- Pressing specific combos of 3+ buttons simultaneously maps to unique actions
+- With 3 buttons you get 7 unique combos
+
+**Best for handheld mouse**
+1. Simultaneous press combos — Button1+Button2, Button1+Button3, etc.
+2. Hold-as-layer — one button becomes a modifier that changes what others do
+3. Sequential chords — Button1 then Button2 within 200ms = unique action
+4. Tap dance — single/double/triple tap on same button, each doing something different
+
 ## Notes
 
 Extra double tap of https://app.screencast.com/SnjDxLxv4S2AQ
