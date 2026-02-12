@@ -55,22 +55,24 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 
 ## ELECOM Relacon Button Map
 
-| Physical Button | Event | Tap | Double Tap | Hold |
-|---|---|---|---|---|
-| Left trigger (primary click) | `button1` | Left click + Cmd+C + arm paste | SuperWhisper + arm whisper mode | — |
-| Right trigger (secondary click) | `button2` | Paste (Cmd+V) if armed, otherwise click | — | Tab + Enter |
-| Middle click (scroll wheel) | `button3` | Delete | Escape | Esc + Esc + Select All + Delete |
-| Back (left side) | `button4` | Enter | Escape | — |
-| Forward (right side) | `button5` | SuperWhisper (toggle whisper mode) | — | — |
-| D-pad up | `volume_increment` | Up arrow | Cursor app | `a` (test) |
-| D-pad down | `volume_decrement` | Down arrow | iTerm app | — |
-| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — |
-| D-pad right | `scan_next_track` | Right arrow | Tower app | — |
-| D-pad center | `play_or_pause` | Enter | — | — |
+| Physical Button | Event | Tap | Double Tap | Hold | B2 Combo |
+|---|---|---|---|---|---|
+| Left trigger | `button1` | Click + Cmd+C + arm paste | SuperWhisper + arm whisper | — (reserved) | — |
+| Right trigger | `button2` | Paste (Cmd+V) if armed, else right-click | — | Modifier (enables combos) | — |
+| Scroll wheel press | `button3` | Delete | Esc+Esc+SelectAll+Delete | Esc+Esc+SelectAll+Delete | B2+B3 = Esc+Esc |
+| Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter |
+| Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter |
+| D-pad up | `volume_increment` | Up arrow | Cursor app | — | — |
+| D-pad down | `volume_decrement` | Down arrow | iTerm app | — | — |
+| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | — |
+| D-pad right | `scan_next_track` | Right arrow | Tower app | — | — |
+| D-pad center | `play_or_pause` | Enter | — | — | — |
 
 **Whisper mode:** arm via double-click button1 or single press button5. While armed, next button1 click fires SuperWhisper and disarms. Button5 toggles on/off.
 
 **Copy/paste:** Every button1 release fires Cmd+C and arms paste mode. Next button2 press fires Cmd+V and resets.
+
+**Button2 modifier:** Hold button2 (right trigger) to activate combo layer — other buttons gain alternate actions while held.
 
 **Reserved:** Button1 (left trigger) hold slot is reserved — adding `to_if_held_down` breaks click-drag and copy/paste flow.
 
