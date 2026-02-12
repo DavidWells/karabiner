@@ -69,7 +69,7 @@ const IS_CHROME_WINDOW = [
 const OPEN_TEXT_TO_SPEECH = [
   {
     key_code: 'spacebar',
-    modifiers: ['left_option'],
+    modifiers: ['left_option', 'left_control'],
   },
 ]
 
@@ -203,6 +203,332 @@ const isMouseButton = [
       },
     ],
   },
+]
+
+/* ELECOM Relacon trackball */
+const isRelacon = [
+  {
+    type: 'device_if',
+    identifiers: [
+      {
+        vendor_id: 1390,
+        product_id: 342,
+      },
+    ],
+  },
+]
+
+// Maps a pointing_button or consumer_key_code to an action
+function mapButton({ description, button, consumerKey, to, conditions = [] }) {
+  const from = consumerKey ? { consumer_key_code: consumerKey } : { pointing_button: button }
+  return {
+    description,
+    manipulators: [
+      {
+        type: 'basic',
+        from,
+        to,
+        conditions: [...conditions],
+      },
+    ],
+  }
+}
+
+// Tap fires one action, hold fires another (once, no repeat)
+function tapHoldButton({ description, button, consumerKey, tap, hold, conditions = [], delay = 300 }) {
+  const from = consumerKey ? { consumer_key_code: consumerKey } : { pointing_button: button }
+  return {
+    description,
+    manipulators: [
+      {
+        type: 'basic',
+        from,
+        to_if_alone: tap,
+        to_if_held_down: hold.map(h => ({ ...h, repeat: false })),
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': delay,
+          'basic.to_if_held_down_threshold_milliseconds': delay,
+        },
+        conditions: [...conditions],
+      },
+    ],
+  }
+}
+
+// Single press fires one action (or passthrough), double press fires another
+function doubleClickButton({ description, button, consumerKey, to, singleTo, conditions = [], delay = 300 }) {
+  const key = button || consumerKey
+  const varName = `double_click_${key}`
+  const from = consumerKey ? { consumer_key_code: consumerKey } : { pointing_button: button }
+  const passthrough = consumerKey ? [] : [{ pointing_button: button }]
+  return {
+    description,
+    manipulators: [
+      {
+        type: 'basic',
+        from,
+        to,
+        conditions: [
+          { type: 'variable_if', name: varName, value: 1 },
+          ...conditions,
+        ],
+      },
+      {
+        type: 'basic',
+        from,
+        to: [
+          { set_variable: { name: varName, value: 1 } },
+          ...(singleTo || passthrough),
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: varName, value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: varName, value: 0 } },
+          ],
+        },
+        parameters: {
+          'basic.to_delayed_action_delay_milliseconds': delay,
+        },
+        conditions: [...conditions],
+      },
+    ],
+  }
+}
+
+/*
+ * ELECOM Relacon available inputs:
+ *   pointing_button:
+ *     button1 - left click (L)
+ *     button2 - right click (R)
+ *     button3 - middle click (scroll wheel press)
+ *     button4 - back (left side)
+ *     button5 - forward (right side)
+ *   consumer_key_code:
+ *     scan_previous_track, scan_next_track (d-pad left/right)
+ *     volume_increment, volume_decrement (d-pad up/down)
+ *     play_or_pause (d-pad center)
+ */
+const RelaconButtons = [
+  // ── Trackball click (button1) ── double-click => SuperWhisper + whisper mode
+  {
+    description: '[RELACON] Button 1 whisper mode',
+    manipulators: [
+      // Whisper mode active — click fires SuperWhisper and exits mode
+      {
+        type: 'basic',
+        from: { pointing_button: 'button1' },
+        to: [
+          ...OPEN_TEXT_TO_SPEECH,
+          { set_variable: { name: 'relacon_whisper', value: 0 } },
+        ],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_whisper', value: 1 },
+          ...isRelacon,
+        ],
+      },
+      // Double-click detected — fire SuperWhisper and enter whisper mode
+      {
+        type: 'basic',
+        from: { pointing_button: 'button1' },
+        to: [
+          ...OPEN_TEXT_TO_SPEECH,
+          { set_variable: { name: 'relacon_whisper', value: 1 } },
+        ],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_dblclick', value: 1 },
+          ...isRelacon,
+        ],
+      },
+      // First click — arm double-click variable, pass through, copy on release
+      {
+        type: 'basic',
+        from: { pointing_button: 'button1' },
+        to: [
+          { set_variable: { name: 'relacon_dblclick', value: 1 } },
+          { pointing_button: 'button1' },
+        ],
+        to_after_key_up: [
+          { key_code: 'c', modifiers: ['left_command'] },
+          { set_variable: { name: 'relacon_copied', value: 1 } },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: 'relacon_dblclick', value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: 'relacon_dblclick', value: 0 } },
+          ],
+        },
+        parameters: { 'basic.to_delayed_action_delay_milliseconds': 300 },
+        conditions: [...isRelacon],
+      },
+    ],
+  },
+
+  // ── Right trigger (button2) ── paste mode => paste + reset, otherwise passthrough
+  // TODO: double-tap is a candidate for mode switcher — set a variable to remap other buttons contextually
+  {
+    description: '[RELACON] Left trigger: paste mode => Cmd+V, otherwise click',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { pointing_button: 'button2' },
+        to: [
+          { key_code: 'v', modifiers: ['left_command'] },
+          { set_variable: { name: 'relacon_copied', value: 0 } },
+        ],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_copied', value: 1 },
+          ...isRelacon,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button2' },
+        to_if_alone: [{ pointing_button: 'button2' }],
+        to_if_held_down: [
+          { key_code: 'tab', repeat: false },
+          { key_code: 'return_or_enter', repeat: false },
+        ],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 300,
+        },
+        conditions: [...isRelacon],
+      },
+    ],
+  },
+
+  // ── Middle click / scroll wheel (button3) ── tap => Delete, double => Escape, hold => Select All + Delete
+  {
+    description: '[RELACON] Middle click: tap => Delete, double => Escape, hold => Select All + Delete',
+    manipulators: [
+      // Double-click — Escape
+      {
+        type: 'basic',
+        from: { pointing_button: 'button3' },
+        to: [{ key_code: 'escape' }],
+        conditions: [
+          { type: 'variable_if', name: 'double_click_button3', value: 1 },
+          ...isRelacon,
+        ],
+      },
+      // First click — tap => Delete, hold => Cmd+A + Delete
+      {
+        type: 'basic',
+        from: { pointing_button: 'button3' },
+        to_if_alone: [
+          { key_code: 'delete_or_backspace' },
+        ],
+        to_if_held_down: [
+          { key_code: 'escape', repeat: false },
+          { key_code: 'escape', repeat: false },
+          { key_code: 'a', modifiers: ['left_command'], repeat: false },
+          { key_code: 'delete_or_backspace', repeat: false },
+        ],
+        to: [
+          { set_variable: { name: 'double_click_button3', value: 1 } },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: 'double_click_button3', value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: 'double_click_button3', value: 0 } },
+          ],
+        },
+        parameters: {
+          'basic.to_delayed_action_delay_milliseconds': 300,
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 300,
+        },
+        conditions: [...isRelacon],
+      },
+    ],
+  },
+
+  // ── Back / left side (button4) ── tap => Enter, double => Escape
+  doubleClickButton({
+    description: '[RELACON] Back button: tap => Enter, double => Escape',
+    button: 'button4',
+    to: [{ key_code: 'escape' }],
+    singleTo: [{ key_code: 'return_or_enter' }],
+    conditions: [...isRelacon],
+  }),
+
+  // ── Forward / right side (button5) ── SuperWhisper toggle (arm/disarm whisper mode)
+  {
+    description: '[RELACON] Forward button => SuperWhisper (toggle whisper mode)',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { pointing_button: 'button5' },
+        to: [
+          ...OPEN_TEXT_TO_SPEECH,
+          { set_variable: { name: 'relacon_whisper', value: 0 } },
+        ],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_whisper', value: 1 },
+          ...isRelacon,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button5' },
+        to: [
+          ...OPEN_TEXT_TO_SPEECH,
+          { set_variable: { name: 'relacon_whisper', value: 1 } },
+        ],
+        conditions: [...isRelacon],
+      },
+    ],
+  },
+
+  // ── D-pad left ── tap => Left arrow, hold => open Chrome, double => open Chrome
+  doubleClickButton({
+    description: '[RELACON] D-pad left: tap => Left, double => Chrome',
+    consumerKey: 'scan_previous_track',
+    to: [{ shell_command: "open -a 'Google Chrome.app'" }],
+    singleTo: [{ key_code: 'left_arrow' }],
+    conditions: [...isRelacon],
+  }),
+
+  // ── D-pad right ── tap => Right arrow, hold => open Tower, double => open Tower
+  doubleClickButton({
+    description: '[RELACON] D-pad right: tap => Right, double => Tower',
+    consumerKey: 'scan_next_track',
+    to: [{ shell_command: "open -a 'Tower.app'" }],
+    singleTo: [{ key_code: 'right_arrow' }],
+    conditions: [...isRelacon],
+  }),
+
+  // ── D-pad up ── tap => Up arrow, hold => open Cursor, double => open Cursor
+  doubleClickButton({
+    description: '[RELACON] D-pad up: tap => Up, double => Cursor',
+    consumerKey: 'volume_increment',
+    to: [{ shell_command: "open -a 'Cursor.app'" }],
+    singleTo: [{ key_code: 'up_arrow' }],
+    conditions: [...isRelacon],
+  }),
+
+  // ── D-pad down ── tap => Down arrow, hold => open iTerm, double => open iTerm
+  doubleClickButton({
+    description: '[RELACON] D-pad down: tap => Down, double => iTerm',
+    consumerKey: 'volume_decrement',
+    to: [{ shell_command: "open -a 'iTerm.app'" }],
+    singleTo: [{ key_code: 'down_arrow' }],
+    conditions: [...isRelacon],
+  }),
+
+  // ── D-pad center ── Enter
+  mapButton({
+    description: '[RELACON] D-pad center => Enter',
+    consumerKey: 'play_or_pause',
+    to: [{ key_code: 'return_or_enter' }],
+    conditions: [...isRelacon],
+  }),
 ]
 
 const GlobalMouseButtons = [
@@ -2407,6 +2733,7 @@ let rules: KarabinerRules[] = [
   ...terminalLineJumpShortCuts,
   ...CursorShortcuts,
   // Make sure to load app specific config before global buttons
+  ...RelaconButtons,
   ...GlobalMouseButtons,
   ...CamtasiaMouseButtons,
   /* Sub layers */

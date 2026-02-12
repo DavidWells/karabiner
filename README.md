@@ -53,6 +53,29 @@ watches the TypeScript files and rebuilds whenever they change.
 Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENSE.md).
 
 
+## ELECOM Relacon Button Map
+
+| Physical Button | Event | Tap | Double Tap | Hold |
+|---|---|---|---|---|
+| Left trigger (primary click) | `button1` | Left click + Cmd+C + arm paste | SuperWhisper + arm whisper mode | — |
+| Right trigger (secondary click) | `button2` | Paste (Cmd+V) if armed, otherwise click | — | Tab + Enter |
+| Middle click (scroll wheel) | `button3` | Delete | Escape | Esc + Esc + Select All + Delete |
+| Back (left side) | `button4` | Enter | Escape | — |
+| Forward (right side) | `button5` | SuperWhisper (toggle whisper mode) | — | — |
+| D-pad up | `volume_increment` | Up arrow | Cursor app | `a` (test) |
+| D-pad down | `volume_decrement` | Down arrow | iTerm app | — |
+| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — |
+| D-pad right | `scan_next_track` | Right arrow | Tower app | — |
+| D-pad center | `play_or_pause` | Enter | — | — |
+
+**Whisper mode:** arm via double-click button1 or single press button5. While armed, next button1 click fires SuperWhisper and disarms. Button5 toggles on/off.
+
+**Copy/paste:** Every button1 release fires Cmd+C and arms paste mode. Next button2 press fires Cmd+V and resets.
+
+**Reserved:** Button1 (left trigger) hold slot is reserved — adding `to_if_held_down` breaks click-drag and copy/paste flow.
+
+**Future:** Button2 (right trigger) double-tap is a candidate for a mode switcher — set a variable on double-tap to contextually remap other buttons, enabling alternate button layers.
+
 ## Notes
 
 Extra double tap of https://app.screencast.com/SnjDxLxv4S2AQ
