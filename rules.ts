@@ -546,6 +546,37 @@ const RelaconButtons = [
     ],
   },
 
+  // ── Combo: button2 held + d-pad left => previous app (Cmd+Shift+Tab)
+  {
+    description: '[RELACON] Right trigger + D-pad left => previous app',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_previous_track' },
+        to: [{ key_code: 'tab', modifiers: ['left_command', 'left_shift'] }],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          ...isRelacon,
+        ],
+      },
+    ],
+  },
+  // ── Combo: button2 held + d-pad right => next app (Cmd+Tab)
+  {
+    description: '[RELACON] Right trigger + D-pad right => next app',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_next_track' },
+        to: [{ key_code: 'tab', modifiers: ['left_command'] }],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          ...isRelacon,
+        ],
+      },
+    ],
+  },
+
   // ── D-pad left ── tap => Left arrow, hold => open Chrome, double => open Chrome
   doubleClickButton({
     description: '[RELACON] D-pad left: tap => Left, double => Chrome',
