@@ -70,7 +70,7 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | D-pad center | `play_or_pause` | Enter | — | — | — |
 <!-- /docs -->
 
-**Whisper mode:** arm via double-click button1 or single press button5. While armed, next button1 click fires SuperWhisper and disarms. Button5 toggles on/off.
+**Whisper mode:** toggle via button5. While armed, next button5 press fires SuperWhisper and disarms.
 
 **Copy/paste:** Every button1 release fires Cmd+C and arms paste mode. Next button2 press fires Cmd+V and resets.
 
