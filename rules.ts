@@ -1,5 +1,7 @@
 // @ts-nocheck
 import fs from 'fs'
+import path from 'path'
+import os from 'os'
 import { KarabinerRules } from './types'
 import { createHyperSubLayers, createRightHyperSubLayers, app, open } from './utils'
 import { autoQuotes } from './rules/auto-quotes'
@@ -320,43 +322,28 @@ function doubleClickButton({ description, button, consumerKey, to, singleTo, con
 
 // Source of truth for Relacon button mappings — generates HTML and README table
 const RelaconMap = [
-  { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'SuperWhisper + arm whisper', hold: '— (reserved)', b2Combo: '—' },
+  { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) if armed, else nothing', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
   { name: 'Scroll wheel press', event: 'button3', tap: 'Delete', doubleTap: 'Esc+Esc+SelectAll+Delete', hold: 'Esc+Esc+SelectAll+Delete', b2Combo: 'B2+B3 = Esc+Esc' },
   { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter' },
   { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter' },
   { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: '—' },
   { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: '—' },
-  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: '—' },
-  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: '—' },
+  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev space' },
+  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next space' },
   { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: '—' },
 ]
 const RelaconButtons = [
-  // ── Trackball click (button1) ── double-click => SuperWhisper + whisper mode
+  // ── Trackball click (button1) ── double-click => Select All
   {
-    description: '[RELACON] Button 1 whisper mode',
+    description: '[RELACON] Button 1: tap => click+copy, double => Select All',
     manipulators: [
-      // Whisper mode active — click fires SuperWhisper and exits mode
+      // Double-click detected — select all (Cmd+A)
       {
         type: 'basic',
         from: { pointing_button: 'button1' },
         to: [
-          ...OPEN_TEXT_TO_SPEECH,
-          { set_variable: { name: 'relacon_whisper', value: 0 } },
-          { set_variable: { name: 'relacon_copied', value: 0 } },
-        ],
-        conditions: [
-          { type: 'variable_if', name: 'relacon_whisper', value: 1 },
-          ...isRelacon,
-        ],
-      },
-      // Double-click detected — fire SuperWhisper and enter whisper mode
-      {
-        type: 'basic',
-        from: { pointing_button: 'button1' },
-        to: [
-          ...OPEN_TEXT_TO_SPEECH,
-          { set_variable: { name: 'relacon_whisper', value: 1 } },
+          { key_code: 'a', modifiers: ['left_command'] },
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [
@@ -579,6 +566,37 @@ const RelaconButtons = [
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [...isRelacon],
+      },
+    ],
+  },
+
+  // ── Combo: button2 held + d-pad left => previous space (Ctrl+Left)
+  {
+    description: '[RELACON] Right trigger + D-pad left => previous space',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_previous_track' },
+        to: [{ key_code: 'left_arrow', modifiers: ['left_control'] }],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          ...isRelacon,
+        ],
+      },
+    ],
+  },
+  // ── Combo: button2 held + d-pad right => next space (Ctrl+Right)
+  {
+    description: '[RELACON] Right trigger + D-pad right => next space',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_next_track' },
+        to: [{ key_code: 'right_arrow', modifiers: ['left_control'] }],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          ...isRelacon,
+        ],
       },
     ],
   },
@@ -2852,19 +2870,18 @@ if (DEBUG) {
   rules = []
 } 
 
-// Resolve symlink so writeFileSync writes to the target, not replacing the link
-const karabinerPath = fs.realpathSync('karabiner.json')
+// Karabiner reads from ~/.config/karabiner, dotfiles copy is our repo version
+const karabinerLive = path.join(os.homedir(), '.config', 'karabiner', 'karabiner.json')
 
 // Read existing config to preserve devices, fn_function_keys, etc.
-const existingConfig = JSON.parse(fs.readFileSync(karabinerPath, 'utf-8'))
+const existingConfig = JSON.parse(fs.readFileSync('karabiner.json', 'utf-8'))
 
 // Update only the rules, preserve everything else
 existingConfig.profiles[0].complex_modifications.rules = rules
 
-fs.writeFileSync(
-  karabinerPath,
-  JSON.stringify(existingConfig, null, 4),
-)
+const output = JSON.stringify(existingConfig, null, 4)
+fs.writeFileSync('karabiner.json', output)
+fs.writeFileSync(karabinerLive, output)
 
 console.log('\nHyper Layer Keys and Descriptions:')
 const tableData = Object.entries(hyperLayerKeys)
@@ -2932,5 +2949,6 @@ ${relaconRows}
 </table>
 </body></html>`
 
-fs.writeFileSync('relacon-map.html', relaconHtml)
-fs.writeFileSync('relacon-map.json', JSON.stringify(RelaconMap, null, 2))
+if (!fs.existsSync('docs')) fs.mkdirSync('docs')
+fs.writeFileSync('docs/relacon-map.html', relaconHtml)
+fs.writeFileSync('docs/relacon-map.json', JSON.stringify(RelaconMap, null, 2))

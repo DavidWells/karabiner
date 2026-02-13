@@ -58,15 +58,15 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 <!-- docs RELACON_MAP -->
 | Button | Event | Tap | Double Tap | Hold | B2 Combo |
 |---|---|---|---|---|---|
-| Left trigger | `button1` | Click + Cmd+C + arm paste | SuperWhisper + arm whisper | — (reserved) | — |
+| Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) if armed, else nothing | Right-click | Modifier (enables combos) | — |
 | Scroll wheel press | `button3` | Delete | Esc+Esc+SelectAll+Delete | Esc+Esc+SelectAll+Delete | B2+B3 = Esc+Esc |
 | Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter |
 | Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | — |
 | D-pad down | `volume_decrement` | Down arrow | iTerm app | — | — |
-| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | — |
-| D-pad right | `scan_next_track` | Right arrow | Tower app | — | — |
+| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev space |
+| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next space |
 | D-pad center | `play_or_pause` | Enter | — | — | — |
 <!-- /docs -->
 
