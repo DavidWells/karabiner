@@ -55,7 +55,8 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 
 ## ELECOM Relacon Button Map
 
-| Physical Button | Event | Tap | Double Tap | Hold | B2 Combo |
+<!-- docs RELACON_MAP -->
+| Button | Event | Tap | Double Tap | Hold | B2 Combo |
 |---|---|---|---|---|---|
 | Left trigger | `button1` | Click + Cmd+C + arm paste | SuperWhisper + arm whisper | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) if armed, else nothing | Right-click | Modifier (enables combos) | — |
@@ -67,6 +68,7 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | — |
 | D-pad right | `scan_next_track` | Right arrow | Tower app | — | — |
 | D-pad center | `play_or_pause` | Enter | — | — | — |
+<!-- /docs -->
 
 **Whisper mode:** arm via double-click button1 or single press button5. While armed, next button1 click fires SuperWhisper and disarms. Button5 toggles on/off.
 

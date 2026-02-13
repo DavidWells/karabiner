@@ -6,12 +6,13 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^18.7.19",
+    "markdown-magic": "^4.8.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
     "tsm": "^2.2.2"
   },
   "scripts": {
-    "build": "tsm rules.ts",
+    "build": "tsm rules.ts && md-magic --files README.md",
     "watch": "nodemon --exec yarn build -e ts"
   }
 }

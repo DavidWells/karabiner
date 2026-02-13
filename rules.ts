@@ -317,6 +317,20 @@ function doubleClickButton({ description, button, consumerKey, to, singleTo, con
  *     volume_increment, volume_decrement (d-pad up/down)
  *     play_or_pause (d-pad center)
  */
+
+// Source of truth for Relacon button mappings — generates HTML and README table
+const RelaconMap = [
+  { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'SuperWhisper + arm whisper', hold: '— (reserved)', b2Combo: '—' },
+  { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) if armed, else nothing', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
+  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete', doubleTap: 'Esc+Esc+SelectAll+Delete', hold: 'Esc+Esc+SelectAll+Delete', b2Combo: 'B2+B3 = Esc+Esc' },
+  { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter' },
+  { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter' },
+  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: '—' },
+  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: '—' },
+  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: '—' },
+  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: '—' },
+  { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: '—' },
+]
 const RelaconButtons = [
   // ── Trackball click (button1) ── double-click => SuperWhisper + whisper mode
   {
@@ -2892,3 +2906,31 @@ const availableKeys = standardKeys
   .filter(key => !usedKeys.includes(key))
   .sort()
 console.log(availableKeys.sort())
+
+// Generate Relacon button map HTML and JSON for docs
+const relaconRows = RelaconMap.map(b =>
+  `  <tr><td>${b.name}</td><td><code>${b.event}</code></td><td>${b.tap}</td><td>${b.doubleTap}</td><td>${b.hold}</td><td>${b.b2Combo}</td></tr>`
+).join('\n')
+
+const relaconHtml = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>ELECOM Relacon Button Map</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+  th { background: #f5f5f5; }
+  code { background: #eee; padding: 2px 5px; border-radius: 3px; font-size: 0.9em; }
+  h1 { margin-bottom: 0.5rem; }
+</style>
+</head><body>
+<h1>ELECOM Relacon Button Map</h1>
+<table>
+  <tr><th>Button</th><th>Event</th><th>Tap</th><th>Double Tap</th><th>Hold</th><th>B2 Combo</th></tr>
+${relaconRows}
+</table>
+</body></html>`
+
+fs.writeFileSync('relacon-map.html', relaconHtml)
+fs.writeFileSync('relacon-map.json', JSON.stringify(RelaconMap, null, 2))
