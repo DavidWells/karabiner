@@ -371,10 +371,10 @@ const RelaconMap = [
   { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
   { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops STT + delayed Enter if active)', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab' },
   { name: 'Forward (right side)', event: 'button5', tap: 'Speech-to-text (toggle)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab' },
-  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'Nav: B2+Up = Cursor' },
-  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'Nav: B2+Down = iTerm' },
-  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev space / Nav: Chrome' },
-  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next space / Nav: Tower' },
+  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'B2+Up = Next window / Nav: Cursor' },
+  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'B2+Down = Prev window / Nav: iTerm' },
+  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev pane/tab / Nav: Chrome' },
+  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next pane/tab / Nav: Tower' },
   { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'Nav: B2+Center = Close tab' },
 ]
 const RelaconButtons = [
@@ -756,37 +756,6 @@ const RelaconButtons = [
     ],
   }),
 
-  // ── Combo: button2 held + d-pad left => previous space (Ctrl+Left)
-  {
-    description: '[RELACON] Right trigger + D-pad left => previous space',
-    manipulators: [
-      {
-        type: 'basic',
-        from: { consumer_key_code: 'scan_previous_track' },
-        to: [{ key_code: 'left_arrow', modifiers: ['left_control'] }],
-        conditions: [
-          RELACON_B2_HELD,
-          ...isRelacon,
-        ],
-      },
-    ],
-  },
-  // ── Combo: button2 held + d-pad right => next space (Ctrl+Right)
-  {
-    description: '[RELACON] Right trigger + D-pad right => next space',
-    manipulators: [
-      {
-        type: 'basic',
-        from: { consumer_key_code: 'scan_next_track' },
-        to: [{ key_code: 'right_arrow', modifiers: ['left_control'] }],
-        conditions: [
-          RELACON_B2_HELD,
-          ...isRelacon,
-        ],
-      },
-    ],
-  },
-
   // ── Nav mode: D-pad left => prev tab (per app)
   mapButton({
     description: '[RELACON] Nav: D-pad left in terminal => prev tab',
@@ -930,6 +899,56 @@ const RelaconButtons = [
       ...isRelacon,
       ...IS_BROWSER_WINDOW,
     ],
+  }),
+
+  // ── Edit mode: B2 + d-pad => window/tab/pane navigation (no mode condition, nav mode rules above take priority)
+  mapButton({
+    description: '[RELACON] B2 + D-pad up => next window',
+    consumerKey: 'volume_increment',
+    to: [NAV.global.nextWindow],
+    conditions: [RELACON_B2_HELD, ...isRelacon],
+  }),
+  mapButton({
+    description: '[RELACON] B2 + D-pad down => prev window',
+    consumerKey: 'volume_decrement',
+    to: [NAV.global.prevWindow],
+    conditions: [RELACON_B2_HELD, ...isRelacon],
+  }),
+  mapButton({
+    description: '[RELACON] B2 + D-pad left in terminal => prev pane',
+    consumerKey: 'scan_previous_track',
+    to: [NAV.terminal.prevPane],
+    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_TERMINAL_WINDOW],
+  }),
+  mapButton({
+    description: '[RELACON] B2 + D-pad left in editor => prev tab',
+    consumerKey: 'scan_previous_track',
+    to: [NAV.editor.prevTab],
+    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_EDITOR_WINDOW],
+  }),
+  mapButton({
+    description: '[RELACON] B2 + D-pad left in browser => prev tab',
+    consumerKey: 'scan_previous_track',
+    to: [NAV.browser.prevTab],
+    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
+  }),
+  mapButton({
+    description: '[RELACON] B2 + D-pad right in terminal => next pane',
+    consumerKey: 'scan_next_track',
+    to: [NAV.terminal.nextPane],
+    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_TERMINAL_WINDOW],
+  }),
+  mapButton({
+    description: '[RELACON] B2 + D-pad right in editor => next tab',
+    consumerKey: 'scan_next_track',
+    to: [NAV.editor.nextTab],
+    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_EDITOR_WINDOW],
+  }),
+  mapButton({
+    description: '[RELACON] B2 + D-pad right in browser => next tab',
+    consumerKey: 'scan_next_track',
+    to: [NAV.browser.nextTab],
+    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
   }),
 
   // ── D-pad left ── tap => Left arrow, hold => open Chrome, double => open Chrome

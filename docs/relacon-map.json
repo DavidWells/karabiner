@@ -45,7 +45,7 @@
     "tap": "Up arrow",
     "doubleTap": "Cursor app",
     "hold": "—",
-    "b2Combo": "Nav: B2+Up = Cursor"
+    "b2Combo": "B2+Up = Next window / Nav: Cursor"
   },
   {
     "name": "D-pad down",
@@ -53,7 +53,7 @@
     "tap": "Down arrow",
     "doubleTap": "iTerm app",
     "hold": "—",
-    "b2Combo": "Nav: B2+Down = iTerm"
+    "b2Combo": "B2+Down = Prev window / Nav: iTerm"
   },
   {
     "name": "D-pad left",
@@ -61,7 +61,7 @@
     "tap": "Left arrow",
     "doubleTap": "Chrome app",
     "hold": "—",
-    "b2Combo": "B2+Left = Prev space / Nav: Chrome"
+    "b2Combo": "B2+Left = Prev pane/tab / Nav: Chrome"
   },
   {
     "name": "D-pad right",
@@ -69,7 +69,7 @@
     "tap": "Right arrow",
     "doubleTap": "Tower app",
     "hold": "—",
-    "b2Combo": "B2+Right = Next space / Nav: Tower"
+    "b2Combo": "B2+Right = Next pane/tab / Nav: Tower"
   },
   {
     "name": "D-pad center",

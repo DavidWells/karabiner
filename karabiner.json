@@ -2884,76 +2884,6 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Right trigger + D-pad left => previous space",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "consumer_key_code": "scan_previous_track"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_arrow",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "relacon_b2_held",
-                                        "value": 1
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[RELACON] Right trigger + D-pad right => next space",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "consumer_key_code": "scan_next_track"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "relacon_b2_held",
-                                        "value": 1
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
                         "description": "[RELACON] Nav: D-pad left in terminal => prev tab",
                         "manipulators": [
                             {
@@ -3481,6 +3411,338 @@
                                         "type": "variable_if",
                                         "name": "relacon_mode",
                                         "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^com\\.google\\.Chrome\\.canary$",
+                                            "^com\\.opera\\.Opera$",
+                                            "^com\\.brave\\.Browser$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + D-pad up => next window",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "volume_increment"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "grave_accent_and_tilde",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + D-pad down => prev window",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "volume_decrement"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "grave_accent_and_tilde",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + D-pad left in terminal => prev pane",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "scan_previous_track"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "open_bracket",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.googlecode\\.iterm2$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + D-pad left in editor => prev tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "scan_previous_track"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_arrow",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.sublimetext\\.4$",
+                                            "^com\\.todesktop\\.230313mzl4w4u92$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + D-pad left in browser => prev tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "scan_previous_track"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^com\\.google\\.Chrome\\.canary$",
+                                            "^com\\.opera\\.Opera$",
+                                            "^com\\.brave\\.Browser$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + D-pad right in terminal => next pane",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "scan_next_track"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "close_bracket",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.googlecode\\.iterm2$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + D-pad right in editor => next tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "scan_next_track"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_arrow",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.sublimetext\\.4$",
+                                            "^com\\.todesktop\\.230313mzl4w4u92$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + D-pad right in browser => next tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "scan_next_track"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
                                     },
                                     {
                                         "type": "device_if",

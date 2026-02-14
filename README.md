@@ -63,10 +63,10 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Toggle nav / hold = Clear all |
 | Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | — | B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab |
 | Forward (right side) | `button5` | Speech-to-text (toggle) | — | — | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
-| D-pad up | `volume_increment` | Up arrow | Cursor app | — | Nav: B2+Up = Cursor |
-| D-pad down | `volume_decrement` | Down arrow | iTerm app | — | Nav: B2+Down = iTerm |
-| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev space / Nav: Chrome |
-| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next space / Nav: Tower |
+| D-pad up | `volume_increment` | Up arrow | Cursor app | — | B2+Up = Next window / Nav: Cursor |
+| D-pad down | `volume_decrement` | Down arrow | iTerm app | — | B2+Down = Prev window / Nav: iTerm |
+| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev pane/tab / Nav: Chrome |
+| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next pane/tab / Nav: Tower |
 | D-pad center | `play_or_pause` | Enter | — | — | Nav: B2+Center = Close tab |
 <!-- /docs -->
 
@@ -103,15 +103,15 @@ When active:
 
 ### B2 combos
 
-| Combo | Nav mode | Default mode |
+| Combo | Nav mode | Edit mode |
 |---|---|---|
 | B2 + B3 | Toggle nav mode | Toggle nav mode |
 | B2 + B4 (back) | Prev pane (iTerm) or tab | Shift+Enter |
 | B2 + B5 (forward) | Next pane (iTerm) or tab | Tab+Enter |
-| B2 + D-pad up | Open Cursor | — |
-| B2 + D-pad down | Open iTerm | — |
-| B2 + D-pad left | Open Chrome | Prev space |
-| B2 + D-pad right | Open Tower | Next space |
+| B2 + D-pad up | Open Cursor | Next window |
+| B2 + D-pad down | Open iTerm | Prev window |
+| B2 + D-pad left | Open Chrome | Prev pane (iTerm) or tab |
+| B2 + D-pad right | Open Tower | Next pane (iTerm) or tab |
 | B2 + D-pad center | Close tab (per app) | — |
 
 ### Adding a new app
