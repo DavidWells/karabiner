@@ -63,7 +63,11 @@ When speech-to-text is recording (`relacon_stt == 1`), button4 stops recording a
 
 ## Tap/hold split pattern
 
-Use `to_if_alone` + `to_if_held_down` on one manipulator to map two actions to the same button combo. Tap fires one action, hold fires another. There's a ~300ms delay before the tap action fires (Karabiner waits to see if you're holding), but this lets a single combo do double duty without conflicts. Good for buttons where we're running out of available gestures. See B2+B3 (nav toggle / clear all) for an example.
+Two variants depending on context:
+
+1. **`to_if_alone` + `to_if_held_down`**: Tap fires one action, hold fires another. ~300ms delay before tap fires (Karabiner waits to see if you're holding). See B2+B3 (nav toggle / clear all).
+
+2. **`to` + `to_if_held_down`**: Tap action fires immediately (no delay), hold action kicks in after threshold. Trade-off: tap action fires even on hold (stray keypress before hold action takes over). Use when `to_if_alone` doesn't work — e.g. B2+button4, where B2 is physically held so Karabiner never considers button4 "alone". See B2+B4 (Shift+Enter / pane switch).
 
 ## Shared navigation shortcuts
 

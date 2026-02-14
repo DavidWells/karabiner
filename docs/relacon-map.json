@@ -29,7 +29,7 @@
     "tap": "Enter (stops STT + delayed Enter if active)",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab"
+    "b2Combo": "B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab"
   },
   {
     "name": "Forward (right side)",

@@ -369,7 +369,7 @@ const RelaconMap = [
   { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) on release if armed', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
   { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
-  { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops STT + delayed Enter if active)', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab' },
+  { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops STT + delayed Enter if active)', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab' },
   { name: 'Forward (right side)', event: 'button5', tap: 'Speech-to-text (toggle)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab' },
   { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'B2+Up = Next window / Nav: Cursor' },
   { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'B2+Down = Prev window / Nav: iTerm' },
@@ -610,17 +610,45 @@ const RelaconButtons = [
       },
     ],
   },
-  // ── Combo: button2 held + button4 => Shift+Enter
+  // ── Combo: B2 + button4 — tap = Shift+Enter, hold = next pane (iTerm) / next tab (others)
+  // Shift+Enter fires immediately; hold 500ms switches pane/tab (stray newline in old pane)
   {
-    description: '[RELACON] Right trigger + Back => Shift+Enter',
+    description: '[RELACON] B2 + Back: tap => Shift+Enter, hold => next pane/tab',
     manipulators: [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'] }],
+        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }],
+        to_if_held_down: [{ ...NAV.terminal.nextPane, repeat: false }],
+        parameters: { 'basic.to_if_held_down_threshold_milliseconds': 500 },
         conditions: [
           RELACON_B2_HELD,
           ...isRelacon,
+          ...IS_TERMINAL_WINDOW,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button4' },
+        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }],
+        to_if_held_down: [{ ...NAV.editor.nextTab, repeat: false }],
+        parameters: { 'basic.to_if_held_down_threshold_milliseconds': 500 },
+        conditions: [
+          RELACON_B2_HELD,
+          ...isRelacon,
+          ...IS_EDITOR_WINDOW,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button4' },
+        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }],
+        to_if_held_down: [{ ...NAV.browser.nextTab, repeat: false }],
+        parameters: { 'basic.to_if_held_down_threshold_milliseconds': 500 },
+        conditions: [
+          RELACON_B2_HELD,
+          ...isRelacon,
+          ...IS_BROWSER_WINDOW,
         ],
       },
     ],

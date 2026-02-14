@@ -61,7 +61,7 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) on release if armed | Right-click | Modifier (enables combos) | — |
 | Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Toggle nav / hold = Clear all |
-| Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | — | B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab |
+| Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | — | B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab |
 | Forward (right side) | `button5` | Speech-to-text (toggle) | — | — | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | B2+Up = Next window / Nav: Cursor |
 | D-pad down | `volume_decrement` | Down arrow | iTerm app | — | B2+Down = Prev window / Nav: iTerm |
@@ -106,7 +106,7 @@ When active:
 | Combo | Nav mode | Edit mode |
 |---|---|---|
 | B2 + B3 | Toggle nav mode | Toggle nav mode |
-| B2 + B4 (back) | Prev pane (iTerm) or tab | Shift+Enter |
+| B2 + B4 (back) | Prev pane (iTerm) or tab | Tap: Shift+Enter / Hold: next pane/tab |
 | B2 + B5 (forward) | Next pane (iTerm) or tab | Tab+Enter |
 | B2 + D-pad up | Open Cursor | Next window |
 | B2 + D-pad down | Open iTerm | Prev window |
