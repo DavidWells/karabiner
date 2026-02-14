@@ -2251,7 +2251,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: B2 + Back => prev window",
+                        "description": "[RELACON] Nav: B2 + Back => prev tab",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2260,7 +2260,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "grave_accent_and_tilde",
+                                        "key_code": "open_bracket",
                                         "modifiers": [
                                             "left_command",
                                             "left_shift"
@@ -2285,6 +2285,102 @@
                                                 "vendor_id": 1390,
                                                 "product_id": 342
                                             }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.googlecode\\.iterm2$"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button4"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_arrow",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.sublimetext\\.4$",
+                                            "^com\\.todesktop\\.230313mzl4w4u92$"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button4"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^com\\.google\\.Chrome\\.canary$",
+                                            "^com\\.opera\\.Opera$",
+                                            "^com\\.brave\\.Browser$"
                                         ]
                                     }
                                 ]
@@ -2363,9 +2459,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "grave_accent_and_tilde",
+                                        "key_code": "close_bracket",
                                         "modifiers": [
-                                            "left_command"
+                                            "left_command",
+                                            "left_shift"
                                         ]
                                     }
                                 ],
@@ -2387,6 +2484,101 @@
                                                 "vendor_id": 1390,
                                                 "product_id": 342
                                             }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.googlecode\\.iterm2$"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button5"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_arrow",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.sublimetext\\.4$",
+                                            "^com\\.todesktop\\.230313mzl4w4u92$"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button5"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^com\\.google\\.Chrome\\.canary$",
+                                            "^com\\.opera\\.Opera$",
+                                            "^com\\.brave\\.Browser$"
                                         ]
                                     }
                                 ]
@@ -2764,7 +2956,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: D-pad up in iTerm => next tab",
+                        "description": "[RELACON] Nav: D-pad up => next window",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2773,10 +2965,9 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "close_bracket",
+                                        "key_code": "grave_accent_and_tilde",
                                         "modifiers": [
-                                            "left_command",
-                                            "left_shift"
+                                            "left_command"
                                         ]
                                     }
                                 ],
@@ -2794,19 +2985,13 @@
                                                 "product_id": 342
                                             }
                                         ]
-                                    },
-                                    {
-                                        "type": "frontmost_application_if",
-                                        "bundle_identifiers": [
-                                            "^com\\.googlecode\\.iterm2$"
-                                        ]
                                     }
                                 ]
                             }
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: D-pad down in iTerm => prev tab",
+                        "description": "[RELACON] Nav: D-pad down => prev window",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2815,7 +3000,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "open_bracket",
+                                        "key_code": "grave_accent_and_tilde",
                                         "modifiers": [
                                             "left_command",
                                             "left_shift"
@@ -2835,12 +3020,6 @@
                                                 "vendor_id": 1390,
                                                 "product_id": 342
                                             }
-                                        ]
-                                    },
-                                    {
-                                        "type": "frontmost_application_if",
-                                        "bundle_identifiers": [
-                                            "^com\\.googlecode\\.iterm2$"
                                         ]
                                     }
                                 ]
@@ -2889,23 +3068,73 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: D-pad up in editor => next tab",
+                        "description": "[RELACON] Nav: B2 + D-pad center in terminal => close tab",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
-                                    "consumer_key_code": "volume_increment"
+                                    "consumer_key_code": "play_or_pause"
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_arrow",
+                                        "key_code": "w",
                                         "modifiers": [
-                                            "left_command",
-                                            "left_option"
+                                            "left_command"
                                         ]
                                     }
                                 ],
                                 "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.googlecode\\.iterm2$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Nav: B2 + D-pad center in editor => close tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "play_or_pause"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "w",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
                                     {
                                         "type": "variable_if",
                                         "name": "relacon_mode",
@@ -2933,112 +3162,27 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: D-pad down in editor => prev tab",
+                        "description": "[RELACON] Nav: B2 + D-pad center in browser => close tab",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
-                                    "consumer_key_code": "volume_decrement"
+                                    "consumer_key_code": "play_or_pause"
                                 },
                                 "to": [
                                     {
-                                        "key_code": "left_arrow",
+                                        "key_code": "w",
                                         "modifiers": [
-                                            "left_command",
-                                            "left_option"
+                                            "left_command"
                                         ]
                                     }
                                 ],
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "relacon_mode",
-                                        "value": 2
+                                        "name": "relacon_b2_held",
+                                        "value": 1
                                     },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "frontmost_application_if",
-                                        "bundle_identifiers": [
-                                            "^com\\.microsoft\\.VSCode$",
-                                            "^com\\.sublimetext\\.4$",
-                                            "^com\\.todesktop\\.230313mzl4w4u92$"
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[RELACON] Nav: D-pad up in browser => next tab",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "consumer_key_code": "volume_increment"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "relacon_mode",
-                                        "value": 2
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "frontmost_application_if",
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$",
-                                            "^com\\.google\\.Chrome$",
-                                            "^com\\.google\\.Chrome\\.canary$",
-                                            "^com\\.opera\\.Opera$",
-                                            "^com\\.brave\\.Browser$"
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[RELACON] Nav: D-pad down in browser => prev tab",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "consumer_key_code": "volume_decrement"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_control",
-                                            "left_shift"
-                                        ]
-                                    }
-                                ],
-                                "conditions": [
                                     {
                                         "type": "variable_if",
                                         "name": "relacon_mode",

@@ -61,13 +61,13 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) if armed, else nothing | Right-click | Modifier (enables combos) | — |
 | Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Toggle nav / hold = Clear all |
-| Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter / Nav: Prev window |
-| Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter / Nav: Next window |
+| Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter / Nav: Prev tab |
+| Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter / Nav: Next tab |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | Nav: B2+Up = Cursor |
 | D-pad down | `volume_decrement` | Down arrow | iTerm app | — | Nav: B2+Down = iTerm |
 | D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev space / Nav: Chrome |
 | D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next space / Nav: Tower |
-| D-pad center | `play_or_pause` | Enter | — | — | — |
+| D-pad center | `play_or_pause` | Enter | — | — | Nav: B2+Center = Close tab |
 <!-- /docs -->
 
 **Whisper mode:** toggle via button5. While armed, next button5 press fires SuperWhisper and disarms.
@@ -85,30 +85,32 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 Toggle with **B2+B3** (right trigger + scroll wheel press). A macOS notification shows "Nav mode ON/OFF".
 
 When active:
-- **D-pad** navigates within the focused app (tabs, panes) instead of arrows/double-tap-to-open
+- **D-pad up/down** cycles windows (Cmd+\`/Cmd+Shift+\`)
+- **D-pad left/right** navigates panes (iTerm) or arrows (other apps)
+- **B2 + button4/5** switches tabs (per app) instead of Shift+Enter/Tab+Enter
 - **B2 + d-pad** opens the app that double-tap normally opens (Cursor, iTerm, Chrome, Tower)
-- **B2 + button4/5** cycles windows (Cmd+\`/Cmd+Shift+\`) instead of Shift+Enter/Tab+Enter
 
-### D-pad per app
+### D-pad
 
-| D-pad | iTerm | Cursor / VS Code | Chrome |
-|---|---|---|---|
-| Up | Next tab | Next tab | Next tab |
-| Down | Prev tab | Prev tab | Prev tab |
-| Left | Next pane | — | — |
-| Right | Prev pane | — | — |
+| D-pad | Nav action |
+|---|---|
+| Up | Next window (Cmd+\`) |
+| Down | Prev window (Cmd+Shift+\`) |
+| Left | Next pane (iTerm only) |
+| Right | Prev pane (iTerm only) |
 
-### B2 combos (all apps)
+### B2 combos
 
 | Combo | Nav mode | Default mode |
 |---|---|---|
 | B2 + B3 | Toggle nav mode | Toggle nav mode |
-| B2 + B4 (back) | Prev window (Cmd+Shift+\`) | Shift+Enter |
-| B2 + B5 (forward) | Next window (Cmd+\`) | Tab+Enter |
+| B2 + B4 (back) | Prev tab (per app) | Shift+Enter |
+| B2 + B5 (forward) | Next tab (per app) | Tab+Enter |
 | B2 + D-pad up | Open Cursor | — |
 | B2 + D-pad down | Open iTerm | — |
 | B2 + D-pad left | Open Chrome | Prev space |
 | B2 + D-pad right | Open Tower | Next space |
+| B2 + D-pad center | Close tab (per app) | — |
 
 ### Adding a new app
 

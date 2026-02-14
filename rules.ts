@@ -91,14 +91,17 @@ const NAV = {
     nextTab: { key_code: 'close_bracket', modifiers: ['left_command', 'left_shift'] },
     prevPane: { key_code: 'open_bracket', modifiers: ['left_command'] },
     nextPane: { key_code: 'close_bracket', modifiers: ['left_command'] },
+    closeTab: { key_code: 'w', modifiers: ['left_command'] },
   },
   editor: {
     prevTab: { key_code: 'left_arrow', modifiers: ['left_command', 'left_option'] },
     nextTab: { key_code: 'right_arrow', modifiers: ['left_command', 'left_option'] },
+    closeTab: { key_code: 'w', modifiers: ['left_command'] },
   },
   browser: {
     prevTab: { key_code: 'tab', modifiers: ['left_control', 'left_shift'] },
     nextTab: { key_code: 'tab', modifiers: ['left_control'] },
+    closeTab: { key_code: 'w', modifiers: ['left_command'] },
   },
   global: {
     nextWindow: { key_code: 'grave_accent_and_tilde', modifiers: ['left_command'] },
@@ -249,6 +252,12 @@ const CLEAR_ALL = [
   { key_code: 'delete_or_backspace' },
 ]
 
+// Set Karabiner variables via CLI — usable in shell_command actions or external scripts
+const KARABINER_CLI = '/Library/Application Support/org.pqrs.Karabiner-Elements/bin/karabiner_cli'
+function setVars(vars) {
+  return { shell_command: `'${KARABINER_CLI}' --set-variables '${JSON.stringify(vars)}'` }
+}
+
 // Maps a pointing_button or consumer_key_code to an action
 function mapButton({ description, button, consumerKey, to, conditions = [] }) {
   const from = consumerKey ? { consumer_key_code: consumerKey } : { pointing_button: button }
@@ -347,13 +356,13 @@ const RelaconMap = [
   { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) if armed, else nothing', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
   { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
-  { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev window' },
-  { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next window' },
+  { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev tab' },
+  { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next tab' },
   { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'Nav: B2+Up = Cursor' },
   { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'Nav: B2+Down = iTerm' },
   { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev space / Nav: Chrome' },
   { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next space / Nav: Tower' },
-  { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: '—' },
+  { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'Nav: B2+Center = Close tab' },
 ]
 const RelaconButtons = [
   // ── Trackball click (button1) ── double-click => Select All
@@ -532,18 +541,41 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Nav mode: B2 + button4 => prev window (Cmd+Shift+`)
+  // ── Nav mode: B2 + button4 => prev tab (per app)
   {
-    description: '[RELACON] Nav: B2 + Back => prev window',
+    description: '[RELACON] Nav: B2 + Back => prev tab',
     manipulators: [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [NAV.global.prevWindow],
+        to: [NAV.terminal.prevTab],
         conditions: [
           { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
           { type: 'variable_if', name: 'relacon_mode', value: 2 },
           ...isRelacon,
+          ...IS_TERMINAL_WINDOW,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button4' },
+        to: [NAV.editor.prevTab],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          ...isRelacon,
+          ...IS_EDITOR_WINDOW,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button4' },
+        to: [NAV.browser.prevTab],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          ...isRelacon,
+          ...IS_BROWSER_WINDOW,
         ],
       },
     ],
@@ -575,15 +607,38 @@ const RelaconButtons = [
   {
     description: '[RELACON] Forward button => SuperWhisper (toggle whisper mode)',
     manipulators: [
-      // Nav mode: button2 held + button5 => next window (Cmd+`)
+      // Nav mode: button2 held + button5 => next tab (per app)
       {
         type: 'basic',
         from: { pointing_button: 'button5' },
-        to: [NAV.global.nextWindow],
+        to: [NAV.terminal.nextTab],
         conditions: [
           { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
           { type: 'variable_if', name: 'relacon_mode', value: 2 },
           ...isRelacon,
+          ...IS_TERMINAL_WINDOW,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button5' },
+        to: [NAV.editor.nextTab],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          ...isRelacon,
+          ...IS_EDITOR_WINDOW,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button5' },
+        to: [NAV.browser.nextTab],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          ...isRelacon,
+          ...IS_BROWSER_WINDOW,
         ],
       },
       // Combo: button2 held + button5 => Tab + Enter
@@ -713,27 +768,25 @@ const RelaconButtons = [
     ],
   }),
 
-  // ── Nav mode: D-pad up in iTerm => next tab
+  // ── Nav mode: D-pad up => next window (Cmd+`)
   mapButton({
-    description: '[RELACON] Nav: D-pad up in iTerm => next tab',
+    description: '[RELACON] Nav: D-pad up => next window',
     consumerKey: 'volume_increment',
-    to: [NAV.terminal.nextTab],
+    to: [NAV.global.nextWindow],
     conditions: [
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
-      ...IS_TERMINAL_WINDOW,
     ],
   }),
 
-  // ── Nav mode: D-pad down in iTerm => prev tab
+  // ── Nav mode: D-pad down => prev window (Cmd+Shift+`)
   mapButton({
-    description: '[RELACON] Nav: D-pad down in iTerm => prev tab',
+    description: '[RELACON] Nav: D-pad down => prev window',
     consumerKey: 'volume_decrement',
-    to: [NAV.terminal.prevTab],
+    to: [NAV.global.prevWindow],
     conditions: [
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
-      ...IS_TERMINAL_WINDOW,
     ],
   }),
 
@@ -749,48 +802,35 @@ const RelaconButtons = [
     ],
   }),
 
-  // ── Nav mode: D-pad up in editor => next tab
+  // ── Nav mode: B2 + D-pad center => close tab (per app)
   mapButton({
-    description: '[RELACON] Nav: D-pad up in editor => next tab',
-    consumerKey: 'volume_increment',
-    to: [NAV.editor.nextTab],
+    description: '[RELACON] Nav: B2 + D-pad center in terminal => close tab',
+    consumerKey: 'play_or_pause',
+    to: [NAV.terminal.closeTab],
     conditions: [
+      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_TERMINAL_WINDOW,
+    ],
+  }),
+  mapButton({
+    description: '[RELACON] Nav: B2 + D-pad center in editor => close tab',
+    consumerKey: 'play_or_pause',
+    to: [NAV.editor.closeTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
       ...IS_EDITOR_WINDOW,
     ],
   }),
-
-  // ── Nav mode: D-pad down in editor => prev tab
   mapButton({
-    description: '[RELACON] Nav: D-pad down in editor => prev tab',
-    consumerKey: 'volume_decrement',
-    to: [NAV.editor.prevTab],
+    description: '[RELACON] Nav: B2 + D-pad center in browser => close tab',
+    consumerKey: 'play_or_pause',
+    to: [NAV.browser.closeTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
-      ...isRelacon,
-      ...IS_EDITOR_WINDOW,
-    ],
-  }),
-
-  // ── Nav mode: D-pad up in browser => next tab
-  mapButton({
-    description: '[RELACON] Nav: D-pad up in browser => next tab',
-    consumerKey: 'volume_increment',
-    to: [NAV.browser.nextTab],
-    conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
-      ...isRelacon,
-      ...IS_BROWSER_WINDOW,
-    ],
-  }),
-
-  // ── Nav mode: D-pad down in browser => prev tab
-  mapButton({
-    description: '[RELACON] Nav: D-pad down in browser => prev tab',
-    consumerKey: 'volume_decrement',
-    to: [NAV.browser.prevTab],
-    conditions: [
+      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
       ...IS_BROWSER_WINDOW,

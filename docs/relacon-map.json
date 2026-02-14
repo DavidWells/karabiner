@@ -29,7 +29,7 @@
     "tap": "Enter",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "B2+B4 = Shift+Enter / Nav: Prev window"
+    "b2Combo": "B2+B4 = Shift+Enter / Nav: Prev tab"
   },
   {
     "name": "Forward (right side)",
@@ -37,7 +37,7 @@
     "tap": "SuperWhisper (toggle whisper)",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "B2+B5 = Tab+Enter / Nav: Next window"
+    "b2Combo": "B2+B5 = Tab+Enter / Nav: Next tab"
   },
   {
     "name": "D-pad up",
@@ -77,6 +77,6 @@
     "tap": "Enter",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "—"
+    "b2Combo": "Nav: B2+Center = Close tab"
   }
 ]
