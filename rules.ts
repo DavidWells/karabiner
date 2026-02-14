@@ -527,7 +527,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button3' },
         to_if_alone: [
           { set_variable: { name: 'relacon_mode', value: 1 } },
-          { shell_command: "osascript -e 'display notification \"Nav mode OFF\" with title \"Relacon\"'" },
+          { shell_command: "osascript -e 'display notification \"Edit mode\" with title \"Relacon\"'" },
         ],
         to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
         parameters: {
@@ -545,7 +545,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button3' },
         to_if_alone: [
           { set_variable: { name: 'relacon_mode', value: 2 } },
-          { shell_command: "osascript -e 'display notification \"Nav mode ON\" with title \"Relacon\"'" },
+          { shell_command: "osascript -e 'display notification \"Nav mode\" with title \"Relacon\"'" },
         ],
         to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
         parameters: {
@@ -700,6 +700,7 @@ const RelaconButtons = [
           ...isRelacon,
         ],
       },
+      // Stop STT, then insert trailing space after 500ms delay (gives STT time to paste text)
       {
         type: 'basic',
         from: { pointing_button: 'button5' },
@@ -708,6 +709,11 @@ const RelaconButtons = [
           { set_variable: { name: 'relacon_stt', value: 0 } },
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
+        to_delayed_action: {
+          to_if_invoked: [{ key_code: 'spacebar' }],
+          to_if_canceled: [{ key_code: 'spacebar' }],
+        },
+        parameters: { 'basic.to_delayed_action_delay_milliseconds': 500 },
         conditions: [
           RELACON_STT_ACTIVE,
           ...isRelacon,

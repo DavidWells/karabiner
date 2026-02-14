@@ -2137,7 +2137,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "osascript -e 'display notification \"Nav mode OFF\" with title \"Relacon\"'"
+                                        "shell_command": "osascript -e 'display notification \"Edit mode\" with title \"Relacon\"'"
                                     }
                                 ],
                                 "to_if_held_down": [
@@ -2200,7 +2200,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "osascript -e 'display notification \"Nav mode ON\" with title \"Relacon\"'"
+                                        "shell_command": "osascript -e 'display notification \"Nav mode\" with title \"Relacon\"'"
                                     }
                                 ],
                                 "to_if_held_down": [
@@ -2737,6 +2737,21 @@
                                         }
                                     }
                                 ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
