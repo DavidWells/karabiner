@@ -446,23 +446,10 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Right trigger (button2) ── paste if armed, double-tap => right-click, hold => modifier
+  // ── Right trigger (button2) ── double-tap => right-click, hold => modifier, tap-alone => paste if armed
   {
-    description: '[RELACON] Right trigger: paste/double-tap right-click/hold modifier',
+    description: '[RELACON] Right trigger: double-tap right-click/hold modifier/tap paste',
     manipulators: [
-      // Paste mode — Cmd+V and reset
-      {
-        type: 'basic',
-        from: { pointing_button: 'button2' },
-        to: [
-          { key_code: 'v', modifiers: ['left_command'] },
-          { set_variable: { name: 'relacon_copied', value: 0 } },
-        ],
-        conditions: [
-          RELACON_COPIED,
-          ...isRelacon,
-        ],
-      },
       // Double-tap — fire right-click
       {
         type: 'basic',
@@ -470,6 +457,36 @@ const RelaconButtons = [
         to: [{ pointing_button: 'button2' }],
         conditions: [
           RELACON_B2_DBLCLICK,
+          ...isRelacon,
+        ],
+      },
+      // First press with paste armed — hold sets modifier, release-alone pastes
+      // to_if_alone fires on release only if no other button was pressed during hold
+      {
+        type: 'basic',
+        from: { pointing_button: 'button2' },
+        to: [
+          { set_variable: { name: 'relacon_b2_held', value: 1 } },
+          { set_variable: { name: 'relacon_b2_dblclick', value: 1 } },
+        ],
+        to_if_alone: [
+          { key_code: 'v', modifiers: ['left_command'] },
+          { set_variable: { name: 'relacon_copied', value: 0 } },
+        ],
+        to_after_key_up: [
+          { set_variable: { name: 'relacon_b2_held', value: 0 } },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: 'relacon_b2_dblclick', value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: 'relacon_b2_dblclick', value: 0 } },
+          ],
+        },
+        parameters: { 'basic.to_delayed_action_delay_milliseconds': 300 },
+        conditions: [
+          RELACON_COPIED,
           ...isRelacon,
         ],
       },

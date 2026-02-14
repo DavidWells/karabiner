@@ -146,6 +146,10 @@ Shortcuts are defined in the `NAV` constant in `rules.ts` — shared by both Raz
 3. Sequential chords — Button1 then Button2 within 200ms = unique action
 4. Tap dance — single/double/triple tap on same button, each doing something different
 
+## Known Issues
+
+- **B2 double-tap pastes when armed**: If paste is armed (button1 was pressed), double-tapping B2 for right-click will also paste on the first tap's release. `to_if_alone` fires before the second tap registers. Needs a way to defer paste until after the double-tap window expires without breaking combo detection.
+
 ## Notes
 
 Extra double tap of https://app.screencast.com/SnjDxLxv4S2AQ
