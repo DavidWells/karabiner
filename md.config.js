@@ -5,7 +5,7 @@ const fs = require('fs')
 module.exports = {
   transforms: {
     RELACON_MAP() {
-      const map = JSON.parse(fs.readFileSync(path.join(__dirname, 'relacon-map.json'), 'utf-8'))
+      const map = JSON.parse(fs.readFileSync(path.join(__dirname, 'docs', 'relacon-map.json'), 'utf-8'))
       const header = '| Button | Event | Tap | Double Tap | Hold | B2 Combo |'
       const sep = '|---|---|---|---|---|---|'
       const rows = map.map(b =>

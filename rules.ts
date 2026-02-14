@@ -84,6 +84,28 @@ const toggleBackToPreviousApp = [
   },
 ]
 
+// App navigation shortcuts — single source of truth for Razer mouse + Relacon mappings
+const NAV = {
+  terminal: {
+    prevTab: { key_code: 'open_bracket', modifiers: ['left_command', 'left_shift'] },
+    nextTab: { key_code: 'close_bracket', modifiers: ['left_command', 'left_shift'] },
+    prevPane: { key_code: 'open_bracket', modifiers: ['left_command'] },
+    nextPane: { key_code: 'close_bracket', modifiers: ['left_command'] },
+  },
+  editor: {
+    prevTab: { key_code: 'left_arrow', modifiers: ['left_command', 'left_option'] },
+    nextTab: { key_code: 'right_arrow', modifiers: ['left_command', 'left_option'] },
+  },
+  browser: {
+    prevTab: { key_code: 'tab', modifiers: ['left_control', 'left_shift'] },
+    nextTab: { key_code: 'tab', modifiers: ['left_control'] },
+  },
+  global: {
+    nextWindow: { key_code: 'grave_accent_and_tilde', modifiers: ['left_command'] },
+    prevWindow: { key_code: 'grave_accent_and_tilde', modifiers: ['left_command', 'left_shift'] },
+  },
+}
+
 const ejectToScreenShot = [
   {
     description: 'Eject to Screenshot',
@@ -324,13 +346,13 @@ function doubleClickButton({ description, button, consumerKey, to, singleTo, con
 const RelaconMap = [
   { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) if armed, else nothing', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
-  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete', doubleTap: 'Esc+Esc+SelectAll+Delete', hold: 'Esc+Esc+SelectAll+Delete', b2Combo: 'B2+B3 = Esc+Esc' },
-  { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter' },
-  { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter' },
-  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: '—' },
-  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: '—' },
-  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev space' },
-  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next space' },
+  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete', doubleTap: 'Esc+Esc+SelectAll+Delete', hold: 'Esc+Esc+SelectAll+Delete', b2Combo: 'B2+B3 = Toggle nav mode' },
+  { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev window' },
+  { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next window' },
+  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'Nav: B2+Up = Cursor' },
+  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'Nav: B2+Down = iTerm' },
+  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev space / Nav: Chrome' },
+  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next space / Nav: Tower' },
   { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: '—' },
 ]
 const RelaconButtons = [
@@ -458,11 +480,27 @@ const RelaconButtons = [
   {
     description: '[RELACON] Middle click: tap => Delete, double/hold => clear all',
     manipulators: [
-      // Combo: button2 held + button3 => clear prompt (Esc + Esc)
+      // Combo: button2 held + button3 => toggle relacon mode (1 ↔ 2)
       {
         type: 'basic',
         from: { pointing_button: 'button3' },
-        to: [{ key_code: 'escape' }, { key_code: 'escape' }],
+        to: [
+          { set_variable: { name: 'relacon_mode', value: 1 } },
+          { shell_command: "osascript -e 'display notification \"Nav mode OFF\" with title \"Relacon\"'" },
+        ],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          ...isRelacon,
+        ],
+      },
+      {
+        type: 'basic',
+        from: { pointing_button: 'button3' },
+        to: [
+          { set_variable: { name: 'relacon_mode', value: 2 } },
+          { shell_command: "osascript -e 'display notification \"Nav mode ON\" with title \"Relacon\"'" },
+        ],
         conditions: [
           { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
           ...isRelacon,
@@ -507,6 +545,22 @@ const RelaconButtons = [
     ],
   },
 
+  // ── Nav mode: B2 + button4 => prev window (Cmd+Shift+`)
+  {
+    description: '[RELACON] Nav: B2 + Back => prev window',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { pointing_button: 'button4' },
+        to: [NAV.global.prevWindow],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          ...isRelacon,
+        ],
+      },
+    ],
+  },
   // ── Combo: button2 held + button4 => Shift+Enter
   {
     description: '[RELACON] Right trigger + Back => Shift+Enter',
@@ -534,6 +588,17 @@ const RelaconButtons = [
   {
     description: '[RELACON] Forward button => SuperWhisper (toggle whisper mode)',
     manipulators: [
+      // Nav mode: button2 held + button5 => next window (Cmd+`)
+      {
+        type: 'basic',
+        from: { pointing_button: 'button5' },
+        to: [NAV.global.nextWindow],
+        conditions: [
+          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          ...isRelacon,
+        ],
+      },
       // Combo: button2 held + button5 => Tab + Enter
       {
         type: 'basic',
@@ -570,6 +635,30 @@ const RelaconButtons = [
     ],
   },
 
+  // ── Nav mode: B2 + D-pad left => open Chrome
+  mapButton({
+    description: '[RELACON] Nav: B2 + D-pad left => Chrome',
+    consumerKey: 'scan_previous_track',
+    to: [{ shell_command: "open -a 'Google Chrome.app'" }],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+    ],
+  }),
+
+  // ── Nav mode: B2 + D-pad right => open Tower
+  mapButton({
+    description: '[RELACON] Nav: B2 + D-pad right => Tower',
+    consumerKey: 'scan_next_track',
+    to: [{ shell_command: "open -a 'Tower.app'" }],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+    ],
+  }),
+
   // ── Combo: button2 held + d-pad left => previous space (Ctrl+Left)
   {
     description: '[RELACON] Right trigger + D-pad left => previous space',
@@ -600,6 +689,78 @@ const RelaconButtons = [
       },
     ],
   },
+
+  // ── Nav mode: D-pad left in iTerm => next pane (Cmd+])
+  mapButton({
+    description: '[RELACON] Nav: D-pad left in iTerm => next pane',
+    consumerKey: 'scan_previous_track',
+    to: [NAV.terminal.nextPane],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_TERMINAL_WINDOW,
+    ],
+  }),
+
+  // ── Nav mode: B2 + D-pad up => open Cursor
+  mapButton({
+    description: '[RELACON] Nav: B2 + D-pad up => Cursor',
+    consumerKey: 'volume_increment',
+    to: [{ shell_command: "open -a 'Cursor.app'" }],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+    ],
+  }),
+
+  // ── Nav mode: B2 + D-pad down => open iTerm
+  mapButton({
+    description: '[RELACON] Nav: B2 + D-pad down => iTerm',
+    consumerKey: 'volume_decrement',
+    to: [{ shell_command: "open -a 'iTerm.app'" }],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+    ],
+  }),
+
+  // ── Nav mode: D-pad up in iTerm => next tab
+  mapButton({
+    description: '[RELACON] Nav: D-pad up in iTerm => next tab',
+    consumerKey: 'volume_increment',
+    to: [NAV.terminal.nextTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_TERMINAL_WINDOW,
+    ],
+  }),
+
+  // ── Nav mode: D-pad down in iTerm => prev tab
+  mapButton({
+    description: '[RELACON] Nav: D-pad down in iTerm => prev tab',
+    consumerKey: 'volume_decrement',
+    to: [NAV.terminal.prevTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_TERMINAL_WINDOW,
+    ],
+  }),
+
+  // ── Nav mode: D-pad right in iTerm => prev pane
+  mapButton({
+    description: '[RELACON] Nav: D-pad right in iTerm => prev pane',
+    consumerKey: 'scan_next_track',
+    to: [NAV.terminal.prevPane],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_TERMINAL_WINDOW,
+    ],
+  }),
 
   // ── D-pad left ── tap => Left arrow, hold => open Chrome, double => open Chrome
   doubleClickButton({
@@ -1646,11 +1807,7 @@ const CodeEditorMouseButtons = [
           key_code: '5',
         },
         to: [
-          {
-            repeat: false,
-            key_code: 'left_arrow',
-            modifiers: ['left_command', 'left_option'],
-          },
+          { ...NAV.editor.prevTab, repeat: false },
         ],
         conditions: [
           ...isMouseButton,
@@ -1668,11 +1825,7 @@ const CodeEditorMouseButtons = [
           key_code: '6',
         },
         to: [
-          {
-            repeat: false,
-            key_code: 'right_arrow',
-            modifiers: ['left_command', 'left_option'],
-          },
+          { ...NAV.editor.nextTab, repeat: false },
         ],
         conditions: [
           ...isMouseButton,
@@ -1785,11 +1938,7 @@ const CodeEditorNav = [
           }
         },
         to: [
-          {
-            repeat: false,
-            key_code: 'left_arrow',
-            modifiers: ['left_command', 'left_option']
-          }
+          { ...NAV.editor.prevTab, repeat: false }
         ],
         conditions: [
           {
@@ -1812,11 +1961,7 @@ const CodeEditorNav = [
           }
         },
         to: [
-          {
-            repeat: false,
-            key_code: 'right_arrow',
-            modifiers: ['left_command', 'left_option']
-          }
+          { ...NAV.editor.nextTab, repeat: false }
         ],
         conditions: [
           {
@@ -1911,11 +2056,7 @@ const BrowserMouseButtons = [
           key_code: '5',
         },
         to: [
-          {
-            repeat: false,
-            key_code: 'tab',
-            modifiers: ['left_control', 'left_shift'],
-          },
+          { ...NAV.browser.prevTab, repeat: false },
         ],
         conditions: [
           ...isMouseButton,
@@ -1933,11 +2074,7 @@ const BrowserMouseButtons = [
           key_code: '6',
         },
         to: [
-          {
-            repeat: false,
-            key_code: 'tab',
-            modifiers: ['left_control'],
-          },
+          { ...NAV.browser.nextTab, repeat: false },
         ],
         conditions: [
           ...isMouseButton,

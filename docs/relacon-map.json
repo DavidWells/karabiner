@@ -21,7 +21,7 @@
     "tap": "Delete",
     "doubleTap": "Esc+Esc+SelectAll+Delete",
     "hold": "Esc+Esc+SelectAll+Delete",
-    "b2Combo": "B2+B3 = Esc+Esc"
+    "b2Combo": "B2+B3 = Toggle nav mode"
   },
   {
     "name": "Back (left side)",
@@ -29,7 +29,7 @@
     "tap": "Enter",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "B2+B4 = Shift+Enter"
+    "b2Combo": "B2+B4 = Shift+Enter / Nav: Prev window"
   },
   {
     "name": "Forward (right side)",
@@ -37,7 +37,7 @@
     "tap": "SuperWhisper (toggle whisper)",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "B2+B5 = Tab+Enter"
+    "b2Combo": "B2+B5 = Tab+Enter / Nav: Next window"
   },
   {
     "name": "D-pad up",
@@ -45,7 +45,7 @@
     "tap": "Up arrow",
     "doubleTap": "Cursor app",
     "hold": "—",
-    "b2Combo": "—"
+    "b2Combo": "Nav: B2+Up = Cursor"
   },
   {
     "name": "D-pad down",
@@ -53,7 +53,7 @@
     "tap": "Down arrow",
     "doubleTap": "iTerm app",
     "hold": "—",
-    "b2Combo": "—"
+    "b2Combo": "Nav: B2+Down = iTerm"
   },
   {
     "name": "D-pad left",
@@ -61,7 +61,7 @@
     "tap": "Left arrow",
     "doubleTap": "Chrome app",
     "hold": "—",
-    "b2Combo": "B2+Left = Prev space"
+    "b2Combo": "B2+Left = Prev space / Nav: Chrome"
   },
   {
     "name": "D-pad right",
@@ -69,7 +69,7 @@
     "tap": "Right arrow",
     "doubleTap": "Tower app",
     "hold": "—",
-    "b2Combo": "B2+Right = Next space"
+    "b2Combo": "B2+Right = Next space / Nav: Tower"
   },
   {
     "name": "D-pad center",

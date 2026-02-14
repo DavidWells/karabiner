@@ -26,7 +26,25 @@ The build preserves non-rule settings (devices, `keyboard_type_v2`, `fn_function
 - `docs/relacon-map.json` — intermediate data
 - README table via markdown-magic `RELACON_MAP` transform (`md.config.js`)
 
-Update `RelaconMap` when changing button mappings — the build regenerates all docs automatically.
+When changing Relacon button behavior in `rules.ts`, you MUST also update the corresponding `RelaconMap` entry to match, then run `yarn build`. This keeps the README table, `docs/relacon-map.html`, and `docs/relacon-map.json` in sync with actual behavior.
+
+## Nav mode
+
+`relacon_mode` variable toggles between 1 (off) and 2 (nav mode on) via B2+B3. When nav mode is active, d-pad buttons fire app-specific navigation instead of arrows/double-tap-to-open.
+
+Nav mode rules go in `RelaconButtons` array and MUST be placed before generic rules for the same key so Karabiner matches them first. The pattern:
+- Nav mode tap rules: `relacon_mode == 2` + app condition (e.g. `IS_TERMINAL_WINDOW`) + `isRelacon`
+- Nav mode B2 combos: `relacon_b2_held == 1` + `relacon_mode == 2` + `isRelacon` — placed before generic B2 combos
+
+D-pad consumer keys (`volume_increment`, etc.) don't support `to_if_held_down` — the hardware sends instant press+release. Use `mapButton` for nav mode tap actions, not `tapHoldButton`.
+
+When adding nav mode support for a new app:
+1. Add `mapButton` rules for each d-pad direction with the app's condition and `relacon_mode == 2`
+2. Place them before the generic d-pad rules
+3. Update the nav mode section in README.md
+4. Update `RelaconMap` if B2 combo behavior changes
+
+App conditions available: `IS_TERMINAL_WINDOW`, `IS_EDITOR_WINDOW`, `IS_BROWSER_WINDOW`, `IS_CHROME_WINDOW`.
 
 ## Key files
 

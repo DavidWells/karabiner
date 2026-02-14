@@ -60,13 +60,13 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 |---|---|---|---|---|---|
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) if armed, else nothing | Right-click | Modifier (enables combos) | — |
-| Scroll wheel press | `button3` | Delete | Esc+Esc+SelectAll+Delete | Esc+Esc+SelectAll+Delete | B2+B3 = Esc+Esc |
-| Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter |
-| Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter |
-| D-pad up | `volume_increment` | Up arrow | Cursor app | — | — |
-| D-pad down | `volume_decrement` | Down arrow | iTerm app | — | — |
-| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev space |
-| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next space |
+| Scroll wheel press | `button3` | Delete | Esc+Esc+SelectAll+Delete | Esc+Esc+SelectAll+Delete | B2+B3 = Toggle nav mode |
+| Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter / Nav: Prev window |
+| Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter / Nav: Next window |
+| D-pad up | `volume_increment` | Up arrow | Cursor app | — | Nav: B2+Up = Cursor |
+| D-pad down | `volume_decrement` | Down arrow | iTerm app | — | Nav: B2+Down = iTerm |
+| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev space / Nav: Chrome |
+| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next space / Nav: Tower |
 | D-pad center | `play_or_pause` | Enter | — | — | — |
 <!-- /docs -->
 
@@ -79,6 +79,40 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 **Reserved:** Button1 (left trigger) hold slot is reserved — adding `to_if_held_down` breaks click-drag and copy/paste flow.
 
 **Button2 double-tap:** Fires right-click. Single tap does nothing (unless paste is armed).
+
+## Nav Mode
+
+Toggle with **B2+B3** (right trigger + scroll wheel press). A macOS notification shows "Nav mode ON/OFF".
+
+When active:
+- **D-pad** navigates within the focused app (tabs, panes) instead of arrows/double-tap-to-open
+- **B2 + d-pad** opens the app that double-tap normally opens (Cursor, iTerm, Chrome, Tower)
+- **B2 + button4/5** cycles windows (Cmd+\`/Cmd+Shift+\`) instead of Shift+Enter/Tab+Enter
+
+### D-pad per app
+
+| D-pad | iTerm | Cursor / VS Code | Chrome |
+|---|---|---|---|
+| Up | Next tab | TODO | TODO |
+| Down | Prev tab | TODO | TODO |
+| Left | Next pane | TODO | TODO |
+| Right | Prev pane | TODO | TODO |
+
+### B2 combos (all apps)
+
+| Combo | Nav mode | Default mode |
+|---|---|---|
+| B2 + B3 | Toggle nav mode | Toggle nav mode |
+| B2 + B4 (back) | Prev window (Cmd+Shift+\`) | Shift+Enter |
+| B2 + B5 (forward) | Next window (Cmd+\`) | Tab+Enter |
+| B2 + D-pad up | Open Cursor | — |
+| B2 + D-pad down | Open iTerm | — |
+| B2 + D-pad left | Open Chrome | Prev space |
+| B2 + D-pad right | Open Tower | Next space |
+
+### Adding a new app
+
+Shortcuts are defined in the `NAV` constant in `rules.ts` — shared by both Razer mouse and Relacon mappings. Change the shortcut once, both devices update.
 
 ## Pattern Ideas
 
