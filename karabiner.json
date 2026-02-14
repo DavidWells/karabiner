@@ -2482,7 +2482,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_whisper",
+                                            "name": "relacon_stt",
                                             "value": 0
                                         }
                                     }
@@ -2505,7 +2505,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "relacon_whisper",
+                                        "name": "relacon_stt",
                                         "value": 1
                                     },
                                     {
@@ -2726,7 +2726,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_whisper",
+                                            "name": "relacon_stt",
                                             "value": 0
                                         }
                                     },
@@ -2740,7 +2740,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "relacon_whisper",
+                                        "name": "relacon_stt",
                                         "value": 1
                                     },
                                     {
@@ -2769,7 +2769,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_whisper",
+                                            "name": "relacon_stt",
                                             "value": 1
                                         }
                                     },

@@ -50,7 +50,7 @@ Use `RELACON_*` constants for variable conditions instead of inline objects. Def
 - `RELACON_B2_HELD` — right trigger held (combo layer)
 - `RELACON_NAV_MODE` — nav mode active
 - `RELACON_COPIED` — paste armed
-- `RELACON_WHISPER` — speech-to-text active
+- `RELACON_STT_ACTIVE` — speech-to-text active
 - `RELACON_DBLCLICK` / `RELACON_B2_DBLCLICK` — double-click timing windows
 
 ## Copy/paste flow
@@ -59,7 +59,7 @@ Button1 tap fires Cmd+C and arms paste (`relacon_copied = 1`). Button2 uses `to_
 
 ## Speech-to-text + Enter
 
-When speech-to-text is recording (`relacon_whisper == 1`), button4 stops recording and fires Enter after a 500ms delay via `to_delayed_action`. The delay gives STT time to paste transcribed text before Enter submits. Uses Karabiner's native delayed action (no shell commands or accessibility permissions needed).
+When speech-to-text is recording (`relacon_stt == 1`), button4 stops recording and fires Enter after a 500ms delay via `to_delayed_action`. The delay gives STT time to paste transcribed text before Enter submits. Uses Karabiner's native delayed action (no shell commands or accessibility permissions needed).
 
 ## Tap/hold split pattern
 
