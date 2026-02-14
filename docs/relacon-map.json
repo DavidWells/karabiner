@@ -18,7 +18,7 @@
   {
     "name": "Scroll wheel press",
     "event": "button3",
-    "tap": "Delete (repeats)",
+    "tap": "Delete (repeats, 3s → clear all)",
     "doubleTap": "—",
     "hold": "—",
     "b2Combo": "B2+B3 tap = Toggle nav / hold = Clear all"

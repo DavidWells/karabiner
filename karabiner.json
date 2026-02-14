@@ -2212,6 +2212,30 @@
                                         "key_code": "delete_or_backspace"
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "escape",
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "escape",
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "a",
+                                        "modifiers": [
+                                            "left_command"
+                                        ],
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_held_down_threshold_milliseconds": 3000
+                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",

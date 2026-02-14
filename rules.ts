@@ -346,7 +346,7 @@ function doubleClickButton({ description, button, consumerKey, to, singleTo, con
 const RelaconMap = [
   { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) if armed, else nothing', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
-  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
+  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
   { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev window' },
   { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next window' },
   { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'Nav: B2+Up = Cursor' },
@@ -518,11 +518,15 @@ const RelaconButtons = [
           ...isRelacon,
         ],
       },
-      // Tap/hold => Delete (repeats while held)
+      // Delete repeats while held; after 2s auto-fires select all + delete
       {
         type: 'basic',
         from: { pointing_button: 'button3' },
         to: [{ key_code: 'delete_or_backspace' }],
+        to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
+        parameters: {
+          'basic.to_if_held_down_threshold_milliseconds': 3000,
+        },
         conditions: [...isRelacon],
       },
     ],
