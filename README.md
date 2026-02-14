@@ -96,8 +96,8 @@ When active:
 |---|---|
 | Up | Next window (Cmd+\`) |
 | Down | Prev window (Cmd+Shift+\`) |
-| Left | Prev tab (iTerm) |
-| Right | Next tab (iTerm) |
+| Left | Prev tab (per app) |
+| Right | Next tab (per app) |
 
 ### B2 combos
 

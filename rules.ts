@@ -732,15 +732,35 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Nav mode: D-pad left in iTerm => prev tab
+  // ── Nav mode: D-pad left => prev tab (per app)
   mapButton({
-    description: '[RELACON] Nav: D-pad left in iTerm => prev tab',
+    description: '[RELACON] Nav: D-pad left in terminal => prev tab',
     consumerKey: 'scan_previous_track',
     to: [NAV.terminal.prevTab],
     conditions: [
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
       ...IS_TERMINAL_WINDOW,
+    ],
+  }),
+  mapButton({
+    description: '[RELACON] Nav: D-pad left in editor => prev tab',
+    consumerKey: 'scan_previous_track',
+    to: [NAV.editor.prevTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_EDITOR_WINDOW,
+    ],
+  }),
+  mapButton({
+    description: '[RELACON] Nav: D-pad left in browser => prev tab',
+    consumerKey: 'scan_previous_track',
+    to: [NAV.browser.prevTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_BROWSER_WINDOW,
     ],
   }),
 
@@ -790,15 +810,35 @@ const RelaconButtons = [
     ],
   }),
 
-  // ── Nav mode: D-pad right in iTerm => next tab
+  // ── Nav mode: D-pad right => next tab (per app)
   mapButton({
-    description: '[RELACON] Nav: D-pad right in iTerm => next tab',
+    description: '[RELACON] Nav: D-pad right in terminal => next tab',
     consumerKey: 'scan_next_track',
     to: [NAV.terminal.nextTab],
     conditions: [
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
       ...IS_TERMINAL_WINDOW,
+    ],
+  }),
+  mapButton({
+    description: '[RELACON] Nav: D-pad right in editor => next tab',
+    consumerKey: 'scan_next_track',
+    to: [NAV.editor.nextTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_EDITOR_WINDOW,
+    ],
+  }),
+  mapButton({
+    description: '[RELACON] Nav: D-pad right in browser => next tab',
+    consumerKey: 'scan_next_track',
+    to: [NAV.browser.nextTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_BROWSER_WINDOW,
     ],
   }),
 
