@@ -46,6 +46,21 @@ When adding nav mode support for a new app:
 
 App conditions available: `IS_TERMINAL_WINDOW`, `IS_EDITOR_WINDOW`, `IS_BROWSER_WINDOW`, `IS_CHROME_WINDOW`.
 
+Use `RELACON_*` constants for variable conditions instead of inline objects. Defined near `isRelacon` in `rules.ts`:
+- `RELACON_B2_HELD` — right trigger held (combo layer)
+- `RELACON_NAV_MODE` — nav mode active
+- `RELACON_COPIED` — paste armed
+- `RELACON_WHISPER` — whisper mode armed
+- `RELACON_DBLCLICK` / `RELACON_B2_DBLCLICK` — double-click timing windows
+
+## Copy/paste flow
+
+Button1 tap fires Cmd+C and arms paste (`relacon_copied = 1`). Button2 uses `to_if_alone` to paste only on release with no other button pressed — this prevents accidental paste when B2 is held for combos. The `to_if_alone` approach means paste has a slight delay (~300ms) and will also fire on the first tap of a double-tap (known issue, documented in README).
+
+## Whisper + Enter
+
+When SuperWhisper is recording (`relacon_whisper == 1`), button4 stops recording and fires Enter after a 500ms delay via `to_delayed_action`. The delay gives SuperWhisper time to paste transcribed text before Enter submits. Uses Karabiner's native delayed action (no shell commands or accessibility permissions needed).
+
 ## Tap/hold split pattern
 
 Use `to_if_alone` + `to_if_held_down` on one manipulator to map two actions to the same button combo. Tap fires one action, hold fires another. There's a ~300ms delay before the tap action fires (Karabiner waits to see if you're holding), but this lets a single combo do double duty without conflicts. Good for buttons where we're running out of available gestures. See B2+B3 (nav toggle / clear all) for an example.

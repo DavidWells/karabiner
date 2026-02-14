@@ -59,9 +59,9 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Button | Event | Tap | Double Tap | Hold | B2 Combo |
 |---|---|---|---|---|---|
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
-| Right trigger | `button2` | Paste (Cmd+V) if armed, else nothing | Right-click | Modifier (enables combos) | — |
+| Right trigger | `button2` | Paste (Cmd+V) on release if armed | Right-click | Modifier (enables combos) | — |
 | Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Toggle nav / hold = Clear all |
-| Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab |
+| Back (left side) | `button4` | Enter (stops whisper + delayed Enter if active) | — | — | B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab |
 | Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | Nav: B2+Up = Cursor |
 | D-pad down | `volume_decrement` | Down arrow | iTerm app | — | Nav: B2+Down = iTerm |
@@ -72,7 +72,9 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 
 **Whisper mode:** toggle via button5. While armed, next button5 press fires SuperWhisper and disarms.
 
-**Copy/paste:** Every button1 release fires Cmd+C and arms paste mode. Next button2 press fires Cmd+V and resets.
+**Copy/paste:** Every button1 release fires Cmd+C and arms paste mode. Next button2 tap-and-release (with no other button pressed) fires Cmd+V and resets. Holding B2 for a combo does not trigger paste.
+
+**Whisper + Enter:** If SuperWhisper is recording, button4 stops recording and fires Enter after a 500ms delay (gives SuperWhisper time to paste transcribed text).
 
 **Button2 modifier:** Hold button2 (right trigger) to activate combo layer — other buttons gain alternate actions while held.
 
@@ -86,8 +88,8 @@ Toggle with **B2+B3** (right trigger + scroll wheel press). A macOS notification
 
 When active:
 - **D-pad up/down** cycles windows (Cmd+\`/Cmd+Shift+\`)
-- **D-pad left/right** navigates panes (iTerm) or arrows (other apps)
-- **B2 + button4/5** switches tabs (per app) instead of Shift+Enter/Tab+Enter
+- **D-pad left/right** switches tabs (per app)
+- **B2 + button4/5** switches panes (iTerm) or tabs (editor/browser)
 - **B2 + d-pad** opens the app that double-tap normally opens (Cursor, iTerm, Chrome, Tower)
 
 ### D-pad

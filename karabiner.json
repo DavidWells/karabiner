@@ -2465,6 +2465,63 @@
                         ]
                     },
                     {
+                        "description": "[RELACON] Back button => stop whisper + delayed Enter",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button4"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_option",
+                                            "left_control"
+                                        ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_whisper",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "return_or_enter"
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "return_or_enter"
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_whisper",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "[RELACON] Back button => Enter",
                         "manipulators": [
                             {

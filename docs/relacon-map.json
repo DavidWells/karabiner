@@ -10,7 +10,7 @@
   {
     "name": "Right trigger",
     "event": "button2",
-    "tap": "Paste (Cmd+V) if armed, else nothing",
+    "tap": "Paste (Cmd+V) on release if armed",
     "doubleTap": "Right-click",
     "hold": "Modifier (enables combos)",
     "b2Combo": "—"
@@ -26,7 +26,7 @@
   {
     "name": "Back (left side)",
     "event": "button4",
-    "tap": "Enter",
+    "tap": "Enter (stops whisper + delayed Enter if active)",
     "doubleTap": "—",
     "hold": "—",
     "b2Combo": "B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab"
