@@ -245,6 +245,19 @@ const isRelacon = [
   },
 ]
 
+// Right trigger (button2) is physically held down — activates combo layer for other buttons
+const RELACON_B2_HELD = { type: 'variable_if', name: 'relacon_b2_held', value: 1 }
+// Nav mode active — d-pad fires app navigation instead of arrows, toggled via B2+B3
+const RELACON_NAV_MODE = { type: 'variable_if', name: 'relacon_mode', value: 2 }
+// Left trigger (button1) fired Cmd+C — next button2 press will paste
+const RELACON_COPIED = { type: 'variable_if', name: 'relacon_copied', value: 1 }
+// Whisper mode armed — next button5 press fires SuperWhisper and disarms
+const RELACON_WHISPER = { type: 'variable_if', name: 'relacon_whisper', value: 1 }
+// Button1 double-click detected within timing window
+const RELACON_DBLCLICK = { type: 'variable_if', name: 'relacon_dblclick', value: 1 }
+// Button2 double-click detected within timing window
+const RELACON_B2_DBLCLICK = { type: 'variable_if', name: 'relacon_b2_dblclick', value: 1 }
+
 const CLEAR_ALL = [
   { key_code: 'escape' },
   { key_code: 'escape' },
@@ -378,7 +391,7 @@ const RelaconButtons = [
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [
-          { type: 'variable_if', name: 'relacon_dblclick', value: 1 },
+          RELACON_DBLCLICK,
           ...isRelacon,
         ],
       },
@@ -426,7 +439,7 @@ const RelaconButtons = [
         },
         parameters: { 'basic.to_delayed_action_delay_milliseconds': 300 },
         conditions: [
-          { type: 'variable_if', name: 'relacon_copied', value: 1 },
+          RELACON_COPIED,
           ...isRelacon,
         ],
       },
@@ -446,7 +459,7 @@ const RelaconButtons = [
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [
-          { type: 'variable_if', name: 'relacon_copied', value: 1 },
+          RELACON_COPIED,
           ...isRelacon,
         ],
       },
@@ -456,7 +469,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button2' },
         to: [{ pointing_button: 'button2' }],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_dblclick', value: 1 },
+          RELACON_B2_DBLCLICK,
           ...isRelacon,
         ],
       },
@@ -505,8 +518,8 @@ const RelaconButtons = [
           'basic.to_if_held_down_threshold_milliseconds': 300,
         },
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          RELACON_B2_HELD,
+          RELACON_NAV_MODE,
           ...isRelacon,
         ],
       },
@@ -523,7 +536,7 @@ const RelaconButtons = [
           'basic.to_if_held_down_threshold_milliseconds': 300,
         },
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          RELACON_B2_HELD,
           ...isRelacon,
         ],
       },
@@ -550,8 +563,8 @@ const RelaconButtons = [
         from: { pointing_button: 'button4' },
         to: [NAV.terminal.prevPane],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          RELACON_B2_HELD,
+          RELACON_NAV_MODE,
           ...isRelacon,
           ...IS_TERMINAL_WINDOW,
         ],
@@ -561,8 +574,8 @@ const RelaconButtons = [
         from: { pointing_button: 'button4' },
         to: [NAV.editor.prevTab],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          RELACON_B2_HELD,
+          RELACON_NAV_MODE,
           ...isRelacon,
           ...IS_EDITOR_WINDOW,
         ],
@@ -572,8 +585,8 @@ const RelaconButtons = [
         from: { pointing_button: 'button4' },
         to: [NAV.browser.prevTab],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          RELACON_B2_HELD,
+          RELACON_NAV_MODE,
           ...isRelacon,
           ...IS_BROWSER_WINDOW,
         ],
@@ -589,7 +602,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button4' },
         to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'] }],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          RELACON_B2_HELD,
           ...isRelacon,
         ],
       },
@@ -613,8 +626,8 @@ const RelaconButtons = [
         from: { pointing_button: 'button5' },
         to: [NAV.terminal.nextPane],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          RELACON_B2_HELD,
+          RELACON_NAV_MODE,
           ...isRelacon,
           ...IS_TERMINAL_WINDOW,
         ],
@@ -624,8 +637,8 @@ const RelaconButtons = [
         from: { pointing_button: 'button5' },
         to: [NAV.editor.nextTab],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          RELACON_B2_HELD,
+          RELACON_NAV_MODE,
           ...isRelacon,
           ...IS_EDITOR_WINDOW,
         ],
@@ -635,8 +648,8 @@ const RelaconButtons = [
         from: { pointing_button: 'button5' },
         to: [NAV.browser.nextTab],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-          { type: 'variable_if', name: 'relacon_mode', value: 2 },
+          RELACON_B2_HELD,
+          RELACON_NAV_MODE,
           ...isRelacon,
           ...IS_BROWSER_WINDOW,
         ],
@@ -647,7 +660,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button5' },
         to: [{ key_code: 'tab' }, { key_code: 'return_or_enter' }],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          RELACON_B2_HELD,
           ...isRelacon,
         ],
       },
@@ -660,7 +673,7 @@ const RelaconButtons = [
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [
-          { type: 'variable_if', name: 'relacon_whisper', value: 1 },
+          RELACON_WHISPER,
           ...isRelacon,
         ],
       },
@@ -683,8 +696,8 @@ const RelaconButtons = [
     consumerKey: 'scan_previous_track',
     to: [{ shell_command: "open -a 'Google Chrome.app'" }],
     conditions: [
-      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_B2_HELD,
+      RELACON_NAV_MODE,
       ...isRelacon,
     ],
   }),
@@ -695,8 +708,8 @@ const RelaconButtons = [
     consumerKey: 'scan_next_track',
     to: [{ shell_command: "open -a 'Tower.app'" }],
     conditions: [
-      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_B2_HELD,
+      RELACON_NAV_MODE,
       ...isRelacon,
     ],
   }),
@@ -710,7 +723,7 @@ const RelaconButtons = [
         from: { consumer_key_code: 'scan_previous_track' },
         to: [{ key_code: 'left_arrow', modifiers: ['left_control'] }],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          RELACON_B2_HELD,
           ...isRelacon,
         ],
       },
@@ -725,7 +738,7 @@ const RelaconButtons = [
         from: { consumer_key_code: 'scan_next_track' },
         to: [{ key_code: 'right_arrow', modifiers: ['left_control'] }],
         conditions: [
-          { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
+          RELACON_B2_HELD,
           ...isRelacon,
         ],
       },
@@ -738,7 +751,7 @@ const RelaconButtons = [
     consumerKey: 'scan_previous_track',
     to: [NAV.terminal.prevTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_TERMINAL_WINDOW,
     ],
@@ -748,7 +761,7 @@ const RelaconButtons = [
     consumerKey: 'scan_previous_track',
     to: [NAV.editor.prevTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_EDITOR_WINDOW,
     ],
@@ -758,7 +771,7 @@ const RelaconButtons = [
     consumerKey: 'scan_previous_track',
     to: [NAV.browser.prevTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_BROWSER_WINDOW,
     ],
@@ -770,8 +783,8 @@ const RelaconButtons = [
     consumerKey: 'volume_increment',
     to: [{ shell_command: "open -a 'Cursor.app'" }],
     conditions: [
-      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_B2_HELD,
+      RELACON_NAV_MODE,
       ...isRelacon,
     ],
   }),
@@ -782,8 +795,8 @@ const RelaconButtons = [
     consumerKey: 'volume_decrement',
     to: [{ shell_command: "open -a 'iTerm.app'" }],
     conditions: [
-      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_B2_HELD,
+      RELACON_NAV_MODE,
       ...isRelacon,
     ],
   }),
@@ -794,7 +807,7 @@ const RelaconButtons = [
     consumerKey: 'volume_increment',
     to: [NAV.global.nextWindow],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_NAV_MODE,
       ...isRelacon,
     ],
   }),
@@ -805,7 +818,7 @@ const RelaconButtons = [
     consumerKey: 'volume_decrement',
     to: [NAV.global.prevWindow],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_NAV_MODE,
       ...isRelacon,
     ],
   }),
@@ -816,7 +829,7 @@ const RelaconButtons = [
     consumerKey: 'scan_next_track',
     to: [NAV.terminal.nextTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_TERMINAL_WINDOW,
     ],
@@ -826,7 +839,7 @@ const RelaconButtons = [
     consumerKey: 'scan_next_track',
     to: [NAV.editor.nextTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_EDITOR_WINDOW,
     ],
@@ -836,7 +849,7 @@ const RelaconButtons = [
     consumerKey: 'scan_next_track',
     to: [NAV.browser.nextTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_BROWSER_WINDOW,
     ],
@@ -848,8 +861,8 @@ const RelaconButtons = [
     consumerKey: 'play_or_pause',
     to: [NAV.terminal.closeTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_B2_HELD,
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_TERMINAL_WINDOW,
     ],
@@ -859,8 +872,8 @@ const RelaconButtons = [
     consumerKey: 'play_or_pause',
     to: [NAV.editor.closeTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_B2_HELD,
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_EDITOR_WINDOW,
     ],
@@ -870,8 +883,8 @@ const RelaconButtons = [
     consumerKey: 'play_or_pause',
     to: [NAV.browser.closeTab],
     conditions: [
-      { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
-      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      RELACON_B2_HELD,
+      RELACON_NAV_MODE,
       ...isRelacon,
       ...IS_BROWSER_WINDOW,
     ],
