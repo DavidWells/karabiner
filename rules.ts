@@ -356,8 +356,8 @@ const RelaconMap = [
   { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) if armed, else nothing', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
   { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
-  { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev tab' },
-  { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next tab' },
+  { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab' },
+  { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab' },
   { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'Nav: B2+Up = Cursor' },
   { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'Nav: B2+Down = iTerm' },
   { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev space / Nav: Chrome' },
@@ -541,14 +541,14 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Nav mode: B2 + button4 => prev tab (per app)
+  // ── Nav mode: B2 + button4 => prev pane (iTerm) / prev tab (editor/browser)
   {
-    description: '[RELACON] Nav: B2 + Back => prev tab',
+    description: '[RELACON] Nav: B2 + Back => prev pane/tab',
     manipulators: [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [NAV.terminal.prevTab],
+        to: [NAV.terminal.prevPane],
         conditions: [
           { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
           { type: 'variable_if', name: 'relacon_mode', value: 2 },
@@ -607,11 +607,11 @@ const RelaconButtons = [
   {
     description: '[RELACON] Forward button => SuperWhisper (toggle whisper mode)',
     manipulators: [
-      // Nav mode: button2 held + button5 => next tab (per app)
+      // Nav mode: button2 held + button5 => next pane (iTerm)
       {
         type: 'basic',
         from: { pointing_button: 'button5' },
-        to: [NAV.terminal.nextTab],
+        to: [NAV.terminal.nextPane],
         conditions: [
           { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
           { type: 'variable_if', name: 'relacon_mode', value: 2 },

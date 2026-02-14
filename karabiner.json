@@ -2251,7 +2251,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: B2 + Back => prev tab",
+                        "description": "[RELACON] Nav: B2 + Back => prev pane/tab",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2262,8 +2262,7 @@
                                     {
                                         "key_code": "open_bracket",
                                         "modifiers": [
-                                            "left_command",
-                                            "left_shift"
+                                            "left_command"
                                         ]
                                     }
                                 ],
@@ -2461,8 +2460,7 @@
                                     {
                                         "key_code": "close_bracket",
                                         "modifiers": [
-                                            "left_command",
-                                            "left_shift"
+                                            "left_command"
                                         ]
                                     }
                                 ],

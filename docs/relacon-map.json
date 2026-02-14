@@ -29,7 +29,7 @@
     "tap": "Enter",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "B2+B4 = Shift+Enter / Nav: Prev tab"
+    "b2Combo": "B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab"
   },
   {
     "name": "Forward (right side)",
@@ -37,7 +37,7 @@
     "tap": "SuperWhisper (toggle whisper)",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "B2+B5 = Tab+Enter / Nav: Next tab"
+    "b2Combo": "B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab"
   },
   {
     "name": "D-pad up",

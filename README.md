@@ -61,8 +61,8 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) if armed, else nothing | Right-click | Modifier (enables combos) | — |
 | Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Toggle nav / hold = Clear all |
-| Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter / Nav: Prev tab |
-| Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter / Nav: Next tab |
+| Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab |
+| Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | Nav: B2+Up = Cursor |
 | D-pad down | `volume_decrement` | Down arrow | iTerm app | — | Nav: B2+Down = iTerm |
 | D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev space / Nav: Chrome |
@@ -104,8 +104,8 @@ When active:
 | Combo | Nav mode | Default mode |
 |---|---|---|
 | B2 + B3 | Toggle nav mode | Toggle nav mode |
-| B2 + B4 (back) | Prev tab (per app) | Shift+Enter |
-| B2 + B5 (forward) | Next tab (per app) | Tab+Enter |
+| B2 + B4 (back) | Prev pane (iTerm) or tab | Shift+Enter |
+| B2 + B5 (forward) | Next pane (iTerm) or tab | Tab+Enter |
 | B2 + D-pad up | Open Cursor | — |
 | B2 + D-pad down | Open iTerm | — |
 | B2 + D-pad left | Open Chrome | Prev space |
