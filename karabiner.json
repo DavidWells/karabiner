@@ -2086,7 +2086,7 @@
                                 "from": {
                                     "pointing_button": "button3"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "set_variable": {
                                             "name": "relacon_mode",
@@ -2097,6 +2097,31 @@
                                         "shell_command": "osascript -e 'display notification \"Nav mode OFF\" with title \"Relacon\"'"
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "escape",
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "escape",
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "a",
+                                        "modifiers": [
+                                            "left_command"
+                                        ],
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 300
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -2124,7 +2149,7 @@
                                 "from": {
                                     "pointing_button": "button3"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "set_variable": {
                                             "name": "relacon_mode",
@@ -2135,6 +2160,31 @@
                                         "shell_command": "osascript -e 'display notification \"Nav mode ON\" with title \"Relacon\"'"
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "escape",
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "escape",
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "a",
+                                        "modifiers": [
+                                            "left_command"
+                                        ],
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 300
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -2159,100 +2209,9 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "escape"
-                                    },
-                                    {
-                                        "key_code": "escape"
-                                    },
-                                    {
-                                        "key_code": "a",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    },
-                                    {
                                         "key_code": "delete_or_backspace"
                                     }
                                 ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "double_click_button3",
-                                        "value": 1
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "pointing_button": "button3"
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "delete_or_backspace"
-                                    }
-                                ],
-                                "to_if_held_down": [
-                                    {
-                                        "key_code": "escape",
-                                        "repeat": false
-                                    },
-                                    {
-                                        "key_code": "escape",
-                                        "repeat": false
-                                    },
-                                    {
-                                        "key_code": "a",
-                                        "modifiers": [
-                                            "left_command"
-                                        ],
-                                        "repeat": false
-                                    },
-                                    {
-                                        "key_code": "delete_or_backspace",
-                                        "repeat": false
-                                    }
-                                ],
-                                "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "double_click_button3",
-                                            "value": 1
-                                        }
-                                    }
-                                ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_button3",
-                                                "value": 0
-                                            }
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_button3",
-                                                "value": 0
-                                            }
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 300,
-                                    "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 300
-                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",
@@ -2899,6 +2858,185 @@
                                         "type": "frontmost_application_if",
                                         "bundle_identifiers": [
                                             "^com\\.googlecode\\.iterm2$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Nav: D-pad up in editor => next tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "volume_increment"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_arrow",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.sublimetext\\.4$",
+                                            "^com\\.todesktop\\.230313mzl4w4u92$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Nav: D-pad down in editor => prev tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "volume_decrement"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_arrow",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.sublimetext\\.4$",
+                                            "^com\\.todesktop\\.230313mzl4w4u92$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Nav: D-pad up in browser => next tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "volume_increment"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^com\\.google\\.Chrome\\.canary$",
+                                            "^com\\.opera\\.Opera$",
+                                            "^com\\.brave\\.Browser$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Nav: D-pad down in browser => prev tab",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "volume_decrement"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^com\\.google\\.Chrome\\.canary$",
+                                            "^com\\.opera\\.Opera$",
+                                            "^com\\.brave\\.Browser$"
                                         ]
                                     }
                                 ]

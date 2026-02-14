@@ -60,7 +60,7 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 |---|---|---|---|---|---|
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) if armed, else nothing | Right-click | Modifier (enables combos) | — |
-| Scroll wheel press | `button3` | Delete | Esc+Esc+SelectAll+Delete | Esc+Esc+SelectAll+Delete | B2+B3 = Toggle nav mode |
+| Scroll wheel press | `button3` | Delete (repeats) | — | — | B2+B3 tap = Toggle nav / hold = Clear all |
 | Back (left side) | `button4` | Enter | — | — | B2+B4 = Shift+Enter / Nav: Prev window |
 | Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter / Nav: Next window |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | Nav: B2+Up = Cursor |
@@ -93,10 +93,10 @@ When active:
 
 | D-pad | iTerm | Cursor / VS Code | Chrome |
 |---|---|---|---|
-| Up | Next tab | TODO | TODO |
-| Down | Prev tab | TODO | TODO |
-| Left | Next pane | TODO | TODO |
-| Right | Prev pane | TODO | TODO |
+| Up | Next tab | Next tab | Next tab |
+| Down | Prev tab | Prev tab | Prev tab |
+| Left | Next pane | — | — |
+| Right | Prev pane | — | — |
 
 ### B2 combos (all apps)
 

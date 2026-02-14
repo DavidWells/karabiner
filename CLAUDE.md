@@ -46,6 +46,14 @@ When adding nav mode support for a new app:
 
 App conditions available: `IS_TERMINAL_WINDOW`, `IS_EDITOR_WINDOW`, `IS_BROWSER_WINDOW`, `IS_CHROME_WINDOW`.
 
+## Tap/hold split pattern
+
+Use `to_if_alone` + `to_if_held_down` on one manipulator to map two actions to the same button combo. Tap fires one action, hold fires another. There's a ~300ms delay before the tap action fires (Karabiner waits to see if you're holding), but this lets a single combo do double duty without conflicts. Good for buttons where we're running out of available gestures. See B2+B3 (nav toggle / clear all) for an example.
+
+## Shared navigation shortcuts
+
+`NAV` constant in `rules.ts` is the single source of truth for app navigation shortcuts (prev/next tab, prev/next pane, etc.). Both Razer mouse rules and Relacon nav mode rules reference it. Change a shortcut once, both devices update.
+
 ## Key files
 
 - `rules.ts` — all Karabiner rules + RelaconMap data + build output logic

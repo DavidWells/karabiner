@@ -18,10 +18,10 @@
   {
     "name": "Scroll wheel press",
     "event": "button3",
-    "tap": "Delete",
-    "doubleTap": "Esc+Esc+SelectAll+Delete",
-    "hold": "Esc+Esc+SelectAll+Delete",
-    "b2Combo": "B2+B3 = Toggle nav mode"
+    "tap": "Delete (repeats)",
+    "doubleTap": "—",
+    "hold": "—",
+    "b2Combo": "B2+B3 tap = Toggle nav / hold = Clear all"
   },
   {
     "name": "Back (left side)",

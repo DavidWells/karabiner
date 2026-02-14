@@ -346,7 +346,7 @@ function doubleClickButton({ description, button, consumerKey, to, singleTo, con
 const RelaconMap = [
   { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) if armed, else nothing', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
-  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete', doubleTap: 'Esc+Esc+SelectAll+Delete', hold: 'Esc+Esc+SelectAll+Delete', b2Combo: 'B2+B3 = Toggle nav mode' },
+  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
   { name: 'Back (left side)', event: 'button4', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev window' },
   { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next window' },
   { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'Nav: B2+Up = Cursor' },
@@ -480,14 +480,21 @@ const RelaconButtons = [
   {
     description: '[RELACON] Middle click: tap => Delete, double/hold => clear all',
     manipulators: [
-      // Combo: button2 held + button3 => toggle relacon mode (1 ↔ 2)
+      // Tap/hold split: tap fires one action (to_if_alone), hold fires another (to_if_held_down).
+      // 300ms delay before tap fires, but lets one combo do two things without conflicts.
+      // B2 + button3 tap => toggle nav mode, hold => clear all
       {
         type: 'basic',
         from: { pointing_button: 'button3' },
-        to: [
+        to_if_alone: [
           { set_variable: { name: 'relacon_mode', value: 1 } },
           { shell_command: "osascript -e 'display notification \"Nav mode OFF\" with title \"Relacon\"'" },
         ],
+        to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 300,
+        },
         conditions: [
           { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
           { type: 'variable_if', name: 'relacon_mode', value: 2 },
@@ -497,49 +504,25 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button3' },
-        to: [
+        to_if_alone: [
           { set_variable: { name: 'relacon_mode', value: 2 } },
           { shell_command: "osascript -e 'display notification \"Nav mode ON\" with title \"Relacon\"'" },
         ],
+        to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 300,
+        },
         conditions: [
           { type: 'variable_if', name: 'relacon_b2_held', value: 1 },
           ...isRelacon,
         ],
       },
-      // Double-click — Esc + Esc + Select All + Delete
+      // Tap/hold => Delete (repeats while held)
       {
         type: 'basic',
         from: { pointing_button: 'button3' },
-        to: CLEAR_ALL,
-        conditions: [
-          { type: 'variable_if', name: 'double_click_button3', value: 1 },
-          ...isRelacon,
-        ],
-      },
-      // First click — tap => Delete, hold => Cmd+A + Delete
-      {
-        type: 'basic',
-        from: { pointing_button: 'button3' },
-        to_if_alone: [
-          { key_code: 'delete_or_backspace' },
-        ],
-        to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
-        to: [
-          { set_variable: { name: 'double_click_button3', value: 1 } },
-        ],
-        to_delayed_action: {
-          to_if_invoked: [
-            { set_variable: { name: 'double_click_button3', value: 0 } },
-          ],
-          to_if_canceled: [
-            { set_variable: { name: 'double_click_button3', value: 0 } },
-          ],
-        },
-        parameters: {
-          'basic.to_delayed_action_delay_milliseconds': 300,
-          'basic.to_if_alone_timeout_milliseconds': 300,
-          'basic.to_if_held_down_threshold_milliseconds': 300,
-        },
+        to: [{ key_code: 'delete_or_backspace' }],
         conditions: [...isRelacon],
       },
     ],
@@ -759,6 +742,54 @@ const RelaconButtons = [
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
       ...IS_TERMINAL_WINDOW,
+    ],
+  }),
+
+  // ── Nav mode: D-pad up in editor => next tab
+  mapButton({
+    description: '[RELACON] Nav: D-pad up in editor => next tab',
+    consumerKey: 'volume_increment',
+    to: [NAV.editor.nextTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_EDITOR_WINDOW,
+    ],
+  }),
+
+  // ── Nav mode: D-pad down in editor => prev tab
+  mapButton({
+    description: '[RELACON] Nav: D-pad down in editor => prev tab',
+    consumerKey: 'volume_decrement',
+    to: [NAV.editor.prevTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_EDITOR_WINDOW,
+    ],
+  }),
+
+  // ── Nav mode: D-pad up in browser => next tab
+  mapButton({
+    description: '[RELACON] Nav: D-pad up in browser => next tab',
+    consumerKey: 'volume_increment',
+    to: [NAV.browser.nextTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_BROWSER_WINDOW,
+    ],
+  }),
+
+  // ── Nav mode: D-pad down in browser => prev tab
+  mapButton({
+    description: '[RELACON] Nav: D-pad down in browser => prev tab',
+    consumerKey: 'volume_decrement',
+    to: [NAV.browser.prevTab],
+    conditions: [
+      { type: 'variable_if', name: 'relacon_mode', value: 2 },
+      ...isRelacon,
+      ...IS_BROWSER_WINDOW,
     ],
   }),
 
