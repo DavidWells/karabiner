@@ -2839,7 +2839,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: D-pad left in iTerm => next pane",
+                        "description": "[RELACON] Nav: D-pad left in iTerm => prev tab",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2848,9 +2848,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "close_bracket",
+                                        "key_code": "open_bracket",
                                         "modifiers": [
-                                            "left_command"
+                                            "left_command",
+                                            "left_shift"
                                         ]
                                     }
                                 ],
@@ -3025,7 +3026,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: D-pad right in iTerm => prev pane",
+                        "description": "[RELACON] Nav: D-pad right in iTerm => next tab",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -3034,9 +3035,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "open_bracket",
+                                        "key_code": "close_bracket",
                                         "modifiers": [
-                                            "left_command"
+                                            "left_command",
+                                            "left_shift"
                                         ]
                                     }
                                 ],

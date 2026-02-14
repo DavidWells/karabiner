@@ -732,11 +732,11 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Nav mode: D-pad left in iTerm => next pane (Cmd+])
+  // ── Nav mode: D-pad left in iTerm => prev tab
   mapButton({
-    description: '[RELACON] Nav: D-pad left in iTerm => next pane',
+    description: '[RELACON] Nav: D-pad left in iTerm => prev tab',
     consumerKey: 'scan_previous_track',
-    to: [NAV.terminal.nextPane],
+    to: [NAV.terminal.prevTab],
     conditions: [
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
@@ -790,11 +790,11 @@ const RelaconButtons = [
     ],
   }),
 
-  // ── Nav mode: D-pad right in iTerm => prev pane
+  // ── Nav mode: D-pad right in iTerm => next tab
   mapButton({
-    description: '[RELACON] Nav: D-pad right in iTerm => prev pane',
+    description: '[RELACON] Nav: D-pad right in iTerm => next tab',
     consumerKey: 'scan_next_track',
-    to: [NAV.terminal.prevPane],
+    to: [NAV.terminal.nextTab],
     conditions: [
       { type: 'variable_if', name: 'relacon_mode', value: 2 },
       ...isRelacon,
