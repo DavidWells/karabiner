@@ -26,7 +26,7 @@
   {
     "name": "Back (left side)",
     "event": "button4",
-    "tap": "Enter (stops whisper + delayed Enter if active)",
+    "tap": "Enter (stops STT + delayed Enter if active)",
     "doubleTap": "—",
     "hold": "—",
     "b2Combo": "B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab"
@@ -34,7 +34,7 @@
   {
     "name": "Forward (right side)",
     "event": "button5",
-    "tap": "SuperWhisper (toggle whisper)",
+    "tap": "Speech-to-text (toggle)",
     "doubleTap": "—",
     "hold": "—",
     "b2Combo": "B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab"

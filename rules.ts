@@ -67,7 +67,7 @@ const IS_CHROME_WINDOW = [
   },
 ]
 
-// Super whisper
+// Speech-to-text hotkey (Option+Control+Space)
 const OPEN_TEXT_TO_SPEECH = [
   {
     key_code: 'spacebar',
@@ -251,7 +251,7 @@ const RELACON_B2_HELD = { type: 'variable_if', name: 'relacon_b2_held', value: 1
 const RELACON_NAV_MODE = { type: 'variable_if', name: 'relacon_mode', value: 2 }
 // Left trigger (button1) fired Cmd+C — next button2 press will paste
 const RELACON_COPIED = { type: 'variable_if', name: 'relacon_copied', value: 1 }
-// Whisper mode armed — next button5 press fires SuperWhisper and disarms
+// Speech-to-text active — next button5 press stops recording and disarms
 const RELACON_WHISPER = { type: 'variable_if', name: 'relacon_whisper', value: 1 }
 // Button1 double-click detected within timing window
 const RELACON_DBLCLICK = { type: 'variable_if', name: 'relacon_dblclick', value: 1 }
@@ -369,8 +369,8 @@ const RelaconMap = [
   { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) on release if armed', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
   { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
-  { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops whisper + delayed Enter if active)', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab' },
-  { name: 'Forward (right side)', event: 'button5', tap: 'SuperWhisper (toggle whisper)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab' },
+  { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops STT + delayed Enter if active)', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab' },
+  { name: 'Forward (right side)', event: 'button5', tap: 'Speech-to-text (toggle)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab' },
   { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'Nav: B2+Up = Cursor' },
   { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'Nav: B2+Down = iTerm' },
   { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev space / Nav: Chrome' },
@@ -625,10 +625,10 @@ const RelaconButtons = [
       },
     ],
   },
-  // ── Back / left side (button4) ── stop speech-to-text + delayed Enter if whisper active
-  // to_delayed_action fires Enter after 500ms, giving SuperWhisper time to paste text
+  // ── Back / left side (button4) ── stop speech-to-text + delayed Enter if STT active
+  // to_delayed_action fires Enter after 500ms, giving STT time to paste text
   {
-    description: '[RELACON] Back button => stop whisper + delayed Enter',
+    description: '[RELACON] Back button => stop STT + delayed Enter',
     manipulators: [{
       type: 'basic',
       from: { pointing_button: 'button4' },
@@ -652,9 +652,9 @@ const RelaconButtons = [
     conditions: [...isRelacon],
   }),
 
-  // ── Forward / right side (button5) ── SuperWhisper toggle (arm/disarm whisper mode)
+  // ── Forward / right side (button5) ── speech-to-text toggle
   {
-    description: '[RELACON] Forward button => SuperWhisper (toggle whisper mode)',
+    description: '[RELACON] Forward button => speech-to-text (toggle)',
     manipulators: [
       // Nav mode: button2 held + button5 => next pane (iTerm)
       {
@@ -2497,8 +2497,8 @@ const MOVE_WINDOW_LEFT = {
   ],
 }
 
-const SUPER_WHISPER = {
-  description: 'Trigger Option + Space. Superwhisper',
+const SPEECH_TO_TEXT = {
+  description: 'Trigger speech-to-text (Option+Control+Space)',
   to: OPEN_TEXT_TO_SPEECH,
 }
 
@@ -2600,7 +2600,7 @@ const hyperLayerKeys = {
   //   ],
   // },
 
-  a: SUPER_WHISPER,
+  a: SPEECH_TO_TEXT,
   w: {
     description: 'Global Jump to windows via script kit',
     to: [
@@ -3156,9 +3156,9 @@ let rules: KarabinerRules[] = [
   ...createHyperSubLayers(hyperLayerKeys),
   /* Right Hyper Sub layers */
   ...createRightHyperSubLayers({
-    comma: SUPER_WHISPER,
-    period: SUPER_WHISPER,
-    right_option: SUPER_WHISPER,
+    comma: SPEECH_TO_TEXT,
+    period: SPEECH_TO_TEXT,
+    right_option: SPEECH_TO_TEXT,
     spacebar: HIT_ENTER,
     slash: HIT_ENTER,
     // left_shift: HIT_ENTER,

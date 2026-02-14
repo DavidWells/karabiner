@@ -61,8 +61,8 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) on release if armed | Right-click | Modifier (enables combos) | — |
 | Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Toggle nav / hold = Clear all |
-| Back (left side) | `button4` | Enter (stops whisper + delayed Enter if active) | — | — | B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab |
-| Forward (right side) | `button5` | SuperWhisper (toggle whisper) | — | — | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
+| Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | — | B2+B4 = Shift+Enter / Nav: Prev pane (iTerm) or tab |
+| Forward (right side) | `button5` | Speech-to-text (toggle) | — | — | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | Nav: B2+Up = Cursor |
 | D-pad down | `volume_decrement` | Down arrow | iTerm app | — | Nav: B2+Down = iTerm |
 | D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev space / Nav: Chrome |
@@ -70,11 +70,11 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | D-pad center | `play_or_pause` | Enter | — | — | Nav: B2+Center = Close tab |
 <!-- /docs -->
 
-**Whisper mode:** toggle via button5. While armed, next button5 press fires SuperWhisper and disarms.
+**Speech-to-text:** toggle via button5. While armed, next button5 press toggles STT and disarms.
 
 **Copy/paste:** Every button1 release fires Cmd+C and arms paste mode. Next button2 tap-and-release (with no other button pressed) fires Cmd+V and resets. Holding B2 for a combo does not trigger paste.
 
-**Whisper + Enter:** If SuperWhisper is recording, button4 stops recording and fires Enter after a 500ms delay (gives SuperWhisper time to paste transcribed text).
+**STT + Enter:** If speech-to-text is recording, button4 stops recording and fires Enter after a 500ms delay (gives STT time to paste transcribed text).
 
 **Button2 modifier:** Hold button2 (right trigger) to activate combo layer — other buttons gain alternate actions while held.
 
