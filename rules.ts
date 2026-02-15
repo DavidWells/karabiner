@@ -273,6 +273,11 @@ const CLEAR_ALL = [
   { key_code: 'delete_or_backspace' },
 ]
 
+// Window management actions — shared across hyper key sublayers and Relacon combos
+const MOVE_WINDOW_TO_NEXT_DISPLAY = [
+  { key_code: 'right_arrow', modifiers: ['left_option', 'left_command', 'left_control'] },
+]
+
 // Set Karabiner variables via CLI — usable in shell_command actions or external scripts
 const KARABINER_CLI = '/Library/Application Support/org.pqrs.Karabiner-Elements/bin/karabiner_cli'
 function setVars(vars) {
@@ -398,7 +403,7 @@ const RelaconModifiers = [
   { modifier: 'B2 (right trigger)', combo: 'B2 + B5', action: 'Tab + Enter' },
   { modifier: 'B2 (right trigger)', combo: 'B2 + D-pad', action: 'Window/pane/tab switching (edit) or app switching (nav)' },
   { modifier: 'B4 (back)', combo: 'B4 + B1', action: 'Escape (cancel request)' },
-  { modifier: 'B4 (back)', combo: 'B4 + B2', action: '(test: types d)' },
+  { modifier: 'B4 (back)', combo: 'B4 + B2', action: 'Move window to next display' },
   { modifier: 'B5 (forward)', combo: 'B5 + B1', action: '(test: types a)' },
   { modifier: 'B5 (forward)', combo: 'B5 + B2', action: '(test: types b)' },
 ]
@@ -415,10 +420,10 @@ const RelaconModes = [
 const RelaconButtons = [
   // ── B4/B5 combo tests
   mapHeldCombo({
-    description: '[RELACON] B4 + B2 => type d',
+    description: '[RELACON] B4 + B2 => move window to next display',
     held: RELACON_B4_HELD,
     button: 'button2',
-    to: [{ key_code: 'd' }],
+    to: MOVE_WINDOW_TO_NEXT_DISPLAY,
   }),
   // Cancel active request (e.g. stop Claude generation)
   mapHeldCombo({
@@ -2665,12 +2670,7 @@ const WINDOW_RIGHT = {
 
 const MOVE_WINDOW_RIGHT = {
   description: 'Window: Move Right',
-  to: [
-    {
-      key_code: 'right_arrow',
-      modifiers: ['left_option', 'left_control', 'left_command'],
-    },
-  ],
+  to: MOVE_WINDOW_TO_NEXT_DISPLAY,
 }
 
 const MOVE_WINDOW_LEFT = {
@@ -2718,25 +2718,13 @@ const hyperLayerKeys = {
     ...WINDOW_LEFT_HALF,
   },
   s: {
-    description: 'Window: Move to right display',
-    to: [
-      {
-        key_code: 'right_arrow',
-        modifiers: ['left_option', 'left_command', 'left_control'],
-      },
-    ],
+    ...MOVE_WINDOW_RIGHT,
   },
   e: {
     ...WINDOW_FULL,
   },
   d: {
-    description: 'Window: Move to right display',
-    to: [
-      {
-        key_code: 'right_arrow',
-        modifiers: ['left_option', 'left_command', 'left_control'],
-      },
-    ],
+    ...MOVE_WINDOW_RIGHT,
   },
   x: {
     ...WINDOW_LEFT_HALF,

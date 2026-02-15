@@ -1788,7 +1788,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B4 + B2 => type d",
+                        "description": "[RELACON] B4 + B2 => move window to next display",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -1797,7 +1797,12 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "d"
+                                        "key_code": "right_arrow",
+                                        "modifiers": [
+                                            "left_option",
+                                            "left_command",
+                                            "left_control"
+                                        ]
                                     }
                                 ],
                                 "conditions": [
@@ -5386,7 +5391,7 @@
                         "description": "Hyper Key + s",
                         "manipulators": [
                             {
-                                "description": "Window: Move to right display",
+                                "description": "Window: Move Right",
                                 "to": [
                                     {
                                         "key_code": "right_arrow",
@@ -5445,7 +5450,7 @@
                         "description": "Hyper Key + d",
                         "manipulators": [
                             {
-                                "description": "Window: Move to right display",
+                                "description": "Window: Move Right",
                                 "to": [
                                     {
                                         "key_code": "right_arrow",
@@ -5539,8 +5544,8 @@
                                         "key_code": "right_arrow",
                                         "modifiers": [
                                             "left_option",
-                                            "left_control",
-                                            "left_command"
+                                            "left_command",
+                                            "left_control"
                                         ]
                                     }
                                 ],

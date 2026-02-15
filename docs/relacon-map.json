@@ -110,7 +110,7 @@
     {
       "modifier": "B4 (back)",
       "combo": "B4 + B2",
-      "action": "(test: types d)"
+      "action": "Move window to next display"
     },
     {
       "modifier": "B5 (forward)",

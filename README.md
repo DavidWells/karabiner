@@ -92,7 +92,7 @@ Three buttons act as modifiers when held — other buttons gain alternate action
 | B2 (right trigger) | B2 + B5 | Tab + Enter |
 | B2 (right trigger) | B2 + D-pad | Window/pane/tab switching (edit) or app switching (nav) |
 | B4 (back) | B4 + B1 | Escape (cancel request) |
-| B4 (back) | B4 + B2 | (test: types d) |
+| B4 (back) | B4 + B2 | Move window to next display |
 | B5 (forward) | B5 + B1 | (test: types a) |
 | B5 (forward) | B5 + B2 | (test: types b) |
 <!-- /docs -->
