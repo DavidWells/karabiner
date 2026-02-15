@@ -4327,7 +4327,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B2 + Center => context menu",
+                        "description": "[RELACON] B2 + Center => toggle accessibility keyboard",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -4336,7 +4336,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript -e 'display notification \"Context menu\" with title \"Relacon\"'"
+                                        "shell_command": "osascript ~/dotfiles/applescripts/accessibility-keyboard-toggle.applescript"
                                     }
                                 ],
                                 "conditions": [

@@ -67,7 +67,7 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | D-pad down | `volume_decrement` | Down arrow | — | — | B2+Down tap = Prev window, hold = Tower / Nav: Tower / Media: Volume down |
 | D-pad left | `scan_previous_track` | Left arrow | — | — | B2+Left tap = Prev pane/tab, hold = Chrome / Nav: Chrome / Media: Prev track |
 | D-pad right | `scan_next_track` | Right arrow | — | — | B2+Right tap = Next pane/tab, hold = Cursor / Nav: Cursor / Media: Next track |
-| D-pad center | `play_or_pause` | Enter | — | — | Nav: B2+Center = Close tab / Media: Play/Pause |
+| D-pad center | `play_or_pause` | Enter | — | — | B2+Center = Toggle accessibility keyboard / Nav: Close tab / Media: Play/Pause |
 <!-- /docs -->
 
 **Speech-to-text:** toggle via button5. While armed, next button5 press toggles STT and disarms.

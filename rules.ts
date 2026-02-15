@@ -395,7 +395,7 @@ const RelaconMap = [
   { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: '—', hold: '—', b2Combo: 'B2+Down tap = Prev window, hold = Tower / Nav: Tower / Media: Volume down' },
   { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: '—', hold: '—', b2Combo: 'B2+Left tap = Prev pane/tab, hold = Chrome / Nav: Chrome / Media: Prev track' },
   { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: '—', hold: '—', b2Combo: 'B2+Right tap = Next pane/tab, hold = Cursor / Nav: Cursor / Media: Next track' },
-  { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'Nav: B2+Center = Close tab / Media: Play/Pause' },
+  { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'B2+Center = Toggle accessibility keyboard / Nav: Close tab / Media: Play/Pause' },
 ]
 
 // Modifier layers — hold a button to activate a combo layer with B1/B2
@@ -1161,11 +1161,11 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Edit mode: B2 + center => context menu (placeholder)
+  // ── Edit mode: B2 + center => toggle accessibility keyboard
   mapButton({
-    description: '[RELACON] B2 + Center => context menu',
+    description: '[RELACON] B2 + Center => toggle accessibility keyboard',
     consumerKey: 'play_or_pause',
-    to: [{ shell_command: "osascript -e 'display notification \"Context menu\" with title \"Relacon\"'" }],
+    to: [{ shell_command: "osascript ~/dotfiles/applescripts/accessibility-keyboard-toggle.applescript" }],
     conditions: [RELACON_B2_HELD, ...isRelacon],
   }),
 

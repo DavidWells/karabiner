@@ -78,7 +78,7 @@
       "tap": "Enter",
       "doubleTap": "—",
       "hold": "—",
-      "b2Combo": "Nav: B2+Center = Close tab / Media: Play/Pause"
+      "b2Combo": "B2+Center = Toggle accessibility keyboard / Nav: Close tab / Media: Play/Pause"
     }
   ],
   "modifiers": [
