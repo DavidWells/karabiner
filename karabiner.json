@@ -1788,6 +1788,38 @@
                         ]
                     },
                     {
+                        "description": "[RELACON] B5 + B1 => type a",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button1"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "a"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b5_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "[RELACON] Button 1: tap => click+copy, double => Select All",
                         "manipulators": [
                             {
@@ -2133,6 +2165,69 @@
                                     {
                                         "set_variable": {
                                             "name": "relacon_mode",
+                                            "value": 3
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "osascript -e 'display notification \"Media mode\" with title \"Relacon\"'"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "escape",
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "escape",
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "a",
+                                        "modifiers": [
+                                            "left_command"
+                                        ],
+                                        "repeat": false
+                                    },
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 300
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 2
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button3"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_mode",
                                             "value": 1
                                         }
                                     },
@@ -2174,7 +2269,7 @@
                                     {
                                         "type": "variable_if",
                                         "name": "relacon_mode",
-                                        "value": 2
+                                        "value": 3
                                     },
                                     {
                                         "type": "device_if",
@@ -2307,6 +2402,12 @@
                                         "modifiers": [
                                             "left_command"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2349,6 +2450,12 @@
                                             "left_command",
                                             "left_option"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2393,6 +2500,12 @@
                                             "left_control",
                                             "left_shift"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2444,6 +2557,12 @@
                                             "left_shift"
                                         ],
                                         "repeat": false
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "to_if_held_down": [
@@ -2493,6 +2612,12 @@
                                             "left_shift"
                                         ],
                                         "repeat": false
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "to_if_held_down": [
@@ -2545,6 +2670,12 @@
                                             "left_shift"
                                         ],
                                         "repeat": false
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "to_if_held_down": [
@@ -2686,6 +2817,12 @@
                                         "modifiers": [
                                             "left_command"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2728,6 +2865,12 @@
                                             "left_command",
                                             "left_option"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2771,6 +2914,12 @@
                                         "modifiers": [
                                             "left_control"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2816,6 +2965,12 @@
                                     },
                                     {
                                         "key_code": "return_or_enter"
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dictating",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2900,6 +3055,14 @@
                                 },
                                 "to": [
                                     {
+                                        "set_variable": {
+                                            "name": "relacon_b5_held",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
                                         "key_code": "spacebar",
                                         "modifiers": [
                                             "left_option",
@@ -2919,6 +3082,17 @@
                                         }
                                     }
                                 ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b5_held",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300
+                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",
@@ -3885,6 +4059,166 @@
                                             "^com\\.google\\.Chrome\\.canary$",
                                             "^com\\.opera\\.Opera$",
                                             "^com\\.brave\\.Browser$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Media: D-pad up => volume up",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "volume_increment"
+                                },
+                                "to": [
+                                    {
+                                        "consumer_key_code": "volume_increment"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 3
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Media: D-pad down => volume down",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "volume_decrement"
+                                },
+                                "to": [
+                                    {
+                                        "consumer_key_code": "volume_decrement"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 3
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Media: D-pad left => previous track",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "scan_previous_track"
+                                },
+                                "to": [
+                                    {
+                                        "consumer_key_code": "scan_previous_track"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 3
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Media: D-pad right => next track",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "scan_next_track"
+                                },
+                                "to": [
+                                    {
+                                        "consumer_key_code": "scan_next_track"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 3
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Media: D-pad center => play/pause",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "play_or_pause"
+                                },
+                                "to": [
+                                    {
+                                        "consumer_key_code": "play_or_pause"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_mode",
+                                        "value": 3
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
                                         ]
                                     }
                                 ]

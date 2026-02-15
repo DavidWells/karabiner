@@ -60,14 +60,14 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 |---|---|---|---|---|---|
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) on release if armed | Right-click | Modifier (enables combos) | — |
-| Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Toggle nav / hold = Clear all |
+| Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all |
 | Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | — | B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab |
 | Forward (right side) | `button5` | Speech-to-text (toggle) | — | — | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
-| D-pad up | `volume_increment` | Up arrow | Cursor app | — | B2+Up = Next window / Nav: Cursor |
-| D-pad down | `volume_decrement` | Down arrow | iTerm app | — | B2+Down = Prev window / Nav: iTerm |
-| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev pane/tab / Nav: Chrome |
-| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next pane/tab / Nav: Tower |
-| D-pad center | `play_or_pause` | Enter | — | — | Nav: B2+Center = Close tab |
+| D-pad up | `volume_increment` | Up arrow | Cursor app | — | B2+Up = Next window / Nav: Cursor / Media: Volume up |
+| D-pad down | `volume_decrement` | Down arrow | iTerm app | — | B2+Down = Prev window / Nav: iTerm / Media: Volume down |
+| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track |
+| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next pane/tab / Nav: Tower / Media: Next track |
+| D-pad center | `play_or_pause` | Enter | — | — | Nav: B2+Center = Close tab / Media: Play/Pause |
 <!-- /docs -->
 
 **Speech-to-text:** toggle via button5. While armed, next button5 press toggles STT and disarms.

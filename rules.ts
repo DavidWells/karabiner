@@ -247,12 +247,18 @@ const isRelacon = [
 
 // Right trigger (button2) is physically held down — activates combo layer for other buttons
 const RELACON_B2_HELD = { type: 'variable_if', name: 'relacon_b2_held', value: 1 }
-// Nav mode active — d-pad fires app navigation instead of arrows, toggled via B2+B3
+// Mode: nav — d-pad fires app navigation instead of arrows
 const RELACON_NAV_MODE = { type: 'variable_if', name: 'relacon_mode', value: 2 }
+// Mode: media — d-pad passes through native consumer keys (volume, track skip, play/pause)
+const RELACON_MEDIA_MODE = { type: 'variable_if', name: 'relacon_mode', value: 3 }
 // Left trigger (button1) fired Cmd+C — next button2 press will paste
 const RELACON_COPIED = { type: 'variable_if', name: 'relacon_copied', value: 1 }
 // Speech-to-text active — next button5 press stops recording and disarms
 const RELACON_STT_ACTIVE = { type: 'variable_if', name: 'relacon_dictating', value: 1 }
+// Forward button (button5) held — activates combo layer
+const RELACON_B5_HELD = { type: 'variable_if', name: 'relacon_b5_held', value: 1 }
+const DICTATION_STATE_ON = { set_variable: { name: 'relacon_dictating', value: 1 } }
+const DICTATION_STATE_OFF = { set_variable: { name: 'relacon_dictating', value: 0 } }
 // Button1 double-click detected within timing window
 const RELACON_DBLCLICK = { type: 'variable_if', name: 'relacon_dblclick', value: 1 }
 // Button2 double-click detected within timing window
@@ -368,16 +374,24 @@ function doubleClickButton({ description, button, consumerKey, to, singleTo, con
 const RelaconMap = [
   { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) on release if armed', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
-  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Toggle nav / hold = Clear all' },
+  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all' },
   { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops STT + delayed Enter if active)', doubleTap: '—', hold: '—', b2Combo: 'B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab' },
   { name: 'Forward (right side)', event: 'button5', tap: 'Speech-to-text (toggle)', doubleTap: '—', hold: '—', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab' },
-  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'B2+Up = Next window / Nav: Cursor' },
-  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'B2+Down = Prev window / Nav: iTerm' },
-  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev pane/tab / Nav: Chrome' },
-  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next pane/tab / Nav: Tower' },
-  { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'Nav: B2+Center = Close tab' },
+  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'B2+Up = Next window / Nav: Cursor / Media: Volume up' },
+  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'B2+Down = Prev window / Nav: iTerm / Media: Volume down' },
+  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track' },
+  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next pane/tab / Nav: Tower / Media: Next track' },
+  { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'Nav: B2+Center = Close tab / Media: Play/Pause' },
 ]
 const RelaconButtons = [
+  // ── B5 combo: test — B5 held + B1 => type "a"
+  mapButton({
+    description: '[RELACON] B5 + B1 => type a',
+    button: 'button1',
+    to: [{ key_code: 'a' }],
+    conditions: [RELACON_B5_HELD, ...isRelacon],
+  }),
+
   // ── Trackball click (button1) ── double-click => Select All
   {
     description: '[RELACON] Button 1: tap => click+copy, double => Select All',
@@ -521,7 +535,25 @@ const RelaconButtons = [
     manipulators: [
       // Tap/hold split: tap fires one action (to_if_alone), hold fires another (to_if_held_down).
       // 300ms delay before tap fires, but lets one combo do two things without conflicts.
-      // B2 + button3 tap => toggle nav mode, hold => clear all
+      // B2 + button3 tap => cycle modes (edit→nav→media→edit), hold => clear all
+      {
+        type: 'basic',
+        from: { pointing_button: 'button3' },
+        to_if_alone: [
+          { set_variable: { name: 'relacon_mode', value: 3 } },
+          { shell_command: "osascript -e 'display notification \"Media mode\" with title \"Relacon\"'" },
+        ],
+        to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 300,
+        },
+        conditions: [
+          RELACON_B2_HELD,
+          RELACON_NAV_MODE,
+          ...isRelacon,
+        ],
+      },
       {
         type: 'basic',
         from: { pointing_button: 'button3' },
@@ -536,7 +568,7 @@ const RelaconButtons = [
         },
         conditions: [
           RELACON_B2_HELD,
-          RELACON_NAV_MODE,
+          RELACON_MEDIA_MODE,
           ...isRelacon,
         ],
       },
@@ -578,7 +610,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [NAV.terminal.prevPane],
+        to: [NAV.terminal.prevPane, DICTATION_STATE_OFF],
         conditions: [
           RELACON_B2_HELD,
           RELACON_NAV_MODE,
@@ -589,7 +621,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [NAV.editor.prevTab],
+        to: [NAV.editor.prevTab, DICTATION_STATE_OFF],
         conditions: [
           RELACON_B2_HELD,
           RELACON_NAV_MODE,
@@ -600,7 +632,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [NAV.browser.prevTab],
+        to: [NAV.browser.prevTab, DICTATION_STATE_OFF],
         conditions: [
           RELACON_B2_HELD,
           RELACON_NAV_MODE,
@@ -618,7 +650,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }],
+        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }, DICTATION_STATE_OFF],
         to_if_held_down: [{ ...NAV.terminal.nextPane, repeat: false }],
         parameters: { 'basic.to_if_held_down_threshold_milliseconds': 500 },
         conditions: [
@@ -630,7 +662,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }],
+        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }, DICTATION_STATE_OFF],
         to_if_held_down: [{ ...NAV.editor.nextTab, repeat: false }],
         parameters: { 'basic.to_if_held_down_threshold_milliseconds': 500 },
         conditions: [
@@ -642,7 +674,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button4' },
-        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }],
+        to: [{ key_code: 'return_or_enter', modifiers: ['left_shift'], repeat: false }, DICTATION_STATE_OFF],
         to_if_held_down: [{ ...NAV.browser.nextTab, repeat: false }],
         parameters: { 'basic.to_if_held_down_threshold_milliseconds': 500 },
         conditions: [
@@ -662,7 +694,7 @@ const RelaconButtons = [
       from: { pointing_button: 'button4' },
       to: [
         ...OPEN_TEXT_TO_SPEECH,
-        { set_variable: { name: 'relacon_dictating', value: 0 } },
+        DICTATION_STATE_OFF,
       ],
       to_delayed_action: {
         to_if_invoked: [{ key_code: 'return_or_enter' }],
@@ -688,7 +720,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button5' },
-        to: [NAV.terminal.nextPane],
+        to: [NAV.terminal.nextPane, DICTATION_STATE_OFF],
         conditions: [
           RELACON_B2_HELD,
           RELACON_NAV_MODE,
@@ -699,7 +731,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button5' },
-        to: [NAV.editor.nextTab],
+        to: [NAV.editor.nextTab, DICTATION_STATE_OFF],
         conditions: [
           RELACON_B2_HELD,
           RELACON_NAV_MODE,
@@ -710,7 +742,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button5' },
-        to: [NAV.browser.nextTab],
+        to: [NAV.browser.nextTab, DICTATION_STATE_OFF],
         conditions: [
           RELACON_B2_HELD,
           RELACON_NAV_MODE,
@@ -722,7 +754,7 @@ const RelaconButtons = [
       {
         type: 'basic',
         from: { pointing_button: 'button5' },
-        to: [{ key_code: 'tab' }, { key_code: 'return_or_enter' }],
+        to: [{ key_code: 'tab' }, { key_code: 'return_or_enter' }, DICTATION_STATE_OFF],
         conditions: [
           RELACON_B2_HELD,
           ...isRelacon,
@@ -734,7 +766,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button5' },
         to: [
           ...OPEN_TEXT_TO_SPEECH,
-          { set_variable: { name: 'relacon_dictating', value: 0 } },
+          DICTATION_STATE_OFF,
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         to_delayed_action: {
@@ -751,10 +783,19 @@ const RelaconButtons = [
         type: 'basic',
         from: { pointing_button: 'button5' },
         to: [
+          { set_variable: { name: 'relacon_b5_held', value: 1 } },
+        ],
+        to_if_alone: [
           ...OPEN_TEXT_TO_SPEECH,
-          { set_variable: { name: 'relacon_dictating', value: 1 } },
+          DICTATION_STATE_ON,
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
+        to_after_key_up: [
+          { set_variable: { name: 'relacon_b5_held', value: 0 } },
+        ],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+        },
         conditions: [...isRelacon],
       },
     ],
@@ -977,6 +1018,38 @@ const RelaconButtons = [
     consumerKey: 'scan_next_track',
     to: [NAV.browser.nextTab],
     conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
+  }),
+
+  // ── Media mode: d-pad passes through native consumer keys
+  mapButton({
+    description: '[RELACON] Media: D-pad up => volume up',
+    consumerKey: 'volume_increment',
+    to: [{ consumer_key_code: 'volume_increment' }],
+    conditions: [RELACON_MEDIA_MODE, ...isRelacon],
+  }),
+  mapButton({
+    description: '[RELACON] Media: D-pad down => volume down',
+    consumerKey: 'volume_decrement',
+    to: [{ consumer_key_code: 'volume_decrement' }],
+    conditions: [RELACON_MEDIA_MODE, ...isRelacon],
+  }),
+  mapButton({
+    description: '[RELACON] Media: D-pad left => previous track',
+    consumerKey: 'scan_previous_track',
+    to: [{ consumer_key_code: 'scan_previous_track' }],
+    conditions: [RELACON_MEDIA_MODE, ...isRelacon],
+  }),
+  mapButton({
+    description: '[RELACON] Media: D-pad right => next track',
+    consumerKey: 'scan_next_track',
+    to: [{ consumer_key_code: 'scan_next_track' }],
+    conditions: [RELACON_MEDIA_MODE, ...isRelacon],
+  }),
+  mapButton({
+    description: '[RELACON] Media: D-pad center => play/pause',
+    consumerKey: 'play_or_pause',
+    to: [{ consumer_key_code: 'play_or_pause' }],
+    conditions: [RELACON_MEDIA_MODE, ...isRelacon],
   }),
 
   // ── D-pad left ── tap => Left arrow, hold => open Chrome, double => open Chrome

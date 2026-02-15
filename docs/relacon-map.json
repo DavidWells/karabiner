@@ -21,7 +21,7 @@
     "tap": "Delete (repeats, 3s → clear all)",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "B2+B3 tap = Toggle nav / hold = Clear all"
+    "b2Combo": "B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all"
   },
   {
     "name": "Back (left side)",
@@ -45,7 +45,7 @@
     "tap": "Up arrow",
     "doubleTap": "Cursor app",
     "hold": "—",
-    "b2Combo": "B2+Up = Next window / Nav: Cursor"
+    "b2Combo": "B2+Up = Next window / Nav: Cursor / Media: Volume up"
   },
   {
     "name": "D-pad down",
@@ -53,7 +53,7 @@
     "tap": "Down arrow",
     "doubleTap": "iTerm app",
     "hold": "—",
-    "b2Combo": "B2+Down = Prev window / Nav: iTerm"
+    "b2Combo": "B2+Down = Prev window / Nav: iTerm / Media: Volume down"
   },
   {
     "name": "D-pad left",
@@ -61,7 +61,7 @@
     "tap": "Left arrow",
     "doubleTap": "Chrome app",
     "hold": "—",
-    "b2Combo": "B2+Left = Prev pane/tab / Nav: Chrome"
+    "b2Combo": "B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track"
   },
   {
     "name": "D-pad right",
@@ -69,7 +69,7 @@
     "tap": "Right arrow",
     "doubleTap": "Tower app",
     "hold": "—",
-    "b2Combo": "B2+Right = Next pane/tab / Nav: Tower"
+    "b2Combo": "B2+Right = Next pane/tab / Nav: Tower / Media: Next track"
   },
   {
     "name": "D-pad center",
@@ -77,6 +77,6 @@
     "tap": "Enter",
     "doubleTap": "—",
     "hold": "—",
-    "b2Combo": "Nav: B2+Center = Close tab"
+    "b2Combo": "Nav: B2+Center = Close tab / Media: Play/Pause"
   }
 ]
