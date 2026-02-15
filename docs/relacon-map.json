@@ -44,33 +44,33 @@
       "name": "D-pad up",
       "event": "volume_increment",
       "tap": "Up arrow",
-      "doubleTap": "Cursor app",
+      "doubleTap": "—",
       "hold": "—",
-      "b2Combo": "B2+Up = Next window / Nav: Cursor / Media: Volume up"
+      "b2Combo": "B2+Up tap = Next window, hold = iTerm / Nav: iTerm / Media: Volume up"
     },
     {
       "name": "D-pad down",
       "event": "volume_decrement",
       "tap": "Down arrow",
-      "doubleTap": "iTerm app",
+      "doubleTap": "—",
       "hold": "—",
-      "b2Combo": "B2+Down = Prev window / Nav: iTerm / Media: Volume down"
+      "b2Combo": "B2+Down tap = Prev window, hold = Tower / Nav: Tower / Media: Volume down"
     },
     {
       "name": "D-pad left",
       "event": "scan_previous_track",
       "tap": "Left arrow",
-      "doubleTap": "Chrome app",
+      "doubleTap": "—",
       "hold": "—",
-      "b2Combo": "B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track"
+      "b2Combo": "B2+Left tap = Prev pane/tab, hold = Chrome / Nav: Chrome / Media: Prev track"
     },
     {
       "name": "D-pad right",
       "event": "scan_next_track",
       "tap": "Right arrow",
-      "doubleTap": "Tower app",
+      "doubleTap": "—",
       "hold": "—",
-      "b2Combo": "B2+Right = Next pane/tab / Nav: Tower / Media: Next track"
+      "b2Combo": "B2+Right tap = Next pane/tab, hold = Cursor / Nav: Cursor / Media: Next track"
     },
     {
       "name": "D-pad center",

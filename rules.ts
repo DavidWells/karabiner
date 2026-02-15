@@ -254,15 +254,15 @@ const RELACON_MEDIA_MODE = { type: 'variable_if', name: 'relacon_mode', value: 3
 // Left trigger (button1) fired Cmd+C — next button2 press will paste
 const RELACON_COPIED = { type: 'variable_if', name: 'relacon_copied', value: 1 }
 // Speech-to-text active — next button5 press stops recording and disarms
-const STT_ACTIVE = { type: 'variable_if', name: 'stt_active', value: 1 }
+const STT_ACTIVE = { type: 'variable_if', name: 'stt_on', value: 1 }
 // Back button (button4) held — activates combo layer
 const RELACON_B4_HELD = { type: 'variable_if', name: 'relacon_b4_held', value: 1 }
 // D-pad center (play_or_pause) held — activates combo layer
 const RELACON_CENTER_HELD = { type: 'variable_if', name: 'relacon_center_held', value: 1 }
 // Forward button (button5) held — activates combo layer
-const RELACON_B5_HELD = { type: 'variable_if', name: 'relacon_b5_held', value: 1 }
-const DICTATION_STATE_ON = { set_variable: { name: 'stt_active', value: 1 } }
-const DICTATION_STATE_OFF = { set_variable: { name: 'stt_active', value: 0 } }
+const RELACON_B5_HELD = { type: 'variable_if', name: 'relacon_b5_mod', value: 1 }
+const DICTATION_STATE_ON = { set_variable: { name: 'stt_on', value: 1 } }
+const DICTATION_STATE_OFF = { set_variable: { name: 'stt_on', value: 0 } }
 // Button1 double-click detected within timing window
 const RELACON_DBLCLICK = { type: 'variable_if', name: 'relacon_dblclick', value: 1 }
 // Button2 double-click detected within timing window
@@ -391,10 +391,10 @@ const RelaconMap = [
   { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all' },
   { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops STT + delayed Enter if active)', doubleTap: '—', hold: 'Modifier (B4 layer)', b2Combo: 'B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab' },
   { name: 'Forward (right side)', event: 'button5', tap: 'Speech-to-text (toggle)', doubleTap: '—', hold: 'Modifier (B5 layer)', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab' },
-  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: 'Cursor app', hold: '—', b2Combo: 'B2+Up = Next window / Nav: Cursor / Media: Volume up' },
-  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: 'iTerm app', hold: '—', b2Combo: 'B2+Down = Prev window / Nav: iTerm / Media: Volume down' },
-  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: 'Chrome app', hold: '—', b2Combo: 'B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track' },
-  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: 'Tower app', hold: '—', b2Combo: 'B2+Right = Next pane/tab / Nav: Tower / Media: Next track' },
+  { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: '—', hold: '—', b2Combo: 'B2+Up tap = Next window, hold = iTerm / Nav: iTerm / Media: Volume up' },
+  { name: 'D-pad down', event: 'volume_decrement', tap: 'Down arrow', doubleTap: '—', hold: '—', b2Combo: 'B2+Down tap = Prev window, hold = Tower / Nav: Tower / Media: Volume down' },
+  { name: 'D-pad left', event: 'scan_previous_track', tap: 'Left arrow', doubleTap: '—', hold: '—', b2Combo: 'B2+Left tap = Prev pane/tab, hold = Chrome / Nav: Chrome / Media: Prev track' },
+  { name: 'D-pad right', event: 'scan_next_track', tap: 'Right arrow', doubleTap: '—', hold: '—', b2Combo: 'B2+Right tap = Next pane/tab, hold = Cursor / Nav: Cursor / Media: Next track' },
   { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'Nav: B2+Center = Close tab / Media: Play/Pause' },
 ]
 
@@ -445,25 +445,22 @@ const RelaconButtons = [
   }),
   // Cancel active request (e.g. stop Claude generation) + clear STT state
   mapHeldCombo({
-    description: '[RELACON] B4 + B1 => Escape',
+    description: '[RELACON] B4 + B1 => Escape + middle click',
     held: RELACON_B4_HELD,
     button: 'button1',
-    to: [{ key_code: 'escape' }, DICTATION_STATE_OFF],
+    to: [{ key_code: 'escape' }, { pointing_button: 'button3' }, DICTATION_STATE_OFF],
   }),
-  // TODO: map B5 + B1 to a real action
-  mapHeldCombo({
-    description: '[RELACON] B5 + B1 => type a',
-    held: RELACON_B5_HELD,
-    button: 'button1',
-    to: [{ key_code: 'a' }],
-  }),
-  // TODO: map B5 + B2 to a real action
-  mapHeldCombo({
-    description: '[RELACON] B5 + B2 => type b',
-    held: RELACON_B5_HELD,
-    button: 'button2',
-    to: [{ key_code: 'b' }],
-  }),
+  // B5 hold = Command held — B5+B1 is reserved for Command+click (link opening)
+  // TODO: map B5 + B2 to a real action (use shell_command, not key_code)
+  {
+    description: '[RELACON] B5 + B2 => test notification',
+    manipulators: [{
+      type: 'basic',
+      from: { pointing_button: 'button2', modifiers: { optional: ['any'] } },
+      to: [{ shell_command: "osascript -e 'display notification \"B5+B2\" with title \"Relacon\"'" }],
+      conditions: [RELACON_B5_HELD, ...isRelacon],
+    }],
+  },
 
   // ── Trackball click (button1) ── double-click => Select All
   {
@@ -869,7 +866,8 @@ const RelaconButtons = [
         type: 'basic',
         from: { pointing_button: 'button5' },
         to: [
-          { set_variable: { name: 'relacon_b5_held', value: 1 } },
+          { set_variable: { name: 'relacon_b5_mod', value: 1 } },
+          { key_code: 'left_command' },
         ],
         to_if_alone: [
           ...OPEN_TEXT_TO_SPEECH,
@@ -877,7 +875,7 @@ const RelaconButtons = [
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         to_after_key_up: [
-          { set_variable: { name: 'relacon_b5_held', value: 0 } },
+          { set_variable: { name: 'relacon_b5_mod', value: 0 } },
         ],
         parameters: {
           'basic.to_if_alone_timeout_milliseconds': 300,
@@ -899,11 +897,11 @@ const RelaconButtons = [
     ],
   }),
 
-  // ── Nav mode: B2 + D-pad right => open Tower
+  // ── Nav mode: B2 + D-pad right => open Cursor
   mapButton({
-    description: '[RELACON] Nav: B2 + D-pad right => Tower',
+    description: '[RELACON] Nav: B2 + D-pad right => Cursor',
     consumerKey: 'scan_next_track',
-    to: [{ shell_command: "open -a 'Tower.app'" }],
+    to: [{ shell_command: "open -a 'Cursor.app'" }],
     conditions: [
       RELACON_B2_HELD,
       RELACON_NAV_MODE,
@@ -943,11 +941,11 @@ const RelaconButtons = [
     ],
   }),
 
-  // ── Nav mode: B2 + D-pad up => open Cursor
+  // ── Nav mode: B2 + D-pad up => open iTerm
   mapButton({
-    description: '[RELACON] Nav: B2 + D-pad up => Cursor',
+    description: '[RELACON] Nav: B2 + D-pad up => iTerm',
     consumerKey: 'volume_increment',
-    to: [{ shell_command: "open -a 'Cursor.app'" }],
+    to: [{ shell_command: "open -a 'iTerm.app'" }],
     conditions: [
       RELACON_B2_HELD,
       RELACON_NAV_MODE,
@@ -955,11 +953,11 @@ const RelaconButtons = [
     ],
   }),
 
-  // ── Nav mode: B2 + D-pad down => open iTerm
+  // ── Nav mode: B2 + D-pad down => open Tower
   mapButton({
-    description: '[RELACON] Nav: B2 + D-pad down => iTerm',
+    description: '[RELACON] Nav: B2 + D-pad down => Tower',
     consumerKey: 'volume_decrement',
-    to: [{ shell_command: "open -a 'iTerm.app'" }],
+    to: [{ shell_command: "open -a 'Tower.app'" }],
     conditions: [
       RELACON_B2_HELD,
       RELACON_NAV_MODE,
@@ -1057,54 +1055,111 @@ const RelaconButtons = [
   }),
 
   // ── Edit mode: B2 + d-pad => window/tab/pane navigation (no mode condition, nav mode rules above take priority)
-  mapButton({
-    description: '[RELACON] B2 + D-pad up => next window',
-    consumerKey: 'volume_increment',
-    to: [NAV.global.nextWindow],
-    conditions: [RELACON_B2_HELD, ...isRelacon],
-  }),
-  mapButton({
-    description: '[RELACON] B2 + D-pad down => prev window',
-    consumerKey: 'volume_decrement',
-    to: [NAV.global.prevWindow],
-    conditions: [RELACON_B2_HELD, ...isRelacon],
-  }),
-  mapButton({
-    description: '[RELACON] B2 + D-pad left in terminal => prev pane',
-    consumerKey: 'scan_previous_track',
-    to: [NAV.terminal.prevPane],
-    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_TERMINAL_WINDOW],
-  }),
-  mapButton({
-    description: '[RELACON] B2 + D-pad left in editor => prev tab',
-    consumerKey: 'scan_previous_track',
-    to: [NAV.editor.prevTab],
-    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_EDITOR_WINDOW],
-  }),
-  mapButton({
-    description: '[RELACON] B2 + D-pad left in browser => prev tab',
-    consumerKey: 'scan_previous_track',
-    to: [NAV.browser.prevTab],
-    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
-  }),
-  mapButton({
-    description: '[RELACON] B2 + D-pad right in terminal => next pane',
-    consumerKey: 'scan_next_track',
-    to: [NAV.terminal.nextPane],
-    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_TERMINAL_WINDOW],
-  }),
-  mapButton({
-    description: '[RELACON] B2 + D-pad right in editor => next tab',
-    consumerKey: 'scan_next_track',
-    to: [NAV.editor.nextTab],
-    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_EDITOR_WINDOW],
-  }),
-  mapButton({
-    description: '[RELACON] B2 + D-pad right in browser => next tab',
-    consumerKey: 'scan_next_track',
-    to: [NAV.browser.nextTab],
-    conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
-  }),
+  // ── Edit mode: B2 + d-pad tap => window/tab/pane nav, hold => open app
+  {
+    description: '[RELACON] B2 + D-pad up => tap: next window / hold: iTerm',
+    manipulators: [{
+      type: 'basic',
+      from: { consumer_key_code: 'volume_increment' },
+      to_if_alone: [NAV.global.nextWindow],
+      to_if_held_down: [{ shell_command: "open -a 'iTerm.app'", repeat: false }],
+      parameters: {
+        'basic.to_if_alone_timeout_milliseconds': 300,
+        'basic.to_if_held_down_threshold_milliseconds': 500,
+      },
+      conditions: [RELACON_B2_HELD, ...isRelacon],
+    }],
+  },
+  {
+    description: '[RELACON] B2 + D-pad down => tap: prev window / hold: Tower',
+    manipulators: [{
+      type: 'basic',
+      from: { consumer_key_code: 'volume_decrement' },
+      to_if_alone: [NAV.global.prevWindow],
+      to_if_held_down: [{ shell_command: "open -a 'Tower.app'", repeat: false }],
+      parameters: {
+        'basic.to_if_alone_timeout_milliseconds': 300,
+        'basic.to_if_held_down_threshold_milliseconds': 500,
+      },
+      conditions: [RELACON_B2_HELD, ...isRelacon],
+    }],
+  },
+  {
+    description: '[RELACON] B2 + D-pad left => tap: prev pane/tab / hold: Chrome',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_previous_track' },
+        to_if_alone: [NAV.terminal.prevPane],
+        to_if_held_down: [{ shell_command: "open -a 'Google Chrome.app'", repeat: false }],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 500,
+        },
+        conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_TERMINAL_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_previous_track' },
+        to_if_alone: [NAV.editor.prevTab],
+        to_if_held_down: [{ shell_command: "open -a 'Google Chrome.app'", repeat: false }],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 500,
+        },
+        conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_EDITOR_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_previous_track' },
+        to_if_alone: [NAV.browser.prevTab],
+        to_if_held_down: [{ shell_command: "open -a 'Google Chrome.app'", repeat: false }],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 500,
+        },
+        conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
+      },
+    ],
+  },
+  {
+    description: '[RELACON] B2 + D-pad right => tap: next pane/tab / hold: Cursor',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_next_track' },
+        to_if_alone: [NAV.terminal.nextPane],
+        to_if_held_down: [{ shell_command: "open -a 'Cursor.app'", repeat: false }],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 500,
+        },
+        conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_TERMINAL_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_next_track' },
+        to_if_alone: [NAV.editor.nextTab],
+        to_if_held_down: [{ shell_command: "open -a 'Cursor.app'", repeat: false }],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 500,
+        },
+        conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_EDITOR_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { consumer_key_code: 'scan_next_track' },
+        to_if_alone: [NAV.browser.nextTab],
+        to_if_held_down: [{ shell_command: "open -a 'Cursor.app'", repeat: false }],
+        parameters: {
+          'basic.to_if_alone_timeout_milliseconds': 300,
+          'basic.to_if_held_down_threshold_milliseconds': 500,
+        },
+        conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
+      },
+    ],
+  },
 
   // ── Edit mode: B2 + center => context menu (placeholder)
   mapButton({
@@ -1146,39 +1201,29 @@ const RelaconButtons = [
     conditions: [RELACON_MEDIA_MODE, ...isRelacon],
   }),
 
-  // ── D-pad left ── tap => Left arrow, hold => open Chrome, double => open Chrome
-  doubleClickButton({
-    description: '[RELACON] D-pad left: tap => Left, double => Chrome',
+  // ── D-pad arrows — clean pass-through, no double-tap (app switching moved to B2+d-pad hold)
+  mapButton({
+    description: '[RELACON] D-pad left => Left arrow',
     consumerKey: 'scan_previous_track',
-    to: [{ shell_command: "open -a 'Google Chrome.app'" }],
-    singleTo: [{ key_code: 'left_arrow' }],
+    to: [{ key_code: 'left_arrow' }],
     conditions: [...isRelacon],
   }),
-
-  // ── D-pad right ── tap => Right arrow, hold => open Tower, double => open Tower
-  doubleClickButton({
-    description: '[RELACON] D-pad right: tap => Right, double => Tower',
+  mapButton({
+    description: '[RELACON] D-pad right => Right arrow',
     consumerKey: 'scan_next_track',
-    to: [{ shell_command: "open -a 'Tower.app'" }],
-    singleTo: [{ key_code: 'right_arrow' }],
+    to: [{ key_code: 'right_arrow' }],
     conditions: [...isRelacon],
   }),
-
-  // ── D-pad up ── tap => Up arrow, hold => open Cursor, double => open Cursor
-  doubleClickButton({
-    description: '[RELACON] D-pad up: tap => Up, double => Cursor',
+  mapButton({
+    description: '[RELACON] D-pad up => Up arrow',
     consumerKey: 'volume_increment',
-    to: [{ shell_command: "open -a 'Cursor.app'" }],
-    singleTo: [{ key_code: 'up_arrow' }],
+    to: [{ key_code: 'up_arrow' }],
     conditions: [...isRelacon],
   }),
-
-  // ── D-pad down ── tap => Down arrow, hold => open iTerm, double => open iTerm
-  doubleClickButton({
-    description: '[RELACON] D-pad down: tap => Down, double => iTerm',
+  mapButton({
+    description: '[RELACON] D-pad down => Down arrow',
     consumerKey: 'volume_decrement',
-    to: [{ shell_command: "open -a 'iTerm.app'" }],
-    singleTo: [{ key_code: 'down_arrow' }],
+    to: [{ key_code: 'down_arrow' }],
     conditions: [...isRelacon],
   }),
 

@@ -36,9 +36,11 @@ Nav mode rules go in `RelaconButtons` array and MUST be placed before generic ru
 - Nav mode tap rules: `relacon_mode == 2` + app condition (e.g. `IS_TERMINAL_WINDOW`) + `isRelacon`
 - Nav mode B2 combos: `relacon_b2_held == 1` + `relacon_mode == 2` + `isRelacon` — placed before generic B2 combos
 
-D-pad consumer keys (`volume_increment`, etc.) don't support `to_if_held_down` — the hardware sends instant press+release. Use `mapButton` for nav mode tap actions, not `tapHoldButton`.
+D-pad consumer keys (`volume_increment`, etc.) DO sustain while held (verified via EventViewer — single key_down/key_up pair). They support `to_if_alone` and `to_if_held_down` patterns when used with B2 held as a modifier.
 
 **D-pad modifier limitation:** D-pad center (`play_or_pause`) can act as a held modifier, but ONLY for buttons B1–B5 (separate physical buttons). D-pad directions (up/down/left/right) share the same physical rocker as center — moving from center to a direction releases center first, clearing the held variable before the direction event fires. D-pad-held + d-pad-direction combos are physically impossible.
+
+**Ergonomics:** The thumb rests over B4 (back), B3 (scroll wheel), and B5 (forward). Only one thumb is available, so pressing two of these simultaneously (e.g. B4+B3, B5+B3, B4+B5) is impractical. The thumb is also the only finger on the d-pad. When the thumb moves to the d-pad, only B1 and B2 (front triggers, index/middle finger) are reachable. All other buttons (B3/B4/B5) are hard to reach with the thumb on the d-pad. Practical modifier combos: thumb holds one button (B4/B5/center) while index/middle finger clicks B1 or B2.
 
 When adding nav mode support for a new app:
 1. Add `mapButton` rules for each d-pad direction with the app's condition and `relacon_mode == 2`
@@ -55,6 +57,10 @@ Use `RELACON_*` constants for variable conditions instead of inline objects. Def
 - `RELACON_STT_ACTIVE` — speech-to-text active
 - `RELACON_DBLCLICK` / `RELACON_B2_DBLCLICK` — double-click timing windows
 
+## Stuck variables
+
+Karabiner persists variable state internally. If a variable gets stuck (e.g. `stt_active = 1` when STT isn't running), renaming the variable in `rules.ts` and rebuilding clears the stale state — Karabiner treats the new name as a fresh variable defaulting to 0. This is a cache-bust workaround for when variable state gets out of sync with reality.
+
 ## Copy/paste flow
 
 Button1 tap fires Cmd+C and arms paste (`relacon_copied = 1`). Button2 uses `to_if_alone` to paste only on release with no other button pressed — this prevents accidental paste when B2 is held for combos. The `to_if_alone` approach means paste has a slight delay (~300ms) and will also fire on the first tap of a double-tap (known issue, documented in README).
@@ -70,6 +76,12 @@ Two variants depending on context:
 1. **`to_if_alone` + `to_if_held_down`**: Tap fires one action, hold fires another. ~300ms delay before tap fires (Karabiner waits to see if you're holding). See B2+B3 (nav toggle / clear all).
 
 2. **`to` + `to_if_held_down`**: Tap action fires immediately (no delay), hold action kicks in after threshold. Trade-off: tap action fires even on hold (stray keypress before hold action takes over). Use when `to_if_alone` doesn't work — e.g. B2+button4, where B2 is physically held so Karabiner never considers button4 "alone". See B2+B4 (Shift+Enter / pane switch).
+
+## B2 + d-pad tap/hold split
+
+B2 + d-pad supports both tap and hold actions using `to_if_alone` / `to_if_held_down`. Quick B2+d-pad tap fires window/pane/tab navigation, holding B2+d-pad for 500ms opens an app. This works because `to_if_alone` fires on release (no conflict with B2 being held), and consumer keys DO sustain while the d-pad is held (verified via EventViewer — single key_down on press, key_up on release).
+
+For left/right d-pad where the tap action varies by app (terminal vs editor vs browser), each app gets its own manipulator within the same rule — all sharing the same `to_if_held_down` app-open action.
 
 ## Shared navigation shortcuts
 

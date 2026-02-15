@@ -63,10 +63,10 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all |
 | Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | Modifier (B4 layer) | B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab |
 | Forward (right side) | `button5` | Speech-to-text (toggle) | — | Modifier (B5 layer) | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
-| D-pad up | `volume_increment` | Up arrow | Cursor app | — | B2+Up = Next window / Nav: Cursor / Media: Volume up |
-| D-pad down | `volume_decrement` | Down arrow | iTerm app | — | B2+Down = Prev window / Nav: iTerm / Media: Volume down |
-| D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track |
-| D-pad right | `scan_next_track` | Right arrow | Tower app | — | B2+Right = Next pane/tab / Nav: Tower / Media: Next track |
+| D-pad up | `volume_increment` | Up arrow | — | — | B2+Up tap = Next window, hold = iTerm / Nav: iTerm / Media: Volume up |
+| D-pad down | `volume_decrement` | Down arrow | — | — | B2+Down tap = Prev window, hold = Tower / Nav: Tower / Media: Volume down |
+| D-pad left | `scan_previous_track` | Left arrow | — | — | B2+Left tap = Prev pane/tab, hold = Chrome / Nav: Chrome / Media: Prev track |
+| D-pad right | `scan_next_track` | Right arrow | — | — | B2+Right tap = Next pane/tab, hold = Cursor / Nav: Cursor / Media: Next track |
 | D-pad center | `play_or_pause` | Enter | — | — | Nav: B2+Center = Close tab / Media: Play/Pause |
 <!-- /docs -->
 

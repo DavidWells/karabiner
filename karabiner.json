@@ -1801,7 +1801,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -1809,7 +1809,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "stt_active",
+                                        "name": "stt_on",
                                         "value": 1
                                     }
                                 ]
@@ -1918,7 +1918,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B4 + B1 => Escape",
+                        "description": "[RELACON] B4 + B1 => Escape + middle click",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -1930,8 +1930,11 @@
                                         "key_code": "escape"
                                     },
                                     {
+                                        "pointing_button": "button3"
+                                    },
+                                    {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -1956,54 +1959,27 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B5 + B1 => type a",
+                        "description": "[RELACON] B5 + B2 => test notification",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
-                                    "pointing_button": "button1"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "a"
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "relacon_b5_held",
-                                        "value": 1
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
+                                    "pointing_button": "button2",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
                                         ]
                                     }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[RELACON] B5 + B2 => type b",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "pointing_button": "button2"
                                 },
                                 "to": [
                                     {
-                                        "key_code": "b"
+                                        "shell_command": "osascript -e 'display notification \"B5+B2\" with title \"Relacon\"'"
                                     }
                                 ],
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "relacon_b5_held",
+                                        "name": "relacon_b5_mod",
                                         "value": 1
                                     },
                                     {
@@ -2608,7 +2584,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -2656,7 +2632,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -2706,7 +2682,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -2763,7 +2739,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -2818,7 +2794,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -2876,7 +2852,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -2940,7 +2916,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -2963,7 +2939,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "stt_active",
+                                        "name": "stt_on",
                                         "value": 1
                                     },
                                     {
@@ -3042,7 +3018,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -3090,7 +3066,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -3139,7 +3115,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -3190,7 +3166,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -3227,7 +3203,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     },
@@ -3256,7 +3232,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "stt_active",
+                                        "name": "stt_on",
                                         "value": 1
                                     },
                                     {
@@ -3278,9 +3254,12 @@
                                 "to": [
                                     {
                                         "set_variable": {
-                                            "name": "relacon_b5_held",
+                                            "name": "relacon_b5_mod",
                                             "value": 1
                                         }
+                                    },
+                                    {
+                                        "key_code": "left_command"
                                     }
                                 ],
                                 "to_if_alone": [
@@ -3293,7 +3272,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 1
                                         }
                                     },
@@ -3307,7 +3286,7 @@
                                 "to_after_key_up": [
                                     {
                                         "set_variable": {
-                                            "name": "relacon_b5_held",
+                                            "name": "relacon_b5_mod",
                                             "value": 0
                                         }
                                     }
@@ -3367,7 +3346,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: B2 + D-pad right => Tower",
+                        "description": "[RELACON] Nav: B2 + D-pad right => Cursor",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -3376,7 +3355,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Tower.app'"
+                                        "shell_command": "open -a 'Cursor.app'"
                                     }
                                 ],
                                 "conditions": [
@@ -3536,7 +3515,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: B2 + D-pad up => Cursor",
+                        "description": "[RELACON] Nav: B2 + D-pad up => iTerm",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -3545,7 +3524,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Cursor.app'"
+                                        "shell_command": "open -a 'iTerm.app'"
                                     }
                                 ],
                                 "conditions": [
@@ -3573,7 +3552,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Nav: B2 + D-pad down => iTerm",
+                        "description": "[RELACON] Nav: B2 + D-pad down => Tower",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -3582,7 +3561,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'iTerm.app'"
+                                        "shell_command": "open -a 'Tower.app'"
                                     }
                                 ],
                                 "conditions": [
@@ -3956,14 +3935,14 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B2 + D-pad up => next window",
+                        "description": "[RELACON] B2 + D-pad up => tap: next window / hold: iTerm",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
                                     "consumer_key_code": "volume_increment"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "grave_accent_and_tilde",
                                         "modifiers": [
@@ -3971,6 +3950,16 @@
                                         ]
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'iTerm.app'",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -3991,14 +3980,14 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B2 + D-pad down => prev window",
+                        "description": "[RELACON] B2 + D-pad down => tap: prev window / hold: Tower",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
                                     "consumer_key_code": "volume_decrement"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "grave_accent_and_tilde",
                                         "modifiers": [
@@ -4007,6 +3996,16 @@
                                         ]
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Tower.app'",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -4027,14 +4026,14 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B2 + D-pad left in terminal => prev pane",
+                        "description": "[RELACON] B2 + D-pad left => tap: prev pane/tab / hold: Chrome",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
                                     "consumer_key_code": "scan_previous_track"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "open_bracket",
                                         "modifiers": [
@@ -4042,6 +4041,16 @@
                                         ]
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Google Chrome.app'",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -4064,18 +4073,13 @@
                                         ]
                                     }
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[RELACON] B2 + D-pad left in editor => prev tab",
-                        "manipulators": [
+                            },
                             {
                                 "type": "basic",
                                 "from": {
                                     "consumer_key_code": "scan_previous_track"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "left_arrow",
                                         "modifiers": [
@@ -4084,6 +4088,16 @@
                                         ]
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Google Chrome.app'",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -4108,18 +4122,13 @@
                                         ]
                                     }
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[RELACON] B2 + D-pad left in browser => prev tab",
-                        "manipulators": [
+                            },
                             {
                                 "type": "basic",
                                 "from": {
                                     "consumer_key_code": "scan_previous_track"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "tab",
                                         "modifiers": [
@@ -4128,6 +4137,16 @@
                                         ]
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Google Chrome.app'",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -4158,14 +4177,14 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B2 + D-pad right in terminal => next pane",
+                        "description": "[RELACON] B2 + D-pad right => tap: next pane/tab / hold: Cursor",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
                                     "consumer_key_code": "scan_next_track"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "close_bracket",
                                         "modifiers": [
@@ -4173,6 +4192,16 @@
                                         ]
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Cursor.app'",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -4195,18 +4224,13 @@
                                         ]
                                     }
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[RELACON] B2 + D-pad right in editor => next tab",
-                        "manipulators": [
+                            },
                             {
                                 "type": "basic",
                                 "from": {
                                     "consumer_key_code": "scan_next_track"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "right_arrow",
                                         "modifiers": [
@@ -4215,6 +4239,16 @@
                                         ]
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Cursor.app'",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -4239,18 +4273,13 @@
                                         ]
                                     }
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "[RELACON] B2 + D-pad right in browser => next tab",
-                        "manipulators": [
+                            },
                             {
                                 "type": "basic",
                                 "from": {
                                     "consumer_key_code": "scan_next_track"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "tab",
                                         "modifiers": [
@@ -4258,6 +4287,16 @@
                                         ]
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Cursor.app'",
+                                        "repeat": false
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -4480,7 +4519,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] D-pad left: tap => Left, double => Chrome",
+                        "description": "[RELACON] D-pad left => Left arrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -4488,64 +4527,10 @@
                                     "consumer_key_code": "scan_previous_track"
                                 },
                                 "to": [
-                                    {
-                                        "shell_command": "open -a 'Google Chrome.app'"
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "double_click_scan_previous_track",
-                                        "value": 1
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "consumer_key_code": "scan_previous_track"
-                                },
-                                "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "double_click_scan_previous_track",
-                                            "value": 1
-                                        }
-                                    },
                                     {
                                         "key_code": "left_arrow"
                                     }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_scan_previous_track",
-                                                "value": 0
-                                            }
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_scan_previous_track",
-                                                "value": 0
-                                            }
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 300
-                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",
@@ -4561,7 +4546,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] D-pad right: tap => Right, double => Tower",
+                        "description": "[RELACON] D-pad right => Right arrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -4569,64 +4554,10 @@
                                     "consumer_key_code": "scan_next_track"
                                 },
                                 "to": [
-                                    {
-                                        "shell_command": "open -a 'Tower.app'"
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "double_click_scan_next_track",
-                                        "value": 1
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "consumer_key_code": "scan_next_track"
-                                },
-                                "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "double_click_scan_next_track",
-                                            "value": 1
-                                        }
-                                    },
                                     {
                                         "key_code": "right_arrow"
                                     }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_scan_next_track",
-                                                "value": 0
-                                            }
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_scan_next_track",
-                                                "value": 0
-                                            }
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 300
-                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",
@@ -4642,7 +4573,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] D-pad up: tap => Up, double => Cursor",
+                        "description": "[RELACON] D-pad up => Up arrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -4650,64 +4581,10 @@
                                     "consumer_key_code": "volume_increment"
                                 },
                                 "to": [
-                                    {
-                                        "shell_command": "open -a 'Cursor.app'"
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "double_click_volume_increment",
-                                        "value": 1
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "consumer_key_code": "volume_increment"
-                                },
-                                "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "double_click_volume_increment",
-                                            "value": 1
-                                        }
-                                    },
                                     {
                                         "key_code": "up_arrow"
                                     }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_volume_increment",
-                                                "value": 0
-                                            }
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_volume_increment",
-                                                "value": 0
-                                            }
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 300
-                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",
@@ -4723,7 +4600,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] D-pad down: tap => Down, double => iTerm",
+                        "description": "[RELACON] D-pad down => Down arrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -4732,63 +4609,9 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'iTerm.app'"
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "double_click_volume_decrement",
-                                        "value": 1
-                                    },
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1390,
-                                                "product_id": 342
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "consumer_key_code": "volume_decrement"
-                                },
-                                "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "double_click_volume_decrement",
-                                            "value": 1
-                                        }
-                                    },
-                                    {
                                         "key_code": "down_arrow"
                                     }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_volume_decrement",
-                                                "value": 0
-                                            }
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "set_variable": {
-                                                "name": "double_click_volume_decrement",
-                                                "value": 0
-                                            }
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 300
-                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",
@@ -4963,7 +4786,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -4987,7 +4810,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "stt_active",
+                                        "name": "stt_on",
                                         "value": 1
                                     },
                                     {
@@ -5025,7 +4848,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 1
                                         }
                                     }
@@ -6338,7 +6161,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -6361,7 +6184,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "stt_active",
+                                        "name": "stt_on",
                                         "value": 1
                                     }
                                 ],
@@ -6390,7 +6213,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 1
                                         }
                                     }
@@ -7293,7 +7116,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -7316,7 +7139,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "stt_active",
+                                        "name": "stt_on",
                                         "value": 1
                                     }
                                 ],
@@ -7345,7 +7168,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 1
                                         }
                                     }
@@ -7380,7 +7203,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -7403,7 +7226,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "stt_active",
+                                        "name": "stt_on",
                                         "value": 1
                                     }
                                 ],
@@ -7432,7 +7255,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 1
                                         }
                                     }
@@ -7467,7 +7290,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 0
                                         }
                                     }
@@ -7490,7 +7313,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "stt_active",
+                                        "name": "stt_on",
                                         "value": 1
                                     }
                                 ],
@@ -7519,7 +7342,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "stt_active",
+                                            "name": "stt_on",
                                             "value": 1
                                         }
                                     }
