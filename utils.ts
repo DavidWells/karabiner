@@ -72,26 +72,28 @@ export function createHyperSubLayer(
         })),
     },
     // Define the individual commands that are meant to trigger in the sublayer
-    ...(Object.keys(commands) as (keyof typeof commands)[]).map(
-      (command_key): Manipulator => ({
-        ...commands[command_key],
-        type: "basic" as const,
-        from: {
-          key_code: command_key,
-          modifiers: {
-            // Mandatory modifiers are *not* added to the "to" event
-            mandatory: ["any"],
+    // Supports arrays for conditional entries (first match wins)
+    ...(Object.keys(commands) as (keyof typeof commands)[]).flatMap(
+      (command_key) => {
+        const cmd = commands[command_key]
+        const entries = Array.isArray(cmd) ? cmd : [cmd]
+        const sublayerCondition = {
+          type: "variable_if" as const,
+          name: subLayerVariableName,
+          value: 1,
+        }
+        return entries.map((entry): Manipulator => ({
+          ...entry,
+          type: "basic" as const,
+          from: {
+            key_code: command_key,
+            modifiers: {
+              mandatory: ["any"],
+            },
           },
-        },
-        // Only trigger this command if the variable is 1 (i.e., if Hyper + sublayer is held)
-        conditions: [
-          {
-            type: "variable_if",
-            name: subLayerVariableName,
-            value: 1,
-          },
-        ],
-      })
+          conditions: [sublayerCondition, ...(entry.conditions || [])],
+        }))
+      }
     ),
   ];
 }
@@ -113,27 +115,28 @@ export function createHyperSubLayers(subLayers: {
     console.log('───────────────────────────────')
     console.log('key', key)
     console.log('value', value)
-    if ("to" in value) {
+    // Direct key mapping (not a sublayer) — supports arrays for conditional entries
+    if ("to" in value || Array.isArray(value)) {
+      const entries = Array.isArray(value) ? value : [value]
+      const hyperFrom = {
+        key_code: key as KeyCode,
+        modifiers: {
+          mandatory: [
+            "left_command" as const,
+            "left_control" as const,
+            "left_shift" as const,
+            "left_option" as const,
+          ],
+        },
+      }
       return {
         description: `Hyper Key + ${key}`,
-        manipulators: [
-          {
-            ...value,
-            type: "basic" as const,
-            from: {
-              key_code: key as KeyCode,
-              modifiers: {
-                // Mandatory modifiers are *not* added to the "to" event
-                mandatory: [
-                  "left_command",
-                  "left_control",
-                  "left_shift",
-                  "left_option",
-                ],
-              },
-            },
-          },
-        ],
+        manipulators: entries.map((entry) => ({
+          ...entry,
+          type: "basic" as const,
+          from: hyperFrom,
+          ...(entry.conditions ? { conditions: entry.conditions } : {}),
+        })),
       }
     }
 
@@ -225,24 +228,28 @@ export function createRightHyperSubLayer(
         })),
     },
     // Define the individual commands that are meant to trigger in the sublayer
-    ...(Object.keys(commands) as (keyof typeof commands)[]).map(
-      (command_key): Manipulator => ({
-        ...commands[command_key],
-        type: "basic" as const,
-        from: {
-          key_code: command_key,
-          modifiers: {
-            mandatory: ["any"],
+    // Supports arrays for conditional entries (first match wins)
+    ...(Object.keys(commands) as (keyof typeof commands)[]).flatMap(
+      (command_key) => {
+        const cmd = commands[command_key]
+        const entries = Array.isArray(cmd) ? cmd : [cmd]
+        const sublayerCondition = {
+          type: "variable_if" as const,
+          name: subLayerVariableName,
+          value: 1,
+        }
+        return entries.map((entry): Manipulator => ({
+          ...entry,
+          type: "basic" as const,
+          from: {
+            key_code: command_key,
+            modifiers: {
+              mandatory: ["any"],
+            },
           },
-        },
-        conditions: [
-          {
-            type: "variable_if",
-            name: subLayerVariableName,
-            value: 1,
-          },
-        ],
-      })
+          conditions: [sublayerCondition, ...(entry.conditions || [])],
+        }))
+      }
     ),
   ];
 }
@@ -255,26 +262,28 @@ export function createRightHyperSubLayers(subLayers: {
   ).map((sublayer_key) => generateSubLayerVariableName(sublayer_key));
 
   return Object.entries(subLayers).map(([key, value]) => {
-    if ("to" in value) {
+    // Direct key mapping (not a sublayer) — supports arrays for conditional entries
+    if ("to" in value || Array.isArray(value)) {
+      const entries = Array.isArray(value) ? value : [value]
+      const rightHyperFrom = {
+        key_code: key as KeyCode,
+        modifiers: {
+          mandatory: [
+            "right_command" as const,
+            "right_control" as const,
+            "right_shift" as const,
+            "right_option" as const,
+          ],
+        },
+      }
       return {
         description: `Right Hyper Key + ${key}`,
-        manipulators: [
-          {
-            ...value,
-            type: "basic" as const,
-            from: {
-              key_code: key as KeyCode,
-              modifiers: {
-                mandatory: [
-                  "right_command",
-                  "right_control",
-                  "right_shift",
-                  "right_option",
-                ],
-              },
-            },
-          },
-        ],
+        manipulators: entries.map((entry) => ({
+          ...entry,
+          type: "basic" as const,
+          from: rightHyperFrom,
+          ...(entry.conditions ? { conditions: entry.conditions } : {}),
+        })),
       }
     }
 

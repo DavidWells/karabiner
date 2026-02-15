@@ -254,13 +254,15 @@ const RELACON_MEDIA_MODE = { type: 'variable_if', name: 'relacon_mode', value: 3
 // Left trigger (button1) fired Cmd+C — next button2 press will paste
 const RELACON_COPIED = { type: 'variable_if', name: 'relacon_copied', value: 1 }
 // Speech-to-text active — next button5 press stops recording and disarms
-const RELACON_STT_ACTIVE = { type: 'variable_if', name: 'relacon_dictating', value: 1 }
+const STT_ACTIVE = { type: 'variable_if', name: 'stt_active', value: 1 }
 // Back button (button4) held — activates combo layer
 const RELACON_B4_HELD = { type: 'variable_if', name: 'relacon_b4_held', value: 1 }
+// D-pad center (play_or_pause) held — activates combo layer
+const RELACON_CENTER_HELD = { type: 'variable_if', name: 'relacon_center_held', value: 1 }
 // Forward button (button5) held — activates combo layer
 const RELACON_B5_HELD = { type: 'variable_if', name: 'relacon_b5_held', value: 1 }
-const DICTATION_STATE_ON = { set_variable: { name: 'relacon_dictating', value: 1 } }
-const DICTATION_STATE_OFF = { set_variable: { name: 'relacon_dictating', value: 0 } }
+const DICTATION_STATE_ON = { set_variable: { name: 'stt_active', value: 1 } }
+const DICTATION_STATE_OFF = { set_variable: { name: 'stt_active', value: 0 } }
 // Button1 double-click detected within timing window
 const RELACON_DBLCLICK = { type: 'variable_if', name: 'relacon_dblclick', value: 1 }
 // Button2 double-click detected within timing window
@@ -418,6 +420,14 @@ const RelaconModes = [
 ]
 
 const RelaconButtons = [
+  // ── D-pad center combo test
+  mapHeldCombo({
+    description: '[RELACON] Center + B2 => type q',
+    held: RELACON_CENTER_HELD,
+    button: 'button2',
+    to: [{ key_code: 'q' }],
+  }),
+
   // ── B4/B5 combo tests
   mapHeldCombo({
     description: '[RELACON] B4 + B2 => move window to next display',
@@ -425,12 +435,12 @@ const RelaconButtons = [
     button: 'button2',
     to: MOVE_WINDOW_TO_NEXT_DISPLAY,
   }),
-  // Cancel active request (e.g. stop Claude generation)
+  // Cancel active request (e.g. stop Claude generation) + clear STT state
   mapHeldCombo({
     description: '[RELACON] B4 + B1 => Escape',
     held: RELACON_B4_HELD,
     button: 'button1',
-    to: [{ key_code: 'escape' }],
+    to: [{ key_code: 'escape' }, DICTATION_STATE_OFF],
   }),
   mapHeldCombo({
     description: '[RELACON] B5 + B1 => type a',
@@ -754,7 +764,7 @@ const RelaconButtons = [
         to_if_canceled: [{ key_code: 'return_or_enter' }],
       },
       parameters: { 'basic.to_delayed_action_delay_milliseconds': 500 },
-      conditions: [RELACON_STT_ACTIVE, ...isRelacon],
+      conditions: [STT_ACTIVE, ...isRelacon],
     }],
   },
   // ── Back / left side (button4) ── tap => Enter, hold => modifier layer
@@ -840,7 +850,7 @@ const RelaconButtons = [
         },
         parameters: { 'basic.to_delayed_action_delay_milliseconds': 500 },
         conditions: [
-          RELACON_STT_ACTIVE,
+          STT_ACTIVE,
           ...isRelacon,
         ],
       },
@@ -1153,13 +1163,26 @@ const RelaconButtons = [
     conditions: [...isRelacon],
   }),
 
-  // ── D-pad center ── Enter
-  mapButton({
-    description: '[RELACON] D-pad center => Enter',
-    consumerKey: 'play_or_pause',
-    to: [{ key_code: 'return_or_enter' }],
-    conditions: [...isRelacon],
-  }),
+  // ── D-pad center ── tap => Enter, hold => modifier layer
+  {
+    description: '[RELACON] D-pad center => Enter / hold modifier',
+    manipulators: [{
+      type: 'basic',
+      from: { consumer_key_code: 'play_or_pause' },
+      to: [
+        { set_variable: { name: 'relacon_center_held', value: 1 } },
+      ],
+      to_if_alone: [{ key_code: 'return_or_enter' }],
+      to_after_key_up: [
+        { set_variable: { name: 'relacon_center_held', value: 0 } },
+      ],
+      parameters: {
+        'basic.to_if_alone_timeout_milliseconds': 300,
+      },
+      conditions: [...isRelacon],
+    }],
+  },
+
 ]
 
 const GlobalMouseButtons = [
@@ -1203,16 +1226,37 @@ const GlobalMouseButtons = [
       },
     ],
   },
-  // Mouse 4: Tap = Text to speech, Hold = Command+U (claude voice)
+  // Mouse 4: Tap = Text to speech (toggle with shared state), Hold = Command+U (claude voice)
   {
-    description: '[GLOBAL] Mouse 4 - Tap: Text to speech, Hold: Claude voice',
+    description: '[GLOBAL] Mouse 4 - Stop STT + trailing space',
+    manipulators: [{
+      type: 'basic',
+      from: { key_code: '4' },
+      to_if_alone: [
+        ...OPEN_TEXT_TO_SPEECH,
+        DICTATION_STATE_OFF,
+      ],
+      to_delayed_action: {
+        to_if_invoked: [{ key_code: 'spacebar' }],
+        to_if_canceled: [{ key_code: 'spacebar' }],
+      },
+      parameters: {
+        'basic.to_if_alone_timeout_milliseconds': 300,
+        'basic.to_delayed_action_delay_milliseconds': 500,
+      },
+      conditions: [STT_ACTIVE, ...isMouseButton],
+    }],
+  },
+  {
+    description: '[GLOBAL] Mouse 4 - Tap: Start STT, Hold: Claude voice',
     manipulators: [
       {
         type: 'basic',
-        from: {
-          key_code: '4',
-        },
-        to_if_alone: OPEN_TEXT_TO_SPEECH,
+        from: { key_code: '4' },
+        to_if_alone: [
+          ...OPEN_TEXT_TO_SPEECH,
+          DICTATION_STATE_ON,
+        ],
         to_if_held_down: [
           {
             key_code: 'c',
@@ -2683,10 +2727,29 @@ const MOVE_WINDOW_LEFT = {
   ],
 }
 
-const SPEECH_TO_TEXT = {
-  description: 'Trigger speech-to-text (Option+Control+Space)',
-  to: OPEN_TEXT_TO_SPEECH,
-}
+// STT toggle with shared state — stop adds trailing space after 500ms delay
+const SPEECH_TO_TEXT = [
+  {
+    description: 'Stop speech-to-text + trailing space',
+    to: [
+      ...OPEN_TEXT_TO_SPEECH,
+      DICTATION_STATE_OFF,
+    ],
+    to_delayed_action: {
+      to_if_invoked: [{ key_code: 'spacebar' }],
+      to_if_canceled: [{ key_code: 'spacebar' }],
+    },
+    parameters: { 'basic.to_delayed_action_delay_milliseconds': 500 },
+    conditions: [STT_ACTIVE],
+  },
+  {
+    description: 'Start speech-to-text',
+    to: [
+      ...OPEN_TEXT_TO_SPEECH,
+      DICTATION_STATE_ON,
+    ],
+  },
+]
 
 const IS_MOUSE = {
   conditions: [...isMouseButton],
@@ -3322,6 +3385,16 @@ let rules: KarabinerRules[] = [
   ...terminalNav,
   ...terminalLineJumpShortCuts,
   ...CursorShortcuts,
+  // Clear STT state when Escape is pressed on keyboard
+  {
+    description: '[GLOBAL] Escape clears STT state',
+    manipulators: [{
+      type: 'basic',
+      from: { key_code: 'escape' },
+      to: [{ key_code: 'escape' }, DICTATION_STATE_OFF],
+      conditions: [STT_ACTIVE],
+    }],
+  },
   // Make sure to load app specific config before global buttons
   ...RelaconButtons,
   ...GlobalMouseButtons,

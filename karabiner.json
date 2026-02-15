@@ -1788,6 +1788,67 @@
                         ]
                     },
                     {
+                        "description": "[GLOBAL] Escape clears STT state",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "escape"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "escape"
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "stt_active",
+                                        "value": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] Center + B2 => type q",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button2"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "q"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_center_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "[RELACON] B4 + B2 => move window to next display",
                         "manipulators": [
                             {
@@ -1835,6 +1896,12 @@
                                 "to": [
                                     {
                                         "key_code": "escape"
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2506,7 +2573,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -2554,7 +2621,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -2604,7 +2671,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -2661,7 +2728,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -2716,7 +2783,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -2774,7 +2841,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -2838,7 +2905,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -2861,7 +2928,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "relacon_dictating",
+                                        "name": "stt_active",
                                         "value": 1
                                     },
                                     {
@@ -2940,7 +3007,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -2988,7 +3055,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -3037,7 +3104,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -3088,7 +3155,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     }
@@ -3125,7 +3192,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 0
                                         }
                                     },
@@ -3154,7 +3221,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "relacon_dictating",
+                                        "name": "stt_active",
                                         "value": 1
                                     },
                                     {
@@ -3191,7 +3258,7 @@
                                     },
                                     {
                                         "set_variable": {
-                                            "name": "relacon_dictating",
+                                            "name": "stt_active",
                                             "value": 1
                                         }
                                     },
@@ -4670,7 +4737,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] D-pad center => Enter",
+                        "description": "[RELACON] D-pad center => Enter / hold modifier",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -4679,9 +4746,28 @@
                                 },
                                 "to": [
                                     {
+                                        "set_variable": {
+                                            "name": "relacon_center_held",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
                                         "key_code": "return_or_enter"
                                     }
                                 ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_center_held",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300
+                                },
                                 "conditions": [
                                     {
                                         "type": "device_if",
@@ -4793,7 +4879,7 @@
                         ]
                     },
                     {
-                        "description": "[GLOBAL] Mouse 4 - Tap: Text to speech, Hold: Claude voice",
+                        "description": "[GLOBAL] Mouse 4 - Stop STT + trailing space",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -4807,6 +4893,74 @@
                                             "left_option",
                                             "left_control"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_if_alone_timeout_milliseconds": 300,
+                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "stt_active",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "product_id": 103,
+                                                "vendor_id": 5426
+                                            },
+                                            {
+                                                "product_id": 83,
+                                                "vendor_id": 5426
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[GLOBAL] Mouse 4 - Tap: Start STT, Hold: Claude voice",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "4"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_option",
+                                            "left_control"
+                                        ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 1
+                                        }
                                     }
                                 ],
                                 "to_if_held_down": [
@@ -6106,7 +6260,7 @@
                         "description": "Hyper Key + a",
                         "manipulators": [
                             {
-                                "description": "Trigger speech-to-text (Option+Control+Space)",
+                                "description": "Stop speech-to-text + trailing space",
                                 "to": [
                                     {
                                         "key_code": "spacebar",
@@ -6114,6 +6268,64 @@
                                             "left_option",
                                             "left_control"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "stt_active",
+                                        "value": 1
+                                    }
+                                ],
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "a",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command",
+                                            "left_control",
+                                            "left_shift",
+                                            "left_option"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Start speech-to-text",
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_option",
+                                            "left_control"
+                                        ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 1
+                                        }
                                     }
                                 ],
                                 "type": "basic",
@@ -7003,7 +7215,7 @@
                         "description": "Right Hyper Key + comma",
                         "manipulators": [
                             {
-                                "description": "Trigger speech-to-text (Option+Control+Space)",
+                                "description": "Stop speech-to-text + trailing space",
                                 "to": [
                                     {
                                         "key_code": "spacebar",
@@ -7011,6 +7223,64 @@
                                             "left_option",
                                             "left_control"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "stt_active",
+                                        "value": 1
+                                    }
+                                ],
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "comma",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_command",
+                                            "right_control",
+                                            "right_shift",
+                                            "right_option"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Start speech-to-text",
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_option",
+                                            "left_control"
+                                        ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 1
+                                        }
                                     }
                                 ],
                                 "type": "basic",
@@ -7032,7 +7302,7 @@
                         "description": "Right Hyper Key + period",
                         "manipulators": [
                             {
-                                "description": "Trigger speech-to-text (Option+Control+Space)",
+                                "description": "Stop speech-to-text + trailing space",
                                 "to": [
                                     {
                                         "key_code": "spacebar",
@@ -7040,6 +7310,64 @@
                                             "left_option",
                                             "left_control"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "stt_active",
+                                        "value": 1
+                                    }
+                                ],
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "period",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_command",
+                                            "right_control",
+                                            "right_shift",
+                                            "right_option"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Start speech-to-text",
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_option",
+                                            "left_control"
+                                        ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 1
+                                        }
                                     }
                                 ],
                                 "type": "basic",
@@ -7061,7 +7389,7 @@
                         "description": "Right Hyper Key + right_option",
                         "manipulators": [
                             {
-                                "description": "Trigger speech-to-text (Option+Control+Space)",
+                                "description": "Stop speech-to-text + trailing space",
                                 "to": [
                                     {
                                         "key_code": "spacebar",
@@ -7069,6 +7397,64 @@
                                             "left_option",
                                             "left_control"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "spacebar"
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "stt_active",
+                                        "value": 1
+                                    }
+                                ],
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "right_option",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_command",
+                                            "right_control",
+                                            "right_shift",
+                                            "right_option"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "description": "Start speech-to-text",
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_option",
+                                            "left_control"
+                                        ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "stt_active",
+                                            "value": 1
+                                        }
                                     }
                                 ],
                                 "type": "basic",
