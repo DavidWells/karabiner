@@ -38,6 +38,8 @@ Nav mode rules go in `RelaconButtons` array and MUST be placed before generic ru
 
 D-pad consumer keys (`volume_increment`, etc.) don't support `to_if_held_down` — the hardware sends instant press+release. Use `mapButton` for nav mode tap actions, not `tapHoldButton`.
 
+**D-pad modifier limitation:** D-pad center (`play_or_pause`) can act as a held modifier, but ONLY for buttons B1–B5 (separate physical buttons). D-pad directions (up/down/left/right) share the same physical rocker as center — moving from center to a direction releases center first, clearing the held variable before the direction event fires. D-pad-held + d-pad-direction combos are physically impossible.
+
 When adding nav mode support for a new app:
 1. Add `mapButton` rules for each d-pad direction with the app's condition and `relacon_mode == 2`
 2. Place them before the generic d-pad rules

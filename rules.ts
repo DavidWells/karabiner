@@ -386,7 +386,7 @@ function doubleClickButton({ description, button, consumerKey, to, singleTo, con
 
 // Source of truth for Relacon button mappings — generates HTML and README table
 const RelaconMap = [
-  { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
+  { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Escape + Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) on release if armed', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
   { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all' },
   { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops STT + delayed Enter if active)', doubleTap: '—', hold: 'Modifier (B4 layer)', b2Combo: 'B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab' },
@@ -420,7 +420,15 @@ const RelaconModes = [
 ]
 
 const RelaconButtons = [
-  // ── D-pad center combo test
+  // ── D-pad center combos (center can only modify B1–B5, not other d-pad directions — same physical rocker)
+  // TODO: map Center + B1 to a real action
+  mapHeldCombo({
+    description: '[RELACON] Center + B1 => type t',
+    held: RELACON_CENTER_HELD,
+    button: 'button1',
+    to: [{ key_code: 't' }],
+  }),
+  // TODO: map Center + B2 to a real action
   mapHeldCombo({
     description: '[RELACON] Center + B2 => type q',
     held: RELACON_CENTER_HELD,
@@ -442,12 +450,14 @@ const RelaconButtons = [
     button: 'button1',
     to: [{ key_code: 'escape' }, DICTATION_STATE_OFF],
   }),
+  // TODO: map B5 + B1 to a real action
   mapHeldCombo({
     description: '[RELACON] B5 + B1 => type a',
     held: RELACON_B5_HELD,
     button: 'button1',
     to: [{ key_code: 'a' }],
   }),
+  // TODO: map B5 + B2 to a real action
   mapHeldCombo({
     description: '[RELACON] B5 + B2 => type b',
     held: RELACON_B5_HELD,
@@ -464,6 +474,7 @@ const RelaconButtons = [
         type: 'basic',
         from: { pointing_button: 'button1' },
         to: [
+          { key_code: 'escape' },
           { key_code: 'a', modifiers: ['left_command'] },
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
@@ -1093,6 +1104,14 @@ const RelaconButtons = [
     consumerKey: 'scan_next_track',
     to: [NAV.browser.nextTab],
     conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
+  }),
+
+  // ── Edit mode: B2 + center => context menu (placeholder)
+  mapButton({
+    description: '[RELACON] B2 + Center => context menu',
+    consumerKey: 'play_or_pause',
+    to: [{ shell_command: "osascript -e 'display notification \"Context menu\" with title \"Relacon\"'" }],
+    conditions: [RELACON_B2_HELD, ...isRelacon],
   }),
 
   // ── Media mode: d-pad passes through native consumer keys

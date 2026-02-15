@@ -4,7 +4,7 @@
       "name": "Left trigger",
       "event": "button1",
       "tap": "Click + Cmd+C + arm paste",
-      "doubleTap": "Select All (Cmd+A)",
+      "doubleTap": "Escape + Select All (Cmd+A)",
       "hold": "— (reserved)",
       "b2Combo": "—"
     },

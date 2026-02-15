@@ -1817,6 +1817,38 @@
                         ]
                     },
                     {
+                        "description": "[RELACON] Center + B1 => type t",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button1"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "t"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_center_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "[RELACON] Center + B2 => type q",
                         "manipulators": [
                             {
@@ -1996,6 +2028,9 @@
                                     "pointing_button": "button1"
                                 },
                                 "to": [
+                                    {
+                                        "key_code": "escape"
+                                    },
                                     {
                                         "key_code": "a",
                                         "modifiers": [
@@ -4246,6 +4281,38 @@
                                             "^com\\.google\\.Chrome\\.canary$",
                                             "^com\\.opera\\.Opera$",
                                             "^com\\.brave\\.Browser$"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + Center => context menu",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "consumer_key_code": "play_or_pause"
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "osascript -e 'display notification \"Context menu\" with title \"Relacon\"'"
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
                                         ]
                                     }
                                 ]
