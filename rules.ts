@@ -398,11 +398,12 @@ const RelaconButtons = [
     button: 'button2',
     to: [{ key_code: 'd' }],
   }),
+  // Cancel active request (e.g. stop Claude generation)
   mapHeldCombo({
-    description: '[RELACON] B4 + B1 => type c',
+    description: '[RELACON] B4 + B1 => Escape',
     held: RELACON_B4_HELD,
     button: 'button1',
-    to: [{ key_code: 'c' }],
+    to: [{ key_code: 'escape' }],
   }),
   mapHeldCombo({
     description: '[RELACON] B5 + B1 => type a',
