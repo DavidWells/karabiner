@@ -1,82 +1,158 @@
-[
-  {
-    "name": "Left trigger",
-    "event": "button1",
-    "tap": "Click + Cmd+C + arm paste",
-    "doubleTap": "Select All (Cmd+A)",
-    "hold": "— (reserved)",
-    "b2Combo": "—"
-  },
-  {
-    "name": "Right trigger",
-    "event": "button2",
-    "tap": "Paste (Cmd+V) on release if armed",
-    "doubleTap": "Right-click",
-    "hold": "Modifier (enables combos)",
-    "b2Combo": "—"
-  },
-  {
-    "name": "Scroll wheel press",
-    "event": "button3",
-    "tap": "Delete (repeats, 3s → clear all)",
-    "doubleTap": "—",
-    "hold": "—",
-    "b2Combo": "B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all"
-  },
-  {
-    "name": "Back (left side)",
-    "event": "button4",
-    "tap": "Enter (stops STT + delayed Enter if active)",
-    "doubleTap": "—",
-    "hold": "—",
-    "b2Combo": "B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab"
-  },
-  {
-    "name": "Forward (right side)",
-    "event": "button5",
-    "tap": "Speech-to-text (toggle)",
-    "doubleTap": "—",
-    "hold": "—",
-    "b2Combo": "B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab"
-  },
-  {
-    "name": "D-pad up",
-    "event": "volume_increment",
-    "tap": "Up arrow",
-    "doubleTap": "Cursor app",
-    "hold": "—",
-    "b2Combo": "B2+Up = Next window / Nav: Cursor / Media: Volume up"
-  },
-  {
-    "name": "D-pad down",
-    "event": "volume_decrement",
-    "tap": "Down arrow",
-    "doubleTap": "iTerm app",
-    "hold": "—",
-    "b2Combo": "B2+Down = Prev window / Nav: iTerm / Media: Volume down"
-  },
-  {
-    "name": "D-pad left",
-    "event": "scan_previous_track",
-    "tap": "Left arrow",
-    "doubleTap": "Chrome app",
-    "hold": "—",
-    "b2Combo": "B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track"
-  },
-  {
-    "name": "D-pad right",
-    "event": "scan_next_track",
-    "tap": "Right arrow",
-    "doubleTap": "Tower app",
-    "hold": "—",
-    "b2Combo": "B2+Right = Next pane/tab / Nav: Tower / Media: Next track"
-  },
-  {
-    "name": "D-pad center",
-    "event": "play_or_pause",
-    "tap": "Enter",
-    "doubleTap": "—",
-    "hold": "—",
-    "b2Combo": "Nav: B2+Center = Close tab / Media: Play/Pause"
-  }
-]
+{
+  "buttons": [
+    {
+      "name": "Left trigger",
+      "event": "button1",
+      "tap": "Click + Cmd+C + arm paste",
+      "doubleTap": "Select All (Cmd+A)",
+      "hold": "— (reserved)",
+      "b2Combo": "—"
+    },
+    {
+      "name": "Right trigger",
+      "event": "button2",
+      "tap": "Paste (Cmd+V) on release if armed",
+      "doubleTap": "Right-click",
+      "hold": "Modifier (enables combos)",
+      "b2Combo": "—"
+    },
+    {
+      "name": "Scroll wheel press",
+      "event": "button3",
+      "tap": "Delete (repeats, 3s → clear all)",
+      "doubleTap": "—",
+      "hold": "—",
+      "b2Combo": "B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all"
+    },
+    {
+      "name": "Back (left side)",
+      "event": "button4",
+      "tap": "Enter (stops STT + delayed Enter if active)",
+      "doubleTap": "—",
+      "hold": "Modifier (B4 layer)",
+      "b2Combo": "B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab"
+    },
+    {
+      "name": "Forward (right side)",
+      "event": "button5",
+      "tap": "Speech-to-text (toggle)",
+      "doubleTap": "—",
+      "hold": "Modifier (B5 layer)",
+      "b2Combo": "B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab"
+    },
+    {
+      "name": "D-pad up",
+      "event": "volume_increment",
+      "tap": "Up arrow",
+      "doubleTap": "Cursor app",
+      "hold": "—",
+      "b2Combo": "B2+Up = Next window / Nav: Cursor / Media: Volume up"
+    },
+    {
+      "name": "D-pad down",
+      "event": "volume_decrement",
+      "tap": "Down arrow",
+      "doubleTap": "iTerm app",
+      "hold": "—",
+      "b2Combo": "B2+Down = Prev window / Nav: iTerm / Media: Volume down"
+    },
+    {
+      "name": "D-pad left",
+      "event": "scan_previous_track",
+      "tap": "Left arrow",
+      "doubleTap": "Chrome app",
+      "hold": "—",
+      "b2Combo": "B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track"
+    },
+    {
+      "name": "D-pad right",
+      "event": "scan_next_track",
+      "tap": "Right arrow",
+      "doubleTap": "Tower app",
+      "hold": "—",
+      "b2Combo": "B2+Right = Next pane/tab / Nav: Tower / Media: Next track"
+    },
+    {
+      "name": "D-pad center",
+      "event": "play_or_pause",
+      "tap": "Enter",
+      "doubleTap": "—",
+      "hold": "—",
+      "b2Combo": "Nav: B2+Center = Close tab / Media: Play/Pause"
+    }
+  ],
+  "modifiers": [
+    {
+      "modifier": "B2 (right trigger)",
+      "combo": "B2 + B3",
+      "action": "Cycle mode (Edit→Nav→Media) / hold = Clear all"
+    },
+    {
+      "modifier": "B2 (right trigger)",
+      "combo": "B2 + B4",
+      "action": "Tap: Shift+Enter / Hold: next pane/tab"
+    },
+    {
+      "modifier": "B2 (right trigger)",
+      "combo": "B2 + B5",
+      "action": "Tab + Enter"
+    },
+    {
+      "modifier": "B2 (right trigger)",
+      "combo": "B2 + D-pad",
+      "action": "Window/pane/tab switching (edit) or app switching (nav)"
+    },
+    {
+      "modifier": "B4 (back)",
+      "combo": "B4 + B1",
+      "action": "Escape (cancel request)"
+    },
+    {
+      "modifier": "B4 (back)",
+      "combo": "B4 + B2",
+      "action": "(test: types d)"
+    },
+    {
+      "modifier": "B5 (forward)",
+      "combo": "B5 + B1",
+      "action": "(test: types a)"
+    },
+    {
+      "modifier": "B5 (forward)",
+      "combo": "B5 + B2",
+      "action": "(test: types b)"
+    }
+  ],
+  "modes": [
+    {
+      "button": "D-pad up",
+      "edit": "Up arrow",
+      "nav": "Next window",
+      "media": "Volume up"
+    },
+    {
+      "button": "D-pad down",
+      "edit": "Down arrow",
+      "nav": "Prev window",
+      "media": "Volume down"
+    },
+    {
+      "button": "D-pad left",
+      "edit": "Left arrow",
+      "nav": "Prev tab",
+      "media": "Prev track"
+    },
+    {
+      "button": "D-pad right",
+      "edit": "Right arrow",
+      "nav": "Next tab",
+      "media": "Next track"
+    },
+    {
+      "button": "D-pad center",
+      "edit": "Enter",
+      "nav": "—",
+      "media": "Play/Pause"
+    }
+  ]
+}

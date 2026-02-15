@@ -61,8 +61,8 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 | Left trigger | `button1` | Click + Cmd+C + arm paste | Select All (Cmd+A) | — (reserved) | — |
 | Right trigger | `button2` | Paste (Cmd+V) on release if armed | Right-click | Modifier (enables combos) | — |
 | Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all |
-| Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | — | B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab |
-| Forward (right side) | `button5` | Speech-to-text (toggle) | — | — | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
+| Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | Modifier (B4 layer) | B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab |
+| Forward (right side) | `button5` | Speech-to-text (toggle) | — | Modifier (B5 layer) | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
 | D-pad up | `volume_increment` | Up arrow | Cursor app | — | B2+Up = Next window / Nav: Cursor / Media: Volume up |
 | D-pad down | `volume_decrement` | Down arrow | iTerm app | — | B2+Down = Prev window / Nav: iTerm / Media: Volume down |
 | D-pad left | `scan_previous_track` | Left arrow | Chrome app | — | B2+Left = Prev pane/tab / Nav: Chrome / Media: Prev track |
@@ -76,36 +76,54 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 
 **STT + Enter:** If speech-to-text is recording, button4 stops recording and fires Enter after a 500ms delay (gives STT time to paste transcribed text).
 
-**Button2 modifier:** Hold button2 (right trigger) to activate combo layer — other buttons gain alternate actions while held.
-
 **Reserved:** Button1 (left trigger) hold slot is reserved — adding `to_if_held_down` breaks click-drag and copy/paste flow.
 
 **Button2 double-tap:** Fires right-click. Single tap does nothing (unless paste is armed).
 
-## Nav Mode
+## Modifier Layers
 
-Toggle with **B2+B3** (right trigger + scroll wheel press). A macOS notification shows "Nav mode ON/OFF".
+Three buttons act as modifiers when held — other buttons gain alternate actions. B4 and B5 are typically combined with B1/B2 (same side of device, easy to reach).
 
-When active:
-- **D-pad up/down** cycles windows (Cmd+\`/Cmd+Shift+\`)
-- **D-pad left/right** switches tabs (per app)
-- **B2 + button4/5** switches panes (iTerm) or tabs (editor/browser)
-- **B2 + d-pad** opens the app that double-tap normally opens (Cursor, iTerm, Chrome, Tower)
+<!-- docs RELACON_MODIFIERS -->
+| Modifier | Combo | Action |
+|---|---|---|
+| B2 (right trigger) | B2 + B3 | Cycle mode (Edit→Nav→Media) / hold = Clear all |
+| B2 (right trigger) | B2 + B4 | Tap: Shift+Enter / Hold: next pane/tab |
+| B2 (right trigger) | B2 + B5 | Tab + Enter |
+| B2 (right trigger) | B2 + D-pad | Window/pane/tab switching (edit) or app switching (nav) |
+| B4 (back) | B4 + B1 | Escape (cancel request) |
+| B4 (back) | B4 + B2 | (test: types d) |
+| B5 (forward) | B5 + B1 | (test: types a) |
+| B5 (forward) | B5 + B2 | (test: types b) |
+<!-- /docs -->
 
-### D-pad
+## Modes
 
-| D-pad | Nav action |
-|---|---|
-| Up | Next window (Cmd+\`) |
-| Down | Prev window (Cmd+Shift+\`) |
-| Left | Prev tab (per app) |
-| Right | Next tab (per app) |
+Cycle with **B2+B3** (right trigger + scroll wheel press). A macOS notification shows the active mode.
+
+### D-pad per mode
+
+<!-- docs RELACON_MODES -->
+| D-pad | Edit (default) | Nav | Media |
+|---|---|---|---|
+| D-pad up | Up arrow | Next window | Volume up |
+| D-pad down | Down arrow | Prev window | Volume down |
+| D-pad left | Left arrow | Prev tab | Prev track |
+| D-pad right | Right arrow | Next tab | Next track |
+| D-pad center | Enter | — | Play/Pause |
+<!-- /docs -->
+
+### Mode details
+
+- **Edit (default):** D-pad fires arrow keys. Double-tap opens apps (Cursor, iTerm, Chrome, Tower).
+- **Nav:** D-pad cycles windows/tabs. B2+D-pad opens apps. B2+center closes tab.
+- **Media:** D-pad passes through native consumer keys (volume, track skip, play/pause).
 
 ### B2 combos
 
 | Combo | Nav mode | Edit mode |
 |---|---|---|
-| B2 + B3 | Toggle nav mode | Toggle nav mode |
+| B2 + B3 | Cycle to Media | Cycle to Nav |
 | B2 + B4 (back) | Prev pane (iTerm) or tab | Tap: Shift+Enter / Hold: next pane/tab |
 | B2 + B5 (forward) | Next pane (iTerm) or tab | Tab+Enter |
 | B2 + D-pad up | Open Cursor | Next window |
