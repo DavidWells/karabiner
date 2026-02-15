@@ -255,6 +255,8 @@ const RELACON_MEDIA_MODE = { type: 'variable_if', name: 'relacon_mode', value: 3
 const RELACON_COPIED = { type: 'variable_if', name: 'relacon_copied', value: 1 }
 // Speech-to-text active — next button5 press stops recording and disarms
 const RELACON_STT_ACTIVE = { type: 'variable_if', name: 'relacon_dictating', value: 1 }
+// Back button (button4) held — activates combo layer
+const RELACON_B4_HELD = { type: 'variable_if', name: 'relacon_b4_held', value: 1 }
 // Forward button (button5) held — activates combo layer
 const RELACON_B5_HELD = { type: 'variable_if', name: 'relacon_b5_held', value: 1 }
 const DICTATION_STATE_ON = { set_variable: { name: 'relacon_dictating', value: 1 } }
@@ -275,6 +277,11 @@ const CLEAR_ALL = [
 const KARABINER_CLI = '/Library/Application Support/org.pqrs.Karabiner-Elements/bin/karabiner_cli'
 function setVars(vars) {
   return { shell_command: `'${KARABINER_CLI}' --set-variables '${JSON.stringify(vars)}'` }
+}
+
+// Maps a held button + another button/key to an action (isRelacon baked in)
+function mapHeldCombo({ description, held, button, consumerKey, to, conditions = [] }) {
+  return mapButton({ description, button, consumerKey, to, conditions: [held, ...isRelacon, ...conditions] })
 }
 
 // Maps a pointing_button or consumer_key_code to an action
@@ -384,12 +391,30 @@ const RelaconMap = [
   { name: 'D-pad center', event: 'play_or_pause', tap: 'Enter', doubleTap: '—', hold: '—', b2Combo: 'Nav: B2+Center = Close tab / Media: Play/Pause' },
 ]
 const RelaconButtons = [
-  // ── B5 combo: test — B5 held + B1 => type "a"
-  mapButton({
+  // ── B4/B5 combo tests
+  mapHeldCombo({
+    description: '[RELACON] B4 + B2 => type d',
+    held: RELACON_B4_HELD,
+    button: 'button2',
+    to: [{ key_code: 'd' }],
+  }),
+  mapHeldCombo({
+    description: '[RELACON] B4 + B1 => type c',
+    held: RELACON_B4_HELD,
+    button: 'button1',
+    to: [{ key_code: 'c' }],
+  }),
+  mapHeldCombo({
     description: '[RELACON] B5 + B1 => type a',
+    held: RELACON_B5_HELD,
     button: 'button1',
     to: [{ key_code: 'a' }],
-    conditions: [RELACON_B5_HELD, ...isRelacon],
+  }),
+  mapHeldCombo({
+    description: '[RELACON] B5 + B2 => type b',
+    held: RELACON_B5_HELD,
+    button: 'button2',
+    to: [{ key_code: 'b' }],
   }),
 
   // ── Trackball click (button1) ── double-click => Select All
@@ -704,13 +729,25 @@ const RelaconButtons = [
       conditions: [RELACON_STT_ACTIVE, ...isRelacon],
     }],
   },
-  // ── Back / left side (button4) ── tap => Enter
-  mapButton({
-    description: '[RELACON] Back button => Enter',
-    button: 'button4',
-    to: [{ key_code: 'return_or_enter' }],
-    conditions: [...isRelacon],
-  }),
+  // ── Back / left side (button4) ── tap => Enter, hold => modifier layer
+  {
+    description: '[RELACON] Back button => Enter / hold modifier',
+    manipulators: [{
+      type: 'basic',
+      from: { pointing_button: 'button4' },
+      to: [
+        { set_variable: { name: 'relacon_b4_held', value: 1 } },
+      ],
+      to_if_alone: [{ key_code: 'return_or_enter' }],
+      to_after_key_up: [
+        { set_variable: { name: 'relacon_b4_held', value: 0 } },
+      ],
+      parameters: {
+        'basic.to_if_alone_timeout_milliseconds': 300,
+      },
+      conditions: [...isRelacon],
+    }],
+  },
 
   // ── Forward / right side (button5) ── speech-to-text toggle
   {
