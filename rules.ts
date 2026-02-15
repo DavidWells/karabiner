@@ -252,7 +252,7 @@ const RELACON_NAV_MODE = { type: 'variable_if', name: 'relacon_mode', value: 2 }
 // Left trigger (button1) fired Cmd+C — next button2 press will paste
 const RELACON_COPIED = { type: 'variable_if', name: 'relacon_copied', value: 1 }
 // Speech-to-text active — next button5 press stops recording and disarms
-const RELACON_STT_ACTIVE = { type: 'variable_if', name: 'relacon_stt', value: 1 }
+const RELACON_STT_ACTIVE = { type: 'variable_if', name: 'relacon_dictating', value: 1 }
 // Button1 double-click detected within timing window
 const RELACON_DBLCLICK = { type: 'variable_if', name: 'relacon_dblclick', value: 1 }
 // Button2 double-click detected within timing window
@@ -662,7 +662,7 @@ const RelaconButtons = [
       from: { pointing_button: 'button4' },
       to: [
         ...OPEN_TEXT_TO_SPEECH,
-        { set_variable: { name: 'relacon_stt', value: 0 } },
+        { set_variable: { name: 'relacon_dictating', value: 0 } },
       ],
       to_delayed_action: {
         to_if_invoked: [{ key_code: 'return_or_enter' }],
@@ -734,7 +734,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button5' },
         to: [
           ...OPEN_TEXT_TO_SPEECH,
-          { set_variable: { name: 'relacon_stt', value: 0 } },
+          { set_variable: { name: 'relacon_dictating', value: 0 } },
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         to_delayed_action: {
@@ -752,7 +752,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button5' },
         to: [
           ...OPEN_TEXT_TO_SPEECH,
-          { set_variable: { name: 'relacon_stt', value: 1 } },
+          { set_variable: { name: 'relacon_dictating', value: 1 } },
           { set_variable: { name: 'relacon_copied', value: 0 } },
         ],
         conditions: [...isRelacon],
