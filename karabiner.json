@@ -1788,6 +1788,28 @@
                         ]
                     },
                     {
+                        "description": "[GLOBAL] Ctrl+Cmd+[ => vibe",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "open_bracket",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_control",
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "osascript -e 'tell application \"iTerm\" to activate' -e 'delay 0.3' -e 'tell application \"System Events\"' -e 'keystroke \"c\" using control down' -e 'delay 0.1' -e 'keystroke \"vibe\"' -e 'keystroke return' -e 'end tell'"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "[GLOBAL] Escape resets transient state",
                         "manipulators": [
                             {
@@ -2021,6 +2043,44 @@
                                     {
                                         "type": "variable_if",
                                         "name": "relacon_b5_mod",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "[RELACON] B2 + B1 => Pi menu",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button1"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "p",
+                                        "modifiers": [
+                                            "left_shift",
+                                            "left_command",
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b2_held",
                                         "value": 1
                                     },
                                     {

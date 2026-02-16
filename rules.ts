@@ -472,6 +472,14 @@ const RelaconButtons = [
     }],
   },
 
+  // ── B2 + B1 => Pi radial menu (Hyper+P)
+  mapHeldCombo({
+    description: '[RELACON] B2 + B1 => Pi menu',
+    held: RELACON_B2_HELD,
+    button: 'button1',
+    to: [{ key_code: 'p', modifiers: ['left_shift', 'left_command', 'left_control', 'left_option'] }],
+  }),
+
   // ── Trackball click (button1) ── double-click => word select + disarm
   {
     description: '[RELACON] Button 1: tap => click+copy, double => word select',
@@ -2927,6 +2935,7 @@ const hyperLayerKeys = {
     p: app('Spotify'),
     w: open('https://web.whatsapp.com'),
   },
+  // p: "RESERVED FOR PIE MENU"
   /* Shortcut window management via rectangle.app */
   // a: {
   //   description: 'Window: Move to left display',
@@ -3479,6 +3488,20 @@ let rules: KarabinerRules[] = [
   ...terminalNav,
   ...terminalLineJumpShortCuts,
   ...CursorShortcuts,
+  // Ctrl+Cmd+[ => Focus iTerm + run vibe alias
+  {
+    description: '[GLOBAL] Ctrl+Cmd+[ => vibe',
+    manipulators: [{
+      type: 'basic',
+      from: {
+        key_code: 'open_bracket',
+        modifiers: { mandatory: ['left_control', 'left_command'] },
+      },
+      to: [{
+        shell_command: "osascript -e 'tell application \"iTerm\" to activate' -e 'delay 0.3' -e 'tell application \"System Events\"' -e 'keystroke \"c\" using control down' -e 'delay 0.1' -e 'keystroke \"vibe\"' -e 'keystroke return' -e 'end tell'",
+      }],
+    }],
+  },
   // Reset all transient Relacon state on Escape (preserves relacon_mode)
   {
     description: '[GLOBAL] Escape resets transient state',
