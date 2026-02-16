@@ -263,6 +263,8 @@ const RELACON_CENTER_HELD = { type: 'variable_if', name: 'relacon_center_held', 
 const RELACON_B5_HELD = { type: 'variable_if', name: 'relacon_b5_mod', value: 1 }
 const DICTATION_STATE_ON = { set_variable: { name: 'stt_on', value: 1 } }
 const DICTATION_STATE_OFF = { set_variable: { name: 'stt_on', value: 0 } }
+// Disarm copy/paste state
+const RESET_COPY_STATE = { set_variable: { name: 'relacon_copied', value: 0 } }
 // Button1 double-click detected within timing window
 const RELACON_DBLCLICK = { type: 'variable_if', name: 'relacon_dblclick', value: 1 }
 // Button2 double-click detected within timing window
@@ -273,6 +275,14 @@ const CLEAR_ALL = [
   { key_code: 'escape' },
   { key_code: 'a', modifiers: ['left_command'] },
   { key_code: 'delete_or_backspace' },
+]
+
+// Copy file:line location in editor (Ctrl+Option+Shift+Cmd+\)
+const COPY_LOCATION_KEYS = [
+  {
+    key_code: 'backslash',
+    modifiers: ['left_control', 'left_option', 'left_shift', 'left_command'],
+  },
 ]
 
 // Window management actions — shared across hyper key sublayers and Relacon combos
@@ -448,7 +458,7 @@ const RelaconButtons = [
     description: '[RELACON] B4 + B1 => Escape + middle click',
     held: RELACON_B4_HELD,
     button: 'button1',
-    to: [{ key_code: 'escape' }, { pointing_button: 'button3' }, DICTATION_STATE_OFF],
+    to: [{ key_code: 'escape' }, { pointing_button: 'button3' }, DICTATION_STATE_OFF, RESET_COPY_STATE],
   }),
   // B5 hold = Command held — B5+B1 is reserved for Command+click (link opening)
   // TODO: map B5 + B2 to a real action (use shell_command, not key_code)
@@ -462,22 +472,49 @@ const RelaconButtons = [
     }],
   },
 
-  // ── Trackball click (button1) ── double-click => Select All
+  // ── Trackball click (button1) ── double-click => word select + disarm
   {
-    description: '[RELACON] Button 1: tap => click+copy, double => Select All',
+    description: '[RELACON] Button 1: tap => click+copy, double => word select',
     manipulators: [
-      // Double-click detected — select all (Cmd+A)
+      // Double-click — pass through for native word select + disarm copy state
       {
         type: 'basic',
         from: { pointing_button: 'button1' },
         to: [
-          { key_code: 'escape' },
-          { key_code: 'a', modifiers: ['left_command'] },
-          { set_variable: { name: 'relacon_copied', value: 0 } },
+          { pointing_button: 'button1' },
+          RESET_COPY_STATE,
+          { set_variable: { name: 'relacon_dblclick', value: 0 } },
         ],
         conditions: [
           RELACON_DBLCLICK,
           ...isRelacon,
+        ],
+      },
+      // First click in editor — copy file:line location on release
+      {
+        type: 'basic',
+        from: { pointing_button: 'button1' },
+        to: [
+          { set_variable: { name: 'relacon_dblclick', value: 1 } },
+          { pointing_button: 'button1' },
+        ],
+        to_after_key_up: [
+          ...COPY_LOCATION_KEYS,
+          { set_variable: { name: 'relacon_copied', value: 1 } },
+        ],
+        to_delayed_action: {
+          to_if_invoked: [
+            { set_variable: { name: 'relacon_dblclick', value: 0 } },
+          ],
+          to_if_canceled: [
+            { set_variable: { name: 'relacon_dblclick', value: 0 } },
+          ],
+        },
+        parameters: { 'basic.to_delayed_action_delay_milliseconds': 300 },
+        conditions: [
+          { type: 'variable_unless', name: 'relacon_copied', value: 1 },
+          ...isRelacon,
+          ...IS_EDITOR_WINDOW,
         ],
       },
       // First click — copy on release only if not already armed
@@ -556,7 +593,7 @@ const RelaconButtons = [
         ],
         to_if_alone: [
           { key_code: 'v', modifiers: ['left_command'] },
-          { set_variable: { name: 'relacon_copied', value: 0 } },
+          RESET_COPY_STATE,
         ],
         to_after_key_up: [
           { set_variable: { name: 'relacon_b2_held', value: 0 } },
@@ -667,7 +704,7 @@ const RelaconButtons = [
         to: [{ key_code: 'delete_or_backspace' }],
         to_if_held_down: CLEAR_ALL.map(k => ({ ...k, repeat: false })),
         parameters: {
-          'basic.to_if_held_down_threshold_milliseconds': 3000,
+          'basic.to_if_held_down_threshold_milliseconds': 2300,
         },
         conditions: [...isRelacon],
       },
@@ -850,7 +887,7 @@ const RelaconButtons = [
         to: [
           ...OPEN_TEXT_TO_SPEECH,
           DICTATION_STATE_OFF,
-          { set_variable: { name: 'relacon_copied', value: 0 } },
+          RESET_COPY_STATE,
         ],
         to_delayed_action: {
           to_if_invoked: [{ key_code: 'spacebar' }],
@@ -872,7 +909,7 @@ const RelaconButtons = [
         to_if_alone: [
           ...OPEN_TEXT_TO_SPEECH,
           DICTATION_STATE_ON,
-          { set_variable: { name: 'relacon_copied', value: 0 } },
+          RESET_COPY_STATE,
         ],
         to_after_key_up: [
           { set_variable: { name: 'relacon_b5_mod', value: 0 } },
@@ -3409,13 +3446,6 @@ function doubleTap({
   }))
 }
 
-const COPY_LOCATION_KEYS = [
-  {
-    key_code: 'backslash',
-    modifiers: ['left_control', 'left_option', 'left_shift', 'left_command'],
-  },
-]
-
 const copyLocationShortcut = doubleTap({
   description: '[EDITOR] Double-tap => Copy file:line location',
   to: COPY_LOCATION_KEYS,
@@ -3458,7 +3488,7 @@ let rules: KarabinerRules[] = [
       to: [
         { key_code: 'escape' },
         DICTATION_STATE_OFF,
-        { set_variable: { name: 'relacon_copied', value: 0 } },
+        RESET_COPY_STATE,
         { set_variable: { name: 'relacon_b2_held', value: 0 } },
         { set_variable: { name: 'relacon_b4_held', value: 0 } },
         { set_variable: { name: 'relacon_b5_mod', value: 0 } },

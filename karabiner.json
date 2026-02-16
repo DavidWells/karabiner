@@ -1972,6 +1972,12 @@
                                             "name": "stt_on",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_copied",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2031,7 +2037,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] Button 1: tap => click+copy, double => Select All",
+                        "description": "[RELACON] Button 1: tap => click+copy, double => word select",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2040,17 +2046,17 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "escape"
-                                    },
-                                    {
-                                        "key_code": "a",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
+                                        "pointing_button": "button1"
                                     },
                                     {
                                         "set_variable": {
                                             "name": "relacon_copied",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dblclick",
                                             "value": 0
                                         }
                                     }
@@ -2068,6 +2074,85 @@
                                                 "vendor_id": 1390,
                                                 "product_id": 342
                                             }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button1"
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dblclick",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "pointing_button": "button1"
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "key_code": "backslash",
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_option",
+                                            "left_shift",
+                                            "left_command"
+                                        ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_copied",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "relacon_dblclick",
+                                                "value": 0
+                                            }
+                                        }
+                                    ],
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "relacon_dblclick",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 300
+                                },
+                                "conditions": [
+                                    {
+                                        "type": "variable_unless",
+                                        "name": "relacon_copied",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": [
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.sublimetext\\.4$",
+                                            "^com\\.todesktop\\.230313mzl4w4u92$"
                                         ]
                                     }
                                 ]
@@ -2586,7 +2671,7 @@
                                     }
                                 ],
                                 "parameters": {
-                                    "basic.to_if_held_down_threshold_milliseconds": 3000
+                                    "basic.to_if_held_down_threshold_milliseconds": 2300
                                 },
                                 "conditions": [
                                     {
