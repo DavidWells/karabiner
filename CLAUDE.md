@@ -57,6 +57,10 @@ Use `RELACON_*` constants for variable conditions instead of inline objects. Def
 - `RELACON_STT_ACTIVE` — speech-to-text active
 - `RELACON_DBLCLICK` / `RELACON_B2_DBLCLICK` — double-click timing windows
 
+## Troubleshooting: missing notifications
+
+macOS Focus/Sleep mode suppresses osascript `display notification` alerts. If mode-switcher notifications (B2+B3) or other alerts stop appearing, check if Focus mode or Do Not Disturb is active before debugging Karabiner rules.
+
 ## Stuck variables
 
 Karabiner persists variable state internally. If a variable gets stuck (e.g. `stt_active = 1` when STT isn't running), renaming the variable in `rules.ts` and rebuilding clears the stale state — Karabiner treats the new name as a fresh variable defaulting to 0. This is a cache-bust workaround for when variable state gets out of sync with reality.
