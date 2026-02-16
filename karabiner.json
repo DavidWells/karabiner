@@ -4327,7 +4327,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B2 + Center => toggle accessibility keyboard",
+                        "description": "[RELACON] B2 + Center => hide accessibility keyboard",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -4336,7 +4336,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript ~/dotfiles/applescripts/accessibility-keyboard-toggle.applescript"
+                                        "shell_command": "osascript -l JavaScript ~/dotfiles/applescripts/accessibility-keyboard-hide.js"
                                     }
                                 ],
                                 "conditions": [

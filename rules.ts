@@ -1161,11 +1161,11 @@ const RelaconButtons = [
     ],
   },
 
-  // ── Edit mode: B2 + center => toggle accessibility keyboard
+  // ── Edit mode: B2 + center => hide accessibility keyboard
   mapButton({
-    description: '[RELACON] B2 + Center => toggle accessibility keyboard',
+    description: '[RELACON] B2 + Center => hide accessibility keyboard',
     consumerKey: 'play_or_pause',
-    to: [{ shell_command: "osascript ~/dotfiles/applescripts/accessibility-keyboard-toggle.applescript" }],
+    to: [{ shell_command: "osascript -l JavaScript ~/dotfiles/applescripts/accessibility-keyboard-hide.js" }],
     conditions: [RELACON_B2_HELD, ...isRelacon],
   }),
 

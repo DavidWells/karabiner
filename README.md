@@ -130,7 +130,7 @@ Cycle with **B2+B3** (right trigger + scroll wheel press). A macOS notification 
 | B2 + D-pad down | Open iTerm | Prev window |
 | B2 + D-pad left | Open Chrome | Prev pane (iTerm) or tab |
 | B2 + D-pad right | Open Tower | Next pane (iTerm) or tab |
-| B2 + D-pad center | Close tab (per app) | — |
+| B2 + D-pad center | Close tab (per app) | Toggle accessibility keyboard |
 
 ### Adding a new app
 
