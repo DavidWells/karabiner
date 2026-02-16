@@ -771,7 +771,7 @@ const RelaconButtons = [
         to_if_invoked: [{ key_code: 'return_or_enter' }],
         to_if_canceled: [{ key_code: 'return_or_enter' }],
       },
-      parameters: { 'basic.to_delayed_action_delay_milliseconds': 500 },
+      parameters: { 'basic.to_delayed_action_delay_milliseconds': 1000 },
       conditions: [STT_ACTIVE, ...isRelacon],
     }],
   },
@@ -3449,14 +3449,23 @@ let rules: KarabinerRules[] = [
   ...terminalNav,
   ...terminalLineJumpShortCuts,
   ...CursorShortcuts,
-  // Clear STT state when Escape is pressed on keyboard
+  // Reset all transient Relacon state on Escape (preserves relacon_mode)
   {
-    description: '[GLOBAL] Escape clears STT state',
+    description: '[GLOBAL] Escape resets transient state',
     manipulators: [{
       type: 'basic',
       from: { key_code: 'escape' },
-      to: [{ key_code: 'escape' }, DICTATION_STATE_OFF],
-      conditions: [STT_ACTIVE],
+      to: [
+        { key_code: 'escape' },
+        DICTATION_STATE_OFF,
+        { set_variable: { name: 'relacon_copied', value: 0 } },
+        { set_variable: { name: 'relacon_b2_held', value: 0 } },
+        { set_variable: { name: 'relacon_b4_held', value: 0 } },
+        { set_variable: { name: 'relacon_b5_mod', value: 0 } },
+        { set_variable: { name: 'relacon_center_held', value: 0 } },
+        { set_variable: { name: 'relacon_dblclick', value: 0 } },
+        { set_variable: { name: 'relacon_b2_dblclick', value: 0 } },
+      ],
     }],
   },
   // Make sure to load app specific config before global buttons

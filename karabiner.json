@@ -1788,7 +1788,7 @@
                         ]
                     },
                     {
-                        "description": "[GLOBAL] Escape clears STT state",
+                        "description": "[GLOBAL] Escape resets transient state",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -1804,13 +1804,48 @@
                                             "name": "stt_on",
                                             "value": 0
                                         }
-                                    }
-                                ],
-                                "conditions": [
+                                    },
                                     {
-                                        "type": "variable_if",
-                                        "name": "stt_on",
-                                        "value": 1
+                                        "set_variable": {
+                                            "name": "relacon_copied",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b2_held",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b4_held",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b5_mod",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_center_held",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_dblclick",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b2_dblclick",
+                                            "value": 0
+                                        }
                                     }
                                 ]
                             }
@@ -2934,7 +2969,7 @@
                                     ]
                                 },
                                 "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                    "basic.to_delayed_action_delay_milliseconds": 1000
                                 },
                                 "conditions": [
                                     {
