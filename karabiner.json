@@ -52,40 +52,6 @@
                         ]
                     },
                     {
-                        "description": "Right Hyper Key (⌃⌥⇧⌘)",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "description": "Right Command -> Right Hyper Key",
-                                "from": {
-                                    "key_code": "right_command"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_shift",
-                                        "modifiers": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_option"
-                                        ]
-                                    }
-                                ],
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "escape",
-                                        "modifiers": [
-                                            "right_shift"
-                                        ]
-                                    }
-                                ],
-                                "parameters": {
-                                    "basic.to_if_alone_timeout_milliseconds": 250,
-                                    "basic.to_delayed_action_delay_milliseconds": 500
-                                }
-                            }
-                        ]
-                    },
-                    {
                         "description": "Eject to Screenshot",
                         "manipulators": [
                             {
@@ -2059,7 +2025,7 @@
                         ]
                     },
                     {
-                        "description": "[RELACON] B2 + B1 => Pi menu",
+                        "description": "[RELACON] B2 + B1 => tap: Pi menu, hold: Ctrl (zoom)",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -2068,6 +2034,17 @@
                                 },
                                 "to": [
                                     {
+                                        "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "key_code": "left_control"
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
                                         "key_code": "p",
                                         "modifiers": [
                                             "left_shift",
@@ -2075,6 +2052,14 @@
                                             "left_control",
                                             "left_option"
                                         ]
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "conditions": [
@@ -2106,6 +2091,12 @@
                                 },
                                 "to": [
                                     {
+                                        "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
                                         "pointing_button": "button1"
                                     },
                                     {
@@ -2117,6 +2108,14 @@
                                     {
                                         "set_variable": {
                                             "name": "relacon_dblclick",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b1_held",
                                             "value": 0
                                         }
                                     }
@@ -2146,6 +2145,12 @@
                                 "to": [
                                     {
                                         "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
                                             "name": "relacon_dblclick",
                                             "value": 1
                                         }
@@ -2168,6 +2173,12 @@
                                         "set_variable": {
                                             "name": "relacon_copied",
                                             "value": 1
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 0
                                         }
                                     }
                                 ],
@@ -2225,6 +2236,12 @@
                                 "to": [
                                     {
                                         "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
                                             "name": "relacon_dblclick",
                                             "value": 1
                                         }
@@ -2244,6 +2261,12 @@
                                         "set_variable": {
                                             "name": "relacon_copied",
                                             "value": 1
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 0
                                         }
                                     }
                                 ],
@@ -2293,12 +2316,26 @@
                                 "to": [
                                     {
                                         "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
                                             "name": "relacon_dblclick",
                                             "value": 1
                                         }
                                     },
                                     {
                                         "pointing_button": "button1"
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "to_delayed_action": {
@@ -2342,6 +2379,58 @@
                         ]
                     },
                     {
+                        "description": "[RELACON] B1 + B2 => Ctrl (zoom)",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "pointing_button": "button2"
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b2_held",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "key_code": "left_control"
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b1_held",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "relacon_b2_held",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "relacon_b1_held",
+                                        "value": 1
+                                    },
+                                    {
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1390,
+                                                "product_id": 342
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "[RELACON] Right trigger: double-tap right-click/hold modifier/tap paste",
                         "manipulators": [
                             {
@@ -2350,6 +2439,9 @@
                                     "pointing_button": "button2"
                                 },
                                 "to": [
+                                    {
+                                        "shell_command": "osascript -l JavaScript -e 'ObjC.import(\"CoreGraphics\");var d=$.CGEventCreateKeyboardEvent($(),0x1C,true);$.CGEventSetFlags(d,0x180000);$.CGEventPost(0,d);var u=$.CGEventCreateKeyboardEvent($(),0x1C,false);$.CGEventSetFlags(u,0x180000);$.CGEventPost(0,u);'"
+                                    },
                                     {
                                         "pointing_button": "button2"
                                     }
@@ -4138,7 +4230,7 @@
                                 ],
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                    "basic.to_if_held_down_threshold_milliseconds": 5000
                                 },
                                 "conditions": [
                                     {
@@ -4184,7 +4276,7 @@
                                 ],
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                    "basic.to_if_held_down_threshold_milliseconds": 5000
                                 },
                                 "conditions": [
                                     {
@@ -4229,7 +4321,7 @@
                                 ],
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                    "basic.to_if_held_down_threshold_milliseconds": 5000
                                 },
                                 "conditions": [
                                     {
@@ -4276,7 +4368,7 @@
                                 ],
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                    "basic.to_if_held_down_threshold_milliseconds": 5000
                                 },
                                 "conditions": [
                                     {
@@ -4325,7 +4417,7 @@
                                 ],
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                    "basic.to_if_held_down_threshold_milliseconds": 5000
                                 },
                                 "conditions": [
                                     {
@@ -4380,7 +4472,7 @@
                                 ],
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                    "basic.to_if_held_down_threshold_milliseconds": 5000
                                 },
                                 "conditions": [
                                     {
@@ -4427,7 +4519,7 @@
                                 ],
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                    "basic.to_if_held_down_threshold_milliseconds": 5000
                                 },
                                 "conditions": [
                                     {
@@ -4475,7 +4567,7 @@
                                 ],
                                 "parameters": {
                                     "basic.to_if_alone_timeout_milliseconds": 300,
-                                    "basic.to_if_held_down_threshold_milliseconds": 500
+                                    "basic.to_if_held_down_threshold_milliseconds": 5000
                                 },
                                 "conditions": [
                                     {
@@ -5939,11 +6031,6 @@
                                     },
                                     {
                                         "type": "variable_if",
-                                        "name": "hyper_sublayer_f1",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
                                         "name": "hyper_sublayer_left_command",
                                         "value": 0
                                     },
@@ -6470,36 +6557,6 @@
                         ]
                     },
                     {
-                        "description": "Hyper Key + f1",
-                        "manipulators": [
-                            {
-                                "description": "Trigger Dark-mode",
-                                "to": [
-                                    {
-                                        "key_code": "8",
-                                        "modifiers": [
-                                            "left_command",
-                                            "left_option",
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "f1",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command",
-                                            "left_control",
-                                            "left_shift",
-                                            "left_option"
-                                        ]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
                         "description": "Hyper Key + left_command",
                         "manipulators": [
                             {
@@ -6674,11 +6731,6 @@
                                     {
                                         "type": "variable_if",
                                         "name": "hyper_sublayer_tab",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
-                                        "name": "hyper_sublayer_f1",
                                         "value": 0
                                     },
                                     {
@@ -7043,11 +7095,6 @@
                                     },
                                     {
                                         "type": "variable_if",
-                                        "name": "hyper_sublayer_f1",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
                                         "name": "hyper_sublayer_left_command",
                                         "value": 0
                                     },
@@ -7278,315 +7325,6 @@
                                         "value": 1
                                     }
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Right Hyper Key + comma",
-                        "manipulators": [
-                            {
-                                "description": "Stop speech-to-text + trailing space",
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "stt_on",
-                                            "value": 0
-                                        }
-                                    }
-                                ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 500
-                                },
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "stt_on",
-                                        "value": 1
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "comma",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_shift",
-                                            "right_option"
-                                        ]
-                                    }
-                                }
-                            },
-                            {
-                                "description": "Start speech-to-text",
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "stt_on",
-                                            "value": 1
-                                        }
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "comma",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_shift",
-                                            "right_option"
-                                        ]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Right Hyper Key + period",
-                        "manipulators": [
-                            {
-                                "description": "Stop speech-to-text + trailing space",
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "stt_on",
-                                            "value": 0
-                                        }
-                                    }
-                                ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 500
-                                },
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "stt_on",
-                                        "value": 1
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "period",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_shift",
-                                            "right_option"
-                                        ]
-                                    }
-                                }
-                            },
-                            {
-                                "description": "Start speech-to-text",
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "stt_on",
-                                            "value": 1
-                                        }
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "period",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_shift",
-                                            "right_option"
-                                        ]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Right Hyper Key + right_option",
-                        "manipulators": [
-                            {
-                                "description": "Stop speech-to-text + trailing space",
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "stt_on",
-                                            "value": 0
-                                        }
-                                    }
-                                ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 500
-                                },
-                                "conditions": [
-                                    {
-                                        "type": "variable_if",
-                                        "name": "stt_on",
-                                        "value": 1
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "right_option",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_shift",
-                                            "right_option"
-                                        ]
-                                    }
-                                }
-                            },
-                            {
-                                "description": "Start speech-to-text",
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "set_variable": {
-                                            "name": "stt_on",
-                                            "value": 1
-                                        }
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "right_option",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_shift",
-                                            "right_option"
-                                        ]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Right Hyper Key + spacebar",
-                        "manipulators": [
-                            {
-                                "to": [
-                                    {
-                                        "key_code": "return_or_enter"
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "spacebar",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_shift",
-                                            "right_option"
-                                        ]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Right Hyper Key + slash",
-                        "manipulators": [
-                            {
-                                "to": [
-                                    {
-                                        "key_code": "return_or_enter"
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "slash",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_command",
-                                            "right_control",
-                                            "right_shift",
-                                            "right_option"
-                                        ]
-                                    }
-                                }
                             }
                         ]
                     }

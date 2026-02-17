@@ -58,9 +58,9 @@ Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENS
 <!-- docs RELACON_MAP -->
 | Button | Event | Tap | Double Tap | Hold | B2 Combo |
 |---|---|---|---|---|---|
-| Left trigger | `button1` | Click + Cmd+C + arm paste | Escape + Select All (Cmd+A) | — (reserved) | — |
+| Left trigger | `button1` | Click + copy (Cmd+C / copy-location in editor) + arm paste | Word select + disarm paste | — (reserved) | B2+B1 tap = Pi radial menu (Hyper+P) / hold = Ctrl (zoom) + B3 resets |
 | Right trigger | `button2` | Paste (Cmd+V) on release if armed | Right-click | Modifier (enables combos) | — |
-| Scroll wheel press | `button3` | Delete (repeats, 3s → clear all) | — | — | B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all |
+| Scroll wheel press | `button3` | Delete (repeats, 2.3s → clear all) | — | — | B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all |
 | Back (left side) | `button4` | Enter (stops STT + delayed Enter if active) | — | Modifier (B4 layer) | B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab |
 | Forward (right side) | `button5` | Speech-to-text (toggle) | — | Modifier (B5 layer) | B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab |
 | D-pad up | `volume_increment` | Up arrow | — | — | B2+Up tap = Next window, hold = iTerm / Nav: iTerm / Media: Volume up |
@@ -91,7 +91,8 @@ Three buttons act as modifiers when held — other buttons gain alternate action
 | B2 (right trigger) | B2 + B4 | Tap: Shift+Enter / Hold: next pane/tab |
 | B2 (right trigger) | B2 + B5 | Tab + Enter |
 | B2 (right trigger) | B2 + D-pad | Window/pane/tab switching (edit) or app switching (nav) |
-| B4 (back) | B4 + B1 | Escape (cancel request) |
+| B2 (right trigger) | B2 + B1 | Tap: Pi radial menu (Hyper+P) / Hold: Ctrl (zoom) |
+| B4 (back) | B4 + B1 | Escape (cancel request) + disarm paste |
 | B4 (back) | B4 + B2 | Move window to next display |
 | B5 (forward) | B5 + B1 | (test: types a) |
 | B5 (forward) | B5 + B2 | (test: types b) |
@@ -170,6 +171,7 @@ Shortcuts are defined in the `NAV` constant in `rules.ts` — shared by both Raz
 
 - **B2 double-tap pastes when armed**: If paste is armed (button1 was pressed), double-tapping B2 for right-click will also paste on the first tap's release. `to_if_alone` fires before the second tap registers. Needs a way to defer paste until after the double-tap window expires without breaking combo detection.
 - **D-pad center can't modify d-pad directions**: The d-pad is a single physical rocker — holding center and pushing a direction releases center first. D-pad center as a modifier only works with buttons B1–B5 (separate physical inputs), not with other d-pad directions.
+- **B1 hold zoom breaks long drags**: B1 held for 5s activates Ctrl for macOS accessibility zoom via scroll wheel. If you're drag-selecting text for longer than 5s, Ctrl will inject mid-drag and disrupt selection. Threshold is set high (5s) to minimize impact but it's a trade-off — Karabiner can't distinguish "hold to zoom" from "hold to drag". Ideally we'd find a way to activate zoom without a time-based hold on B1.
 
 ## Notes
 

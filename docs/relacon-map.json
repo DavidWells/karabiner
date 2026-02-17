@@ -3,10 +3,10 @@
     {
       "name": "Left trigger",
       "event": "button1",
-      "tap": "Click + Cmd+C + arm paste",
-      "doubleTap": "Escape + Select All (Cmd+A)",
+      "tap": "Click + copy (Cmd+C / copy-location in editor) + arm paste",
+      "doubleTap": "Word select + disarm paste",
       "hold": "— (reserved)",
-      "b2Combo": "—"
+      "b2Combo": "B2+B1 tap = Pi radial menu (Hyper+P) / hold = Ctrl (zoom) + B3 resets"
     },
     {
       "name": "Right trigger",
@@ -19,7 +19,7 @@
     {
       "name": "Scroll wheel press",
       "event": "button3",
-      "tap": "Delete (repeats, 3s → clear all)",
+      "tap": "Delete (repeats, 2.3s → clear all)",
       "doubleTap": "—",
       "hold": "—",
       "b2Combo": "B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all"
@@ -103,9 +103,14 @@
       "action": "Window/pane/tab switching (edit) or app switching (nav)"
     },
     {
+      "modifier": "B2 (right trigger)",
+      "combo": "B2 + B1",
+      "action": "Tap: Pi radial menu (Hyper+P) / Hold: Ctrl (zoom)"
+    },
+    {
       "modifier": "B4 (back)",
       "combo": "B4 + B1",
-      "action": "Escape (cancel request)"
+      "action": "Escape (cancel request) + disarm paste"
     },
     {
       "modifier": "B4 (back)",

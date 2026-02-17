@@ -245,6 +245,8 @@ const isRelacon = [
   },
 ]
 
+// Left trigger (button1) is physically held down — used for B1+B2 zoom combo
+const RELACON_B1_HELD = { type: 'variable_if', name: 'relacon_b1_held', value: 1 }
 // Right trigger (button2) is physically held down — activates combo layer for other buttons
 const RELACON_B2_HELD = { type: 'variable_if', name: 'relacon_b2_held', value: 1 }
 // Mode: nav — d-pad fires app navigation instead of arrows
@@ -265,6 +267,10 @@ const DICTATION_STATE_ON = { set_variable: { name: 'stt_on', value: 1 } }
 const DICTATION_STATE_OFF = { set_variable: { name: 'stt_on', value: 0 } }
 // Disarm copy/paste state
 const RESET_COPY_STATE = { set_variable: { name: 'relacon_copied', value: 0 } }
+// Zoom mode active — B1 held for 5s or B1+B2 combo activated Ctrl for scroll zoom
+const RELACON_ZOOM = { type: 'variable_if', name: 'relacon_zoom', value: 1 }
+// Reset zoom to 1x via CGEvent (bypasses held Ctrl modifier)
+const ZOOM_RESET_CMD = "osascript -l JavaScript -e 'ObjC.import(\"CoreGraphics\");var d=$.CGEventCreateKeyboardEvent($(),0x1C,true);$.CGEventSetFlags(d,0x180000);$.CGEventPost(0,d);var u=$.CGEventCreateKeyboardEvent($(),0x1C,false);$.CGEventSetFlags(u,0x180000);$.CGEventPost(0,u);'"
 // Button1 double-click detected within timing window
 const RELACON_DBLCLICK = { type: 'variable_if', name: 'relacon_dblclick', value: 1 }
 // Button2 double-click detected within timing window
@@ -291,10 +297,13 @@ const MOVE_WINDOW_TO_NEXT_DISPLAY = [
 ]
 
 // Set Karabiner variables via CLI — usable in shell_command actions or external scripts
-const KARABINER_CLI = '/Library/Application Support/org.pqrs.Karabiner-Elements/bin/karabiner_cli'
+const KARABINER_CLI = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli'
 function setVars(vars) {
   return { shell_command: `'${KARABINER_CLI}' --set-variables '${JSON.stringify(vars)}'` }
 }
+// Set/clear zoom variable via CLI (external — survives Karabiner's internal event release)
+const ZOOM_ON = { shell_command: `'${KARABINER_CLI}' --set-variables '{"relacon_zoom":1}'`, repeat: false }
+const ZOOM_OFF = { shell_command: `'${KARABINER_CLI}' --set-variables '{"relacon_zoom":0}'` }
 
 // Maps a held button + another button/key to an action (isRelacon baked in)
 function mapHeldCombo({ description, held, button, consumerKey, to, conditions = [] }) {
@@ -396,9 +405,9 @@ function doubleClickButton({ description, button, consumerKey, to, singleTo, con
 
 // Source of truth for Relacon button mappings — generates HTML and README table
 const RelaconMap = [
-  { name: 'Left trigger', event: 'button1', tap: 'Click + Cmd+C + arm paste', doubleTap: 'Escape + Select All (Cmd+A)', hold: '— (reserved)', b2Combo: '—' },
+  { name: 'Left trigger', event: 'button1', tap: 'Click + copy (Cmd+C / copy-location in editor) + arm paste', doubleTap: 'Word select + disarm paste', hold: '— (reserved)', b2Combo: 'B2+B1 tap = Pi radial menu (Hyper+P) / hold = Ctrl (zoom) + B3 resets' },
   { name: 'Right trigger', event: 'button2', tap: 'Paste (Cmd+V) on release if armed', doubleTap: 'Right-click', hold: 'Modifier (enables combos)', b2Combo: '—' },
-  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all' },
+  { name: 'Scroll wheel press', event: 'button3', tap: 'Delete (repeats, 2.3s → clear all)', doubleTap: '—', hold: '—', b2Combo: 'B2+B3 tap = Cycle mode (Edit→Nav→Media) / hold = Clear all' },
   { name: 'Back (left side)', event: 'button4', tap: 'Enter (stops STT + delayed Enter if active)', doubleTap: '—', hold: 'Modifier (B4 layer)', b2Combo: 'B2+B4 tap = Shift+Enter, hold = next pane/tab / Nav: Prev pane (iTerm) or tab' },
   { name: 'Forward (right side)', event: 'button5', tap: 'Speech-to-text (toggle)', doubleTap: '—', hold: 'Modifier (B5 layer)', b2Combo: 'B2+B5 = Tab+Enter / Nav: Next pane (iTerm) or tab' },
   { name: 'D-pad up', event: 'volume_increment', tap: 'Up arrow', doubleTap: '—', hold: '—', b2Combo: 'B2+Up tap = Next window, hold = iTerm / Nav: iTerm / Media: Volume up' },
@@ -414,7 +423,8 @@ const RelaconModifiers = [
   { modifier: 'B2 (right trigger)', combo: 'B2 + B4', action: 'Tap: Shift+Enter / Hold: next pane/tab' },
   { modifier: 'B2 (right trigger)', combo: 'B2 + B5', action: 'Tab + Enter' },
   { modifier: 'B2 (right trigger)', combo: 'B2 + D-pad', action: 'Window/pane/tab switching (edit) or app switching (nav)' },
-  { modifier: 'B4 (back)', combo: 'B4 + B1', action: 'Escape (cancel request)' },
+  { modifier: 'B2 (right trigger)', combo: 'B2 + B1', action: 'Tap: Pi radial menu (Hyper+P) / Hold: Ctrl (zoom)' },
+  { modifier: 'B4 (back)', combo: 'B4 + B1', action: 'Escape (cancel request) + disarm paste' },
   { modifier: 'B4 (back)', combo: 'B4 + B2', action: 'Move window to next display' },
   { modifier: 'B5 (forward)', combo: 'B5 + B1', action: '(test: types a)' },
   { modifier: 'B5 (forward)', combo: 'B5 + B2', action: '(test: types b)' },
@@ -472,13 +482,24 @@ const RelaconButtons = [
     }],
   },
 
-  // ── B2 + B1 => Pi radial menu (Hyper+P)
-  mapHeldCombo({
-    description: '[RELACON] B2 + B1 => Pi menu',
-    held: RELACON_B2_HELD,
-    button: 'button1',
-    to: [{ key_code: 'p', modifiers: ['left_shift', 'left_command', 'left_control', 'left_option'] }],
-  }),
+  // ── B2 + B1 => tap: Pi radial menu (Hyper+P), hold: Ctrl (zoom via scroll)
+  // Ctrl fires immediately via `to` (sustains while held), Pi fires on quick release via `to_if_alone`
+  {
+    description: '[RELACON] B2 + B1 => tap: Pi menu, hold: Ctrl (zoom)',
+    manipulators: [{
+      type: 'basic',
+      from: { pointing_button: 'button1' },
+      to: [
+        { set_variable: { name: 'relacon_b1_held', value: 1 } },
+        { key_code: 'left_control' },
+      ],
+      to_if_alone: [{ key_code: 'p', modifiers: ['left_shift', 'left_command', 'left_control', 'left_option'] }],
+      to_after_key_up: [
+        { set_variable: { name: 'relacon_b1_held', value: 0 } },
+      ],
+      conditions: [RELACON_B2_HELD, ...isRelacon],
+    }],
+  },
 
   // ── Trackball click (button1) ── double-click => word select + disarm
   {
@@ -489,9 +510,13 @@ const RelaconButtons = [
         type: 'basic',
         from: { pointing_button: 'button1' },
         to: [
+          { set_variable: { name: 'relacon_b1_held', value: 1 } },
           { pointing_button: 'button1' },
           RESET_COPY_STATE,
           { set_variable: { name: 'relacon_dblclick', value: 0 } },
+        ],
+        to_after_key_up: [
+          { set_variable: { name: 'relacon_b1_held', value: 0 } },
         ],
         conditions: [
           RELACON_DBLCLICK,
@@ -503,12 +528,14 @@ const RelaconButtons = [
         type: 'basic',
         from: { pointing_button: 'button1' },
         to: [
+          { set_variable: { name: 'relacon_b1_held', value: 1 } },
           { set_variable: { name: 'relacon_dblclick', value: 1 } },
           { pointing_button: 'button1' },
         ],
         to_after_key_up: [
           ...COPY_LOCATION_KEYS,
           { set_variable: { name: 'relacon_copied', value: 1 } },
+          { set_variable: { name: 'relacon_b1_held', value: 0 } },
         ],
         to_delayed_action: {
           to_if_invoked: [
@@ -530,12 +557,14 @@ const RelaconButtons = [
         type: 'basic',
         from: { pointing_button: 'button1' },
         to: [
+          { set_variable: { name: 'relacon_b1_held', value: 1 } },
           { set_variable: { name: 'relacon_dblclick', value: 1 } },
           { pointing_button: 'button1' },
         ],
         to_after_key_up: [
           { key_code: 'c', modifiers: ['left_command'] },
           { set_variable: { name: 'relacon_copied', value: 1 } },
+          { set_variable: { name: 'relacon_b1_held', value: 0 } },
         ],
         to_delayed_action: {
           to_if_invoked: [
@@ -556,8 +585,12 @@ const RelaconButtons = [
         type: 'basic',
         from: { pointing_button: 'button1' },
         to: [
+          { set_variable: { name: 'relacon_b1_held', value: 1 } },
           { set_variable: { name: 'relacon_dblclick', value: 1 } },
           { pointing_button: 'button1' },
+        ],
+        to_after_key_up: [
+          { set_variable: { name: 'relacon_b1_held', value: 0 } },
         ],
         to_delayed_action: {
           to_if_invoked: [
@@ -576,15 +609,33 @@ const RelaconButtons = [
     ],
   },
 
+  // ── B1 + B2 => Ctrl (zoom via scroll) — reverse order of B2+B1 combo
+  {
+    description: '[RELACON] B1 + B2 => Ctrl (zoom)',
+    manipulators: [{
+      type: 'basic',
+      from: { pointing_button: 'button2' },
+      to: [
+        { set_variable: { name: 'relacon_b2_held', value: 1 } },
+        { key_code: 'left_control' },
+      ],
+      to_after_key_up: [
+        { set_variable: { name: 'relacon_b1_held', value: 0 } },
+        { set_variable: { name: 'relacon_b2_held', value: 0 } },
+      ],
+      conditions: [RELACON_B1_HELD, ...isRelacon],
+    }],
+  },
+
   // ── Right trigger (button2) ── double-tap => right-click, hold => modifier, tap-alone => paste if armed
   {
     description: '[RELACON] Right trigger: double-tap right-click/hold modifier/tap paste',
     manipulators: [
-      // Double-tap — fire right-click
+      // Double-tap — reset zoom + fire right-click
       {
         type: 'basic',
         from: { pointing_button: 'button2' },
-        to: [{ pointing_button: 'button2' }],
+        to: [{ shell_command: ZOOM_RESET_CMD }, { pointing_button: 'button2' }],
         conditions: [
           RELACON_B2_DBLCLICK,
           ...isRelacon,
@@ -1110,7 +1161,7 @@ const RelaconButtons = [
       to_if_held_down: [{ shell_command: "open -a 'iTerm.app'", repeat: false }],
       parameters: {
         'basic.to_if_alone_timeout_milliseconds': 300,
-        'basic.to_if_held_down_threshold_milliseconds': 500,
+        'basic.to_if_held_down_threshold_milliseconds': 5000,
       },
       conditions: [RELACON_B2_HELD, ...isRelacon],
     }],
@@ -1124,7 +1175,7 @@ const RelaconButtons = [
       to_if_held_down: [{ shell_command: "open -a 'Tower.app'", repeat: false }],
       parameters: {
         'basic.to_if_alone_timeout_milliseconds': 300,
-        'basic.to_if_held_down_threshold_milliseconds': 500,
+        'basic.to_if_held_down_threshold_milliseconds': 5000,
       },
       conditions: [RELACON_B2_HELD, ...isRelacon],
     }],
@@ -1139,7 +1190,7 @@ const RelaconButtons = [
         to_if_held_down: [{ shell_command: "open -a 'Google Chrome.app'", repeat: false }],
         parameters: {
           'basic.to_if_alone_timeout_milliseconds': 300,
-          'basic.to_if_held_down_threshold_milliseconds': 500,
+          'basic.to_if_held_down_threshold_milliseconds': 5000,
         },
         conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_TERMINAL_WINDOW],
       },
@@ -1150,7 +1201,7 @@ const RelaconButtons = [
         to_if_held_down: [{ shell_command: "open -a 'Google Chrome.app'", repeat: false }],
         parameters: {
           'basic.to_if_alone_timeout_milliseconds': 300,
-          'basic.to_if_held_down_threshold_milliseconds': 500,
+          'basic.to_if_held_down_threshold_milliseconds': 5000,
         },
         conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_EDITOR_WINDOW],
       },
@@ -1161,7 +1212,7 @@ const RelaconButtons = [
         to_if_held_down: [{ shell_command: "open -a 'Google Chrome.app'", repeat: false }],
         parameters: {
           'basic.to_if_alone_timeout_milliseconds': 300,
-          'basic.to_if_held_down_threshold_milliseconds': 500,
+          'basic.to_if_held_down_threshold_milliseconds': 5000,
         },
         conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
       },
@@ -1177,7 +1228,7 @@ const RelaconButtons = [
         to_if_held_down: [{ shell_command: "open -a 'Cursor.app'", repeat: false }],
         parameters: {
           'basic.to_if_alone_timeout_milliseconds': 300,
-          'basic.to_if_held_down_threshold_milliseconds': 500,
+          'basic.to_if_held_down_threshold_milliseconds': 5000,
         },
         conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_TERMINAL_WINDOW],
       },
@@ -1188,7 +1239,7 @@ const RelaconButtons = [
         to_if_held_down: [{ shell_command: "open -a 'Cursor.app'", repeat: false }],
         parameters: {
           'basic.to_if_alone_timeout_milliseconds': 300,
-          'basic.to_if_held_down_threshold_milliseconds': 500,
+          'basic.to_if_held_down_threshold_milliseconds': 5000,
         },
         conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_EDITOR_WINDOW],
       },
@@ -1199,7 +1250,7 @@ const RelaconButtons = [
         to_if_held_down: [{ shell_command: "open -a 'Cursor.app'", repeat: false }],
         parameters: {
           'basic.to_if_alone_timeout_milliseconds': 300,
-          'basic.to_if_held_down_threshold_milliseconds': 500,
+          'basic.to_if_held_down_threshold_milliseconds': 5000,
         },
         conditions: [RELACON_B2_HELD, ...isRelacon, ...IS_BROWSER_WINDOW],
       },
@@ -2973,15 +3024,15 @@ const hyperLayerKeys = {
       },
     ],
   },
-  f1: {
-    description: 'Trigger Dark-mode',
-      to: [
-      {
-        key_code: '8',
-        modifiers: ['left_command', 'left_option', 'left_control'],
-      },
-    ],
-  },
+  // f1: {
+  //   description: 'Trigger Dark-mode',
+  //     to: [
+  //     {
+  //       key_code: '8',
+  //       modifiers: ['left_command', 'left_option', 'left_control'],
+  //     },
+  //   ],
+  // },
   // q: {
   //   description: 'Trigger Claude shortcut',
   //   to: [
@@ -3470,7 +3521,7 @@ const chromeDoubleTapShortcut = doubleTap({
 let rules: KarabinerRules[] = [
   // Define the Hyper key itself
   makeHyperKey('caps_lock'),
-  makeRightHyperKey('right_command'),
+  // makeRightHyperKey('right_command'),
   // @ts-ignore
   // ...autoQuotes,
   // ...ejectToScreenShot,
@@ -3528,15 +3579,15 @@ let rules: KarabinerRules[] = [
   /* Sub layers */
   ...createHyperSubLayers(hyperLayerKeys),
   /* Right Hyper Sub layers */
-  ...createRightHyperSubLayers({
-    comma: SPEECH_TO_TEXT,
-    period: SPEECH_TO_TEXT,
-    right_option: SPEECH_TO_TEXT,
-    spacebar: HIT_ENTER,
-    slash: HIT_ENTER,
-    // left_shift: HIT_ENTER,
-    // To enter
-  }),
+  // ...createRightHyperSubLayers({
+  //   comma: SPEECH_TO_TEXT,
+  //   period: SPEECH_TO_TEXT,
+  //   right_option: SPEECH_TO_TEXT,
+  //   spacebar: HIT_ENTER,
+  //   slash: HIT_ENTER,
+  //   // left_shift: HIT_ENTER,
+  //   // To enter
+  // }),
 ]
 
 const DEBUG = false

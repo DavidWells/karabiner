@@ -56,6 +56,11 @@ Use `RELACON_*` constants for variable conditions instead of inline objects. Def
 - `RELACON_COPIED` — paste armed
 - `RELACON_STT_ACTIVE` — speech-to-text active
 - `RELACON_DBLCLICK` / `RELACON_B2_DBLCLICK` — double-click timing windows
+- `RELACON_B1_HELD` — left trigger held (used for B1+B2 zoom combo)
+
+## B1 hold zoom (known compromise)
+
+B1 held for 5s activates Ctrl via `to_if_held_down` for macOS accessibility zoom (Ctrl + scroll wheel). This is a trade-off — Karabiner can't distinguish "hold to zoom" from "hold to drag-select text". Long drags (>5s) will get Ctrl injected mid-drag. The threshold is intentionally high to minimize interference, but it's not ideal. If we see weird text selection issues, this is the cause. Look for a better activation method that doesn't conflict with drag (e.g. a dedicated button combo, toggle, or separate gesture).
 
 ## Troubleshooting: missing notifications
 
