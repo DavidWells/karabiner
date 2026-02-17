@@ -6021,11 +6021,6 @@
                                     },
                                     {
                                         "type": "variable_if",
-                                        "name": "hyper_sublayer_w",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
                                         "name": "hyper_sublayer_tab",
                                         "value": 0
                                     },
@@ -6501,34 +6496,6 @@
                         ]
                     },
                     {
-                        "description": "Hyper Key + w",
-                        "manipulators": [
-                            {
-                                "description": "Global Jump to windows via script kit",
-                                "to": [
-                                    {
-                                        "key_code": "f",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "w",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command",
-                                            "left_control",
-                                            "left_shift",
-                                            "left_option"
-                                        ]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
                         "description": "Hyper Key + tab",
                         "manipulators": [
                             {
@@ -6721,11 +6688,6 @@
                                     {
                                         "type": "variable_if",
                                         "name": "hyper_sublayer_a",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
-                                        "name": "hyper_sublayer_w",
                                         "value": 0
                                     },
                                     {
@@ -7081,11 +7043,6 @@
                                     {
                                         "type": "variable_if",
                                         "name": "hyper_sublayer_a",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
-                                        "name": "hyper_sublayer_w",
                                         "value": 0
                                     },
                                     {

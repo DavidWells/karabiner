@@ -2999,15 +2999,15 @@ const hyperLayerKeys = {
   // },
 
   a: SPEECH_TO_TEXT,
-  w: {
-    description: 'Global Jump to windows via script kit',
-    to: [
-      {
-        key_code: 'f',
-        modifiers: ['left_option'],
-      },
-    ],
-  },
+  // w: {
+  //   description: 'Global Jump to windows via script kit',
+  //   to: [
+  //     {
+  //       key_code: 'f',
+  //       modifiers: ['left_option'],
+  //     },
+  //   ],
+  // },
   'tab': {
     description: 'Global Jump to windows via script kit',
     to: [
