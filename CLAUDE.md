@@ -58,9 +58,13 @@ Use `RELACON_*` constants for variable conditions instead of inline objects. Def
 - `RELACON_DBLCLICK` / `RELACON_B2_DBLCLICK` — double-click timing windows
 - `RELACON_B1_HELD` — left trigger held (used for B1+B2 zoom combo)
 
+## macOS setup required
+
+- **Zoom**: System Settings → Accessibility → Zoom → enable BOTH "Use keyboard shortcuts to zoom" AND "Use scroll gesture with modifier keys to zoom" (set to Control). Without both enabled, B2+B1 zoom and B2 double-tap reset won't work.
+
 ## B2+B1 zoom
 
-B2+B1 hold (either order) outputs Ctrl for macOS accessibility zoom (Ctrl + scroll wheel). B2 double-tap resets zoom to 1x via CGEvent (bypasses held Ctrl modifier). Requires "Use keyboard shortcuts to zoom" enabled in System Settings → Accessibility → Zoom. B2 double-tap also fires right-click context menu (known issue — other buttons don't register while both triggers are held, so no clean reset-only combo).
+B2+B1 hold (either order) outputs Ctrl for macOS accessibility zoom (Ctrl + scroll wheel). B2 double-tap resets zoom to 1x via CGEvent (bypasses held Ctrl modifier). B2 double-tap also fires right-click context menu (known issue — other buttons don't register while both triggers are held, so no clean reset-only combo).
 
 ## iTerm settings
 
@@ -99,6 +103,16 @@ For left/right d-pad where the tap action varies by app (terminal vs editor vs b
 ## Shared navigation shortcuts
 
 `NAV` constant in `rules.ts` is the single source of truth for app navigation shortcuts (prev/next tab, prev/next pane, etc.). Both Razer mouse rules and Relacon nav mode rules reference it. Change a shortcut once, both devices update.
+
+## PopClip extensions
+
+PopClip provides text-selection shortcuts. Extensions live in `/Users/david/dotfiles/extensions/popclip/`:
+- `Vibe.popclipext` — focuses iTerm + runs vibe alias
+- `iTerm-AddToChat.popclipext` — finds Claude Code pane (✳ in title), pastes selected text with surrounding spaces
+
+## Radial menu (TODO)
+
+B2+B1 tap fires Hyper+P for a radial/pie menu app. Tried Pi Menu and Radial — neither worked well for our use case. Still looking for a good radial menu app for macOS that can be triggered via keyboard shortcut.
 
 ## Key files
 
