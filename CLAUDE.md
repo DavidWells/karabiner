@@ -58,9 +58,13 @@ Use `RELACON_*` constants for variable conditions instead of inline objects. Def
 - `RELACON_DBLCLICK` / `RELACON_B2_DBLCLICK` — double-click timing windows
 - `RELACON_B1_HELD` — left trigger held (used for B1+B2 zoom combo)
 
-## B1 hold zoom (known compromise)
+## B2+B1 zoom
 
-B1 held for 5s activates Ctrl via `to_if_held_down` for macOS accessibility zoom (Ctrl + scroll wheel). This is a trade-off — Karabiner can't distinguish "hold to zoom" from "hold to drag-select text". Long drags (>5s) will get Ctrl injected mid-drag. The threshold is intentionally high to minimize interference, but it's not ideal. If we see weird text selection issues, this is the cause. Look for a better activation method that doesn't conflict with drag (e.g. a dedicated button combo, toggle, or separate gesture).
+B2+B1 hold (either order) outputs Ctrl for macOS accessibility zoom (Ctrl + scroll wheel). B2 double-tap resets zoom to 1x via CGEvent (bypasses held Ctrl modifier). Requires "Use keyboard shortcuts to zoom" enabled in System Settings → Accessibility → Zoom. B2 double-tap also fires right-click context menu (known issue — other buttons don't register while both triggers are held, so no clean reset-only combo).
+
+## iTerm settings
+
+"Copy to pasteboard on selection" (iTerm → Settings → General → Selection) must be OFF — it conflicts with B1's explicit Cmd+C copy-on-release. With it on, iTerm copies on select AND B1 copies on release, causing double-copy and unexpected paste behavior.
 
 ## Troubleshooting: missing notifications
 

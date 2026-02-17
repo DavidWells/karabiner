@@ -171,7 +171,7 @@ Shortcuts are defined in the `NAV` constant in `rules.ts` — shared by both Raz
 
 - **B2 double-tap pastes when armed**: If paste is armed (button1 was pressed), double-tapping B2 for right-click will also paste on the first tap's release. `to_if_alone` fires before the second tap registers. Needs a way to defer paste until after the double-tap window expires without breaking combo detection.
 - **D-pad center can't modify d-pad directions**: The d-pad is a single physical rocker — holding center and pushing a direction releases center first. D-pad center as a modifier only works with buttons B1–B5 (separate physical inputs), not with other d-pad directions.
-- **B1 hold zoom breaks long drags**: B1 held for 5s activates Ctrl for macOS accessibility zoom via scroll wheel. If you're drag-selecting text for longer than 5s, Ctrl will inject mid-drag and disrupt selection. Threshold is set high (5s) to minimize impact but it's a trade-off — Karabiner can't distinguish "hold to zoom" from "hold to drag". Ideally we'd find a way to activate zoom without a time-based hold on B1.
+- **Zoom reset fires right-click**: B2+B1 hold enables Ctrl+scroll zoom, but other buttons don't register while both triggers are held. Zoom resets via B2 double-tap which also fires right-click context menu.
 
 ## Notes
 
