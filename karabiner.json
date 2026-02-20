@@ -2479,9 +2479,6 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript -l JavaScript -e 'ObjC.import(\"CoreGraphics\");var d=$.CGEventCreateKeyboardEvent($(),0x1C,true);$.CGEventSetFlags(d,0x180000);$.CGEventPost(0,d);var u=$.CGEventCreateKeyboardEvent($(),0x1C,false);$.CGEventSetFlags(u,0x180000);$.CGEventPost(0,u);'"
-                                    },
-                                    {
                                         "pointing_button": "button2"
                                     }
                                 ],

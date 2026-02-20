@@ -64,7 +64,7 @@ Use `RELACON_*` constants for variable conditions instead of inline objects. Def
 
 ## B2+B1 zoom
 
-B2+B1 hold (either order) outputs Ctrl for macOS accessibility zoom (Ctrl + scroll wheel). B2 double-tap resets zoom to 1x via CGEvent (bypasses held Ctrl modifier). B2 double-tap also fires right-click context menu (known issue — other buttons don't register while both triggers are held, so no clean reset-only combo).
+B2+B1 hold (either order) outputs Ctrl for macOS accessibility zoom (Ctrl + scroll wheel). B2 double-tap fires right-click only — zoom reset was removed because BetterTouchTool uses right-click-drag for drawing gestures, which requires a clean right-click without side effects.
 
 ## iTerm settings
 

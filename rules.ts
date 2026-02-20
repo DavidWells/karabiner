@@ -646,11 +646,14 @@ const RelaconButtons = [
   {
     description: '[RELACON] Right trigger: double-tap right-click/hold modifier/tap paste',
     manipulators: [
-      // Double-tap — reset zoom + fire right-click
+      // Double-tap — fire right-click
+      // Can't bundle zoom reset here — right-click must be clean for
+      // BetterTouchTool right-click-drag drawing gestures
       {
         type: 'basic',
         from: { pointing_button: 'button2' },
-        to: [{ shell_command: ZOOM_RESET_CMD }, { pointing_button: 'button2' }],
+        // to: [{ shell_command: ZOOM_RESET_CMD }, { pointing_button: 'button2' }],
+        to: [{ pointing_button: 'button2' }],
         conditions: [
           RELACON_B2_DBLCLICK,
           ...isRelacon,
@@ -3609,10 +3612,10 @@ let rules: KarabinerRules[] = [
   // }),
 ]
 
-const DEBUG = false
-if (DEBUG) {
+const DISABLE_ALL_RULES = false
+if (DISABLE_ALL_RULES) {
   rules = []
-} 
+}
 
 // Karabiner reads from ~/.config/karabiner, dotfiles copy is our repo version
 const karabinerLive = path.join(os.homedir(), '.config', 'karabiner', 'karabiner.json')
