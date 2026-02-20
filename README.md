@@ -137,11 +137,15 @@ Cycle with **B2+B3** (right trigger + scroll wheel press). A macOS notification 
 
 Shortcuts are defined in the `NAV` constant in `rules.ts` — shared by both Razer mouse and Relacon mappings. Change the shortcut once, both devices update.
 
+## Limitations
+
+- **Scroll wheel events:** Karabiner cannot intercept or remap scroll wheel events. Use Hammerspoon (`hs.eventtap` with `scrollWheel` type) for scroll-based shortcuts instead.
+
 ## Pattern Ideas
 
 **Multi-button combos**
 - Simultaneous press of two buttons → different action (e.g. Button1+Button2 = app switch)
-- Button + scroll → zoom, horizontal scroll, or volume
+- Button + scroll → zoom, horizontal scroll, or volume (requires Hammerspoon, not possible in Karabiner)
 - Button + pointer movement → window resize or desktop switch
 
 **Timing-based**

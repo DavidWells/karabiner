@@ -247,6 +247,8 @@ const isRelacon = [
 
 // Left trigger (button1) is physically held down — used for B1+B2 zoom combo
 const RELACON_B1_HELD = { type: 'variable_if', name: 'relacon_b1_held', value: 1 }
+const B1_FLAG_ON = { shell_command: 'printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1' }
+const B1_FLAG_OFF = { shell_command: 'printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1' }
 // Right trigger (button2) is physically held down — activates combo layer for other buttons
 const RELACON_B2_HELD = { type: 'variable_if', name: 'relacon_b2_held', value: 1 }
 // Mode: nav — d-pad fires app navigation instead of arrows
@@ -491,11 +493,13 @@ const RelaconButtons = [
       from: { pointing_button: 'button1' },
       to: [
         { set_variable: { name: 'relacon_b1_held', value: 1 } },
+        B1_FLAG_ON,
         { key_code: 'left_control' },
       ],
       to_if_alone: [{ key_code: 'p', modifiers: ['left_shift', 'left_command', 'left_control', 'left_option'] }],
       to_after_key_up: [
         { set_variable: { name: 'relacon_b1_held', value: 0 } },
+        B1_FLAG_OFF,
       ],
       conditions: [RELACON_B2_HELD, ...isRelacon],
     }],
@@ -511,12 +515,14 @@ const RelaconButtons = [
         from: { pointing_button: 'button1' },
         to: [
           { set_variable: { name: 'relacon_b1_held', value: 1 } },
+          B1_FLAG_ON,
           { pointing_button: 'button1' },
           RESET_COPY_STATE,
           { set_variable: { name: 'relacon_dblclick', value: 0 } },
         ],
         to_after_key_up: [
           { set_variable: { name: 'relacon_b1_held', value: 0 } },
+          B1_FLAG_OFF,
         ],
         conditions: [
           RELACON_DBLCLICK,
@@ -529,6 +535,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button1' },
         to: [
           { set_variable: { name: 'relacon_b1_held', value: 1 } },
+          B1_FLAG_ON,
           { set_variable: { name: 'relacon_dblclick', value: 1 } },
           { pointing_button: 'button1' },
         ],
@@ -536,6 +543,7 @@ const RelaconButtons = [
           ...COPY_LOCATION_KEYS,
           { set_variable: { name: 'relacon_copied', value: 1 } },
           { set_variable: { name: 'relacon_b1_held', value: 0 } },
+          B1_FLAG_OFF,
         ],
         to_delayed_action: {
           to_if_invoked: [
@@ -558,6 +566,7 @@ const RelaconButtons = [
         from: { pointing_button: 'button1' },
         to: [
           { set_variable: { name: 'relacon_b1_held', value: 1 } },
+          B1_FLAG_ON,
           { set_variable: { name: 'relacon_dblclick', value: 1 } },
           { pointing_button: 'button1' },
         ],
@@ -565,6 +574,7 @@ const RelaconButtons = [
           { key_code: 'c', modifiers: ['left_command'] },
           { set_variable: { name: 'relacon_copied', value: 1 } },
           { set_variable: { name: 'relacon_b1_held', value: 0 } },
+          B1_FLAG_OFF,
         ],
         to_delayed_action: {
           to_if_invoked: [
@@ -586,11 +596,13 @@ const RelaconButtons = [
         from: { pointing_button: 'button1' },
         to: [
           { set_variable: { name: 'relacon_b1_held', value: 1 } },
+          B1_FLAG_ON,
           { set_variable: { name: 'relacon_dblclick', value: 1 } },
           { pointing_button: 'button1' },
         ],
         to_after_key_up: [
           { set_variable: { name: 'relacon_b1_held', value: 0 } },
+          B1_FLAG_OFF,
         ],
         to_delayed_action: {
           to_if_invoked: [
@@ -618,10 +630,13 @@ const RelaconButtons = [
       to: [
         { set_variable: { name: 'relacon_b2_held', value: 1 } },
         { key_code: 'left_control' },
+        { shell_command: 'printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2' },
       ],
       to_after_key_up: [
         { set_variable: { name: 'relacon_b1_held', value: 0 } },
+        B1_FLAG_OFF,
         { set_variable: { name: 'relacon_b2_held', value: 0 } },
+        { shell_command: 'printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2' },
       ],
       conditions: [RELACON_B1_HELD, ...isRelacon],
     }],
@@ -649,6 +664,7 @@ const RelaconButtons = [
         to: [
           { set_variable: { name: 'relacon_b2_held', value: 1 } },
           { set_variable: { name: 'relacon_b2_dblclick', value: 1 } },
+          { shell_command: 'printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2' },
         ],
         to_if_alone: [
           { key_code: 'v', modifiers: ['left_command'] },
@@ -656,6 +672,7 @@ const RelaconButtons = [
         ],
         to_after_key_up: [
           { set_variable: { name: 'relacon_b2_held', value: 0 } },
+          { shell_command: 'printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2' },
         ],
         to_delayed_action: {
           to_if_invoked: [
@@ -678,9 +695,11 @@ const RelaconButtons = [
         to: [
           { set_variable: { name: 'relacon_b2_held', value: 1 } },
           { set_variable: { name: 'relacon_b2_dblclick', value: 1 } },
+          { shell_command: 'printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2' },
         ],
         to_after_key_up: [
           { set_variable: { name: 'relacon_b2_held', value: 0 } },
+          { shell_command: 'printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2' },
         ],
         to_delayed_action: {
           to_if_invoked: [

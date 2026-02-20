@@ -2040,6 +2040,9 @@
                                         }
                                     },
                                     {
+                                        "shell_command": "printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
+                                    },
+                                    {
                                         "key_code": "left_control"
                                     }
                                 ],
@@ -2060,6 +2063,9 @@
                                             "name": "relacon_b1_held",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
                                     }
                                 ],
                                 "conditions": [
@@ -2097,6 +2103,9 @@
                                         }
                                     },
                                     {
+                                        "shell_command": "printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
+                                    },
+                                    {
                                         "pointing_button": "button1"
                                     },
                                     {
@@ -2118,6 +2127,9 @@
                                             "name": "relacon_b1_held",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
                                     }
                                 ],
                                 "conditions": [
@@ -2150,6 +2162,9 @@
                                         }
                                     },
                                     {
+                                        "shell_command": "printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
+                                    },
+                                    {
                                         "set_variable": {
                                             "name": "relacon_dblclick",
                                             "value": 1
@@ -2180,6 +2195,9 @@
                                             "name": "relacon_b1_held",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
                                     }
                                 ],
                                 "to_delayed_action": {
@@ -2241,6 +2259,9 @@
                                         }
                                     },
                                     {
+                                        "shell_command": "printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
+                                    },
+                                    {
                                         "set_variable": {
                                             "name": "relacon_dblclick",
                                             "value": 1
@@ -2268,6 +2289,9 @@
                                             "name": "relacon_b1_held",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
                                     }
                                 ],
                                 "to_delayed_action": {
@@ -2321,6 +2345,9 @@
                                         }
                                     },
                                     {
+                                        "shell_command": "printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
+                                    },
+                                    {
                                         "set_variable": {
                                             "name": "relacon_dblclick",
                                             "value": 1
@@ -2336,6 +2363,9 @@
                                             "name": "relacon_b1_held",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
                                     }
                                 ],
                                 "to_delayed_action": {
@@ -2395,6 +2425,9 @@
                                     },
                                     {
                                         "key_code": "left_control"
+                                    },
+                                    {
+                                        "shell_command": "printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2"
                                     }
                                 ],
                                 "to_after_key_up": [
@@ -2405,10 +2438,16 @@
                                         }
                                     },
                                     {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b1"
+                                    },
+                                    {
                                         "set_variable": {
                                             "name": "relacon_b2_held",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2"
                                     }
                                 ],
                                 "conditions": [
@@ -2480,6 +2519,9 @@
                                             "name": "relacon_b2_dblclick",
                                             "value": 1
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2"
                                     }
                                 ],
                                 "to_if_alone": [
@@ -2502,6 +2544,9 @@
                                             "name": "relacon_b2_held",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2"
                                     }
                                 ],
                                 "to_delayed_action": {
@@ -2559,6 +2604,9 @@
                                             "name": "relacon_b2_dblclick",
                                             "value": 1
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 1 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2"
                                     }
                                 ],
                                 "to_after_key_up": [
@@ -2567,6 +2615,9 @@
                                             "name": "relacon_b2_held",
                                             "value": 0
                                         }
+                                    },
+                                    {
+                                        "shell_command": "printf 0 > $HOME/dotfiles/.config/hammerspoon/state/relacon-b2"
                                     }
                                 ],
                                 "to_delayed_action": {

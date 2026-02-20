@@ -114,6 +114,14 @@ PopClip provides text-selection shortcuts. Extensions live in `/Users/david/dotf
 
 B2+B1 tap fires Hyper+P for a radial/pie menu app. Tried Pi Menu and Radial — neither worked well for our use case. Still looking for a good radial menu app for macOS that can be triggered via keyboard shortcut.
 
+## Hammerspoon flag file bridge
+
+Karabiner can distinguish input devices but Hammerspoon can't. To make Hammerspoon actions device-specific, Karabiner writes flag files via `shell_command` that Hammerspoon reads on demand.
+
+Flag constants (`B1_FLAG_ON`, `B1_FLAG_OFF`, etc.) are defined near `RELACON_B1_HELD` in `rules.ts`. Add them to `to` (press) and `to_after_key_up` (release) arrays in manipulators. Flag files live in `../hammerspoon/state/`.
+
+See `../hammerspoon/CLAUDE.md` for the full pattern and how to add new flags.
+
 ## Key files
 
 - `rules.ts` — all Karabiner rules + RelaconMap data + build output logic
