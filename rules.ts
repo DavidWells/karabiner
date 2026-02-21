@@ -1674,27 +1674,14 @@ const doubleKeyPressWIP = {
         "basic.to_if_alone_timeout_milliseconds": 250,
         "basic.to_if_double_tap_timeout_milliseconds": 250
       },
-      "to_after_key_up": [
-        // !
-        {
-          "key_code": "1",
-          "modifiers": ["shift"]
-        },
-        // !
-        {
-          "key_code": "1",
-          "modifiers": ["shift"],
-        },
-        // {
-        //   "wait_milliseconds": 100
-        // },
-        {
-          "key_code": "return_or_enter",
-        },
-        {
-          "key_code": "return_or_enter",
-        },
-      ],
+      // to_after_key_up disabled — was re-running last command (!! + Enter)
+      // on every escape release in terminals, interfering with normal escape
+      // "to_after_key_up": [
+      //   { "key_code": "1", "modifiers": ["shift"] },
+      //   { "key_code": "1", "modifiers": ["shift"] },
+      //   { "key_code": "return_or_enter" },
+      //   { "key_code": "return_or_enter" },
+      // ],
       conditions: [
         {
           type: 'frontmost_application_if',
