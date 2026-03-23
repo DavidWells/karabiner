@@ -3523,7 +3523,7 @@ const copyLocationShortcut = doubleTap({
 
 const chromeDoubleTapShortcut = doubleTap({
   description: '[CHROME] Double-tap => ⌘+Option+N',
-  to: [{ key_code: 'n', modifiers: ['left_command', 'left_option'] }],
+  to: [{ key_code: 'm', modifiers: ['left_option'] }],
   conditions: IS_CHROME_WINDOW,
 })
 
