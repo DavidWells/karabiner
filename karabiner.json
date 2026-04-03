@@ -5757,22 +5757,30 @@
                         ]
                     },
                     {
-                        "description": "Hyper Key + e",
+                        "description": "Hyper Key + q",
                         "manipulators": [
                             {
-                                "description": "Window: Full Screen",
+                                "description": "Hyper+Q => Claude + speech-to-text",
                                 "to": [
                                     {
-                                        "key_code": "m",
+                                        "key_code": "equal_sign",
                                         "modifiers": [
-                                            "right_option",
-                                            "right_command"
-                                        ]
+                                            "left_control",
+                                            "left_option",
+                                            "left_command"
+                                        ],
+                                        "hold_down_milliseconds": 500
+                                    },
+                                    {
+                                        "key_code": "right_option"
+                                    },
+                                    {
+                                        "key_code": "right_option"
                                     }
                                 ],
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "e",
+                                    "key_code": "q",
                                     "modifiers": {
                                         "mandatory": [
                                             "left_command",
@@ -6009,7 +6017,7 @@
                                     },
                                     {
                                         "type": "variable_if",
-                                        "name": "hyper_sublayer_e",
+                                        "name": "hyper_sublayer_q",
                                         "value": 0
                                     },
                                     {
@@ -6625,7 +6633,7 @@
                                     },
                                     {
                                         "type": "variable_if",
-                                        "name": "hyper_sublayer_e",
+                                        "name": "hyper_sublayer_q",
                                         "value": 0
                                     },
                                     {
@@ -6975,7 +6983,7 @@
                                     },
                                     {
                                         "type": "variable_if",
-                                        "name": "hyper_sublayer_e",
+                                        "name": "hyper_sublayer_q",
                                         "value": 0
                                     },
                                     {

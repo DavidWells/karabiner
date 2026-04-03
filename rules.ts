@@ -83,6 +83,10 @@ const STOP_TEXT_TO_SPEECH_MONOLOGUE = [
   },
 ]
 
+const fireClaudeShortcut = {
+  key_code: 'equal_sign',
+  modifiers: ['left_control', 'left_option', 'left_command'],
+}
 
 // Set in keyboard maestro
 const toggleBackToPreviousApp = [
@@ -2951,8 +2955,12 @@ const hyperLayerKeys = {
   s: {
     ...MOVE_WINDOW_RIGHT,
   },
-  e: {
-    ...WINDOW_FULL,
+  q: {
+    description: 'Hyper+Q => Claude + speech-to-text',
+    to: [
+      { ...fireClaudeShortcut, hold_down_milliseconds: 500 },
+      ...OPEN_TEXT_TO_SPEECH,
+    ],
   },
   d: {
     ...MOVE_WINDOW_RIGHT,
