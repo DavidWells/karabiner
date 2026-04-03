@@ -77,6 +77,12 @@ const OPEN_TEXT_TO_SPEECH = [
   },
 ]
 
+const PRESS_TO_HOLD_TEXT_TO_SPEECH_MONOLOGUE = [
+  {
+    key_code: 'right_option',
+  },
+]
+
 const STOP_TEXT_TO_SPEECH_MONOLOGUE = [
   {
     key_code: 'right_option',
@@ -144,17 +150,14 @@ const ejectToScreenShot = [
 
 const ejectKeyToDelete = [
   {
-    description: 'Eject to Screenshot',
+    description: 'Eject to press-to-hold speech-to-text',
     manipulators: [
       {
         from: {
           consumer_key_code: 'eject',
         },
-        to: [
-          {
-            key_code: 'delete_or_backspace',
-          },
-        ],
+        to: PRESS_TO_HOLD_TEXT_TO_SPEECH_MONOLOGUE,
+        to_after_key_up: PRESS_TO_HOLD_TEXT_TO_SPEECH_MONOLOGUE,
         type: 'basic',
       },
     ],
