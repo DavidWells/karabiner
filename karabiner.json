@@ -3226,11 +3226,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
+                                        "key_code": "right_option"
                                     },
                                     {
                                         "set_variable": {
@@ -3513,11 +3509,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
+                                        "key_code": "right_option"
+                                    },
+                                    {
+                                        "key_code": "right_option"
                                     },
                                     {
                                         "set_variable": {
@@ -3532,21 +3527,6 @@
                                         }
                                     }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 500
-                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -3582,11 +3562,10 @@
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
+                                        "key_code": "right_option"
+                                    },
+                                    {
+                                        "key_code": "right_option"
                                     },
                                     {
                                         "set_variable": {
@@ -5096,11 +5075,10 @@
                                 },
                                 "to_if_alone": [
                                     {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
+                                        "key_code": "right_option"
+                                    },
+                                    {
+                                        "key_code": "right_option"
                                     },
                                     {
                                         "set_variable": {
@@ -5158,11 +5136,10 @@
                                 },
                                 "to_if_alone": [
                                     {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
+                                        "key_code": "right_option"
+                                    },
+                                    {
+                                        "key_code": "right_option"
                                     },
                                     {
                                         "set_variable": {
@@ -6067,11 +6044,6 @@
                                     },
                                     {
                                         "type": "variable_if",
-                                        "name": "hyper_sublayer_tab",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
                                         "name": "hyper_sublayer_left_command",
                                         "value": 0
                                     },
@@ -6458,14 +6430,13 @@
                         "description": "Hyper Key + a",
                         "manipulators": [
                             {
-                                "description": "Stop speech-to-text + trailing space",
+                                "description": "Stop speech-to-text",
                                 "to": [
                                     {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
+                                        "key_code": "right_option"
+                                    },
+                                    {
+                                        "key_code": "right_option"
                                     },
                                     {
                                         "set_variable": {
@@ -6474,21 +6445,6 @@
                                         }
                                     }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ],
-                                    "to_if_canceled": [
-                                        {
-                                            "key_code": "spacebar"
-                                        }
-                                    ]
-                                },
-                                "parameters": {
-                                    "basic.to_delayed_action_delay_milliseconds": 500
-                                },
                                 "conditions": [
                                     {
                                         "type": "variable_if",
@@ -6513,11 +6469,10 @@
                                 "description": "Start speech-to-text",
                                 "to": [
                                     {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_control"
-                                        ]
+                                        "key_code": "right_option"
+                                    },
+                                    {
+                                        "key_code": "right_option"
                                     },
                                     {
                                         "set_variable": {
@@ -6529,34 +6484,6 @@
                                 "type": "basic",
                                 "from": {
                                     "key_code": "a",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command",
-                                            "left_control",
-                                            "left_shift",
-                                            "left_option"
-                                        ]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Hyper Key + tab",
-                        "manipulators": [
-                            {
-                                "description": "Global Jump to windows via script kit",
-                                "to": [
-                                    {
-                                        "key_code": "f",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "tab",
                                     "modifiers": {
                                         "mandatory": [
                                             "left_command",
@@ -6734,11 +6661,6 @@
                                     {
                                         "type": "variable_if",
                                         "name": "hyper_sublayer_a",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
-                                        "name": "hyper_sublayer_tab",
                                         "value": 0
                                     },
                                     {
@@ -7089,11 +7011,6 @@
                                     {
                                         "type": "variable_if",
                                         "name": "hyper_sublayer_a",
-                                        "value": 0
-                                    },
-                                    {
-                                        "type": "variable_if",
-                                        "name": "hyper_sublayer_tab",
                                         "value": 0
                                     },
                                     {

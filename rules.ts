@@ -67,13 +67,22 @@ const IS_CHROME_WINDOW = [
   },
 ]
 
-// Speech-to-text hotkey (Option+Control+Space)
+// Speech-to-text hotkey for Monologue (double-tap right Option)
 const OPEN_TEXT_TO_SPEECH = [
   {
-    key_code: 'spacebar',
-    modifiers: ['left_option', 'left_control'],
+    key_code: 'right_option',
+  },
+  {
+    key_code: 'right_option',
   },
 ]
+
+const STOP_TEXT_TO_SPEECH_MONOLOGUE = [
+  {
+    key_code: 'right_option',
+  },
+]
+
 
 // Set in keyboard maestro
 const toggleBackToPreviousApp = [
@@ -882,7 +891,7 @@ const RelaconButtons = [
       type: 'basic',
       from: { pointing_button: 'button4' },
       to: [
-        ...OPEN_TEXT_TO_SPEECH,
+        ...STOP_TEXT_TO_SPEECH_MONOLOGUE,
         DICTATION_STATE_OFF,
       ],
       to_delayed_action: {
@@ -961,7 +970,7 @@ const RelaconButtons = [
           ...isRelacon,
         ],
       },
-      // Stop STT, then insert trailing space after 500ms delay (gives STT time to paste text)
+      // Stop STT
       {
         type: 'basic',
         from: { pointing_button: 'button5' },
@@ -970,11 +979,6 @@ const RelaconButtons = [
           DICTATION_STATE_OFF,
           RESET_COPY_STATE,
         ],
-        to_delayed_action: {
-          to_if_invoked: [{ key_code: 'spacebar' }],
-          to_if_canceled: [{ key_code: 'spacebar' }],
-        },
-        parameters: { 'basic.to_delayed_action_delay_milliseconds': 500 },
         conditions: [
           STT_ACTIVE,
           ...isRelacon,
@@ -2896,19 +2900,14 @@ const MOVE_WINDOW_LEFT = {
   ],
 }
 
-// STT toggle with shared state — stop adds trailing space after 500ms delay
+// STT toggle with shared state
 const SPEECH_TO_TEXT = [
   {
-    description: 'Stop speech-to-text + trailing space',
+    description: 'Stop speech-to-text',
     to: [
       ...OPEN_TEXT_TO_SPEECH,
       DICTATION_STATE_OFF,
     ],
-    to_delayed_action: {
-      to_if_invoked: [{ key_code: 'spacebar' }],
-      to_if_canceled: [{ key_code: 'spacebar' }],
-    },
-    parameters: { 'basic.to_delayed_action_delay_milliseconds': 500 },
     conditions: [STT_ACTIVE],
   },
   {
@@ -3017,15 +3016,7 @@ const hyperLayerKeys = {
   //     },
   //   ],
   // },
-  'tab': {
-    description: 'Global Jump to windows via script kit',
-    to: [
-      {
-        key_code: 'f',
-        modifiers: ['left_option'],
-      },
-    ],
-  },
+  // 'tab':  is mapped in hammerspoon
   7: {
     to: [
       {
