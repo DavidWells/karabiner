@@ -244,6 +244,10 @@ const isMouseButton = [
         product_id: 83,
         vendor_id: 5426,
       },
+      {
+        product_id: 180,
+        vendor_id: 5426,
+      },
     ],
   },
 ]
