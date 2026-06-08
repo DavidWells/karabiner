@@ -128,6 +128,68 @@ const NAV = {
   },
 }
 
+// Fn + arrows => tmux prefix (Ctrl-b) then arrow for pane navigation (terminal only).
+// Uses tmux's default prefix+arrow binding, sent as a sequence.
+const tmuxPaneNav = [
+  {
+    description: '[TMUX] Fn + arrows => tmux pane nav (Ctrl-b then arrow, terminal only)',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { key_code: 'left_arrow', modifiers: { mandatory: ['fn'] } },
+        to: [{ key_code: 'b', modifiers: ['left_control'] }, { key_code: 'left_arrow' }],
+        conditions: [...IS_TERMINAL_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { key_code: 'right_arrow', modifiers: { mandatory: ['fn'] } },
+        to: [{ key_code: 'b', modifiers: ['left_control'] }, { key_code: 'right_arrow' }],
+        conditions: [...IS_TERMINAL_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { key_code: 'up_arrow', modifiers: { mandatory: ['fn'] } },
+        to: [{ key_code: 'b', modifiers: ['left_control'] }, { key_code: 'up_arrow' }],
+        conditions: [...IS_TERMINAL_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { key_code: 'down_arrow', modifiers: { mandatory: ['fn'] } },
+        to: [{ key_code: 'b', modifiers: ['left_control'] }, { key_code: 'down_arrow' }],
+        conditions: [...IS_TERMINAL_WINDOW],
+      },
+    ],
+  },
+]
+
+// Fn + modifiers => tmux copy-mode scrolling (terminal only).
+// Fn+LeftCtrl enters copy mode (Ctrl-b [), then Fn+Return / Fn+RightShift page up / down.
+const tmuxCopyMode = [
+  {
+    description: '[TMUX] Fn + LeftCtrl => enter copy mode; Fn+Return/Fn+RightShift => page up/down (terminal only)',
+    manipulators: [
+      {
+        type: 'basic',
+        from: { key_code: 'left_control', modifiers: { mandatory: ['fn'] } },
+        to: [{ key_code: 'b', modifiers: ['left_control'] }, { key_code: 'open_bracket' }],
+        conditions: [...IS_TERMINAL_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { key_code: 'return_or_enter', modifiers: { mandatory: ['fn'] } },
+        to: [{ key_code: 'page_up' }],
+        conditions: [...IS_TERMINAL_WINDOW],
+      },
+      {
+        type: 'basic',
+        from: { key_code: 'right_shift', modifiers: { mandatory: ['fn'] } },
+        to: [{ key_code: 'page_down' }],
+        conditions: [...IS_TERMINAL_WINDOW],
+      },
+    ],
+  },
+]
+
 const ejectToScreenShot = [
   {
     description: 'Eject to Screenshot',
@@ -3552,6 +3614,8 @@ let rules: KarabinerRules[] = [
   ...copyLocationShortcut,
   ...terminalMouseButtons,
   ...terminalNav,
+  ...tmuxPaneNav,
+  ...tmuxCopyMode,
   ...terminalLineJumpShortCuts,
   ...CursorShortcuts,
   // Ctrl+Cmd+[ => Focus iTerm + run vibe alias
