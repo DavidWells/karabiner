@@ -2302,6 +2302,30 @@ const terminalNav = [
 ]
 
 const CursorShortcuts = [
+  // Markdown preview shortcut in VSCode/Cursor
+  {
+    "description": "[Cursor] Cmd+M => Cmd+Opt+Ctrl+Shift+M",
+    "manipulators": [
+      {
+        "type": "basic",
+        "from": {
+          "key_code": "m",
+          "modifiers": {
+            "mandatory": ["left_command"]
+          }
+        },
+        "to": [
+          {
+            "key_code": "m",
+            "modifiers": ["left_command", "left_option", "left_control", "left_shift"]
+          }
+        ],
+        conditions: [
+          ...IS_EDITOR_WINDOW,
+        ],
+      }
+    ]
+  },
   {
     "description": "[Cursor] Add file to chat context",
     "manipulators": [
