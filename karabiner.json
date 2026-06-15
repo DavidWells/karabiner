@@ -1854,7 +1854,7 @@
                         ]
                     },
                     {
-                        "description": "[Cursor] Cmd+M => Cmd+Opt+Ctrl+Shift+M",
+                        "description": "[Cursor] Cmd+M => Ctrl+Cmd+M (markdown preview)",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -1871,9 +1871,7 @@
                                         "key_code": "m",
                                         "modifiers": [
                                             "left_command",
-                                            "left_option",
-                                            "left_control",
-                                            "left_shift"
+                                            "left_control"
                                         ]
                                     }
                                 ],

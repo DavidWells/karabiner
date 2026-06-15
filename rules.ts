@@ -2304,7 +2304,7 @@ const terminalNav = [
 const CursorShortcuts = [
   // Markdown preview shortcut in VSCode/Cursor
   {
-    "description": "[Cursor] Cmd+M => Cmd+Opt+Ctrl+Shift+M",
+    "description": "[Cursor] Cmd+M => Ctrl+Cmd+M (markdown preview)",
     "manipulators": [
       {
         "type": "basic",
@@ -2317,7 +2317,7 @@ const CursorShortcuts = [
         "to": [
           {
             "key_code": "m",
-            "modifiers": ["left_command", "left_option", "left_control", "left_shift"]
+            "modifiers": ["left_command", "left_control"]
           }
         ],
         conditions: [
