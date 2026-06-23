@@ -283,7 +283,7 @@
                         ]
                     },
                     {
-                        "description": "[BROWSER] - Mouse 9 => Tab Toggle",
+                        "description": "[BROWSER] - Mouse 9 => Toggle DevTools",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -293,9 +293,10 @@
                                 "to": [
                                     {
                                         "repeat": false,
-                                        "key_code": "6",
+                                        "key_code": "i",
                                         "modifiers": [
-                                            "left_shift"
+                                            "left_command",
+                                            "left_option"
                                         ]
                                     }
                                 ],

@@ -2752,9 +2752,8 @@ const BrowserMouseButtons = [
       },
     ],
   },
-  // Requires vimuim https://chromewebstore.google.com/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
   {
-    description: '[BROWSER] - Mouse 9 => Tab Toggle',
+    description: '[BROWSER] - Mouse 9 => Toggle DevTools',
     manipulators: [
       {
         type: 'basic',
@@ -2764,8 +2763,8 @@ const BrowserMouseButtons = [
         to: [
           {
             repeat: false,
-            key_code: '6',
-            modifiers: ['left_shift'],
+            key_code: 'i',
+            modifiers: ['left_command', 'left_option'],
           },
         ],
         conditions: [
