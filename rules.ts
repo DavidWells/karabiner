@@ -323,6 +323,10 @@ const isRelacon = [
         vendor_id: 1390,
         product_id: 342,
       },
+      {
+        vendor_id: 1390,
+        product_id: 410,
+      },
     ],
   },
 ]
