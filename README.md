@@ -48,6 +48,21 @@ yarn run watch
 
 watches the TypeScript files and rebuilds whenever they change.
 
+## Per-machine rules
+
+Every machine shares the same `karabiner.json`. Karabiner can't see the hostname, so a machine opts into its own rules by setting the `machine` variable, and rules check it with a `variable_if` condition (see `ON_M1BOX` in `rules.ts`). A machine that sets nothing gets the default behavior.
+
+Karabiner forgets variables when it restarts, so set it from a LaunchAgent that runs at login and every few minutes:
+
+```
+karabiner_cli --set-variables '{"machine":"m1box"}'
+```
+
+| Machine | Hyper+A |
+|---------|---------|
+| default | Speech-to-text toggle (Monologue, double-tap Right Option) |
+| `m1box` | Left Option+Space |
+
 ## License
 
 Copyright (c) 2022 Maximilian Stoiber, licensed under the [MIT license](./LICENSE.md).

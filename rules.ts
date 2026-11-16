@@ -345,6 +345,10 @@ const RELACON_MEDIA_MODE = { type: 'variable_if', name: 'relacon_mode', value: 3
 const RELACON_COPIED = { type: 'variable_if', name: 'relacon_copied', value: 1 }
 // Speech-to-text active — next button5 press stops recording and disarms
 const STT_ACTIVE = { type: 'variable_if', name: 'stt_on', value: 1 }
+// Per-machine rules: a machine opts in by setting the `machine` variable at login, e.g.
+//   karabiner_cli --set-variables '{"machine":"m1box"}'
+// Unset (the main Mac) means the default behavior. See README "Per-machine rules".
+const ON_M1BOX = { type: 'variable_if', name: 'machine', value: 'm1box' }
 // Back button (button4) held — activates combo layer
 const RELACON_B4_HELD = { type: 'variable_if', name: 'relacon_b4_held', value: 1 }
 // D-pad center (play_or_pause) held — activates combo layer
@@ -3110,7 +3114,15 @@ const hyperLayerKeys = {
   //   ],
   // },
 
-  a: SPEECH_TO_TEXT,
+  a: [
+    // m1box has no Monologue: Hyper+A sends Option+Space there instead
+    {
+      description: 'm1box: Option+Space',
+      to: [{ key_code: 'spacebar', modifiers: ['left_option'] }],
+      conditions: [ON_M1BOX],
+    },
+    ...SPEECH_TO_TEXT,
+  ],
   // w: {
   //   description: 'Global Jump to windows via script kit',
   //   to: [
