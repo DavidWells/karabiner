@@ -61,7 +61,7 @@ karabiner_cli --set-variables '{"machine":"m1box"}'
 | Machine | Hyper+A |
 |---------|---------|
 | default | Speech-to-text toggle (Monologue, double-tap Right Option) |
-| `m1box` | Left Option+Space |
+| `m1box` | Left Control+Option+Space |
 
 ## License
 
