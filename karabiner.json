@@ -7055,6 +7055,36 @@
                         "description": "Hyper Key + a",
                         "manipulators": [
                             {
+                                "description": "m1box: Option+Space",
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "machine",
+                                        "value": "m1box"
+                                    }
+                                ],
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "a",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command",
+                                            "left_control",
+                                            "left_shift",
+                                            "left_option"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
                                 "description": "Stop speech-to-text",
                                 "to": [
                                     {
